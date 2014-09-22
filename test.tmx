@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="8" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="blocks" tilewidth="32" tileheight="32">
+  <image source="blocks.png" width="128" height="32"/>
+ </tileset>
+ <layer name="red" width="40" height="8">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBzkeLACQu4j1+2MONjkmEOp+2gZ/uS4D11sIN2HSw8+PiFxUu2i1H3UVo+ud7BjAAnXAGo=
+  </data>
+ </layer>
+ <layer name="green" width="40" height="8">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDFfAhAOPAggAABIIAA0=
+  </data>
+ </layer>
+ <layer name="blue" width="40" height="8">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgw2wQDE+cRY86ugFiLF7IN1HCNDabcw4MCE3DeYwG24AAKf0AEM=
+  </data>
+ </layer>
+ <objectgroup name="crystals">
+  <object x="160" y="128">
+   <ellipse/>
+  </object>
+  <object x="224" y="128">
+   <ellipse/>
+  </object>
+  <object x="288" y="96">
+   <ellipse/>
+  </object>
+  <object x="256" y="160">
+   <ellipse/>
+  </object>
+  <object x="160" y="96">
+   <ellipse/>
+  </object>
+  <object x="96" y="64">
+   <ellipse/>
+  </object>
+  <object x="224" y="32">
+   <ellipse/>
+  </object>
+  <object x="352" y="160">
+   <ellipse/>
+  </object>
+  <object x="384" y="64">
+   <ellipse/>
+  </object>
+  <object x="480" y="64">
+   <ellipse/>
+  </object>
+  <object x="416" y="160">
+   <ellipse/>
+  </object>
+  <object x="352" y="96">
+   <ellipse/>
+  </object>
+  <object x="192" y="64">
+   <ellipse/>
+  </object>
+  <object x="288" y="64">
+   <ellipse/>
+  </object>
+  <object x="320" y="96">
+   <ellipse/>
+  </object>
+  <object x="288" y="160">
+   <ellipse/>
+  </object>
+  <object x="96" y="128">
+   <ellipse/>
+  </object>
+  <object x="64" y="64">
+   <ellipse/>
+  </object>
+  <object x="64" y="32">
+   <ellipse/>
+  </object>
+  <object x="128" y="32">
+   <ellipse/>
+  </object>
+  <object x="128" y="128">
+   <ellipse/>
+  </object>
+  <object x="32" y="160">
+   <ellipse/>
+  </object>
+  <object x="224" y="32">
+   <ellipse/>
+  </object>
+  <object x="288" y="64">
+   <ellipse/>
+  </object>
+  <object x="480" y="-192">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="obstacles">
+  <object name="HENK" x="0" y="0" width="1280" height="32"/>
+  <object x="1248" y="32" width="32" height="192"/>
+  <object x="0" y="32" width="32" height="192"/>
+  <object x="0" y="224" width="1280" height="32"/>
+  <object x="224" y="64" width="32" height="96"/>
+  <object x="256" y="192" width="192" height="32"/>
+  <object x="384" y="128" width="32" height="64"/>
+  <object x="512" y="96" width="32" height="64"/>
+  <object x="480" y="160" width="192" height="32"/>
+  <object x="704" y="160" width="32" height="32"/>
+  <object x="768" y="192" width="32" height="32"/>
+  <object x="896" y="160" width="64" height="32"/>
+  <object x="992" y="128" width="32" height="32"/>
+  <object x="960" y="64" width="96" height="32"/>
+  <object x="1024" y="96" width="32" height="32"/>
+  <object x="864" y="64" width="64" height="32"/>
+  <object x="736" y="96" width="32" height="32"/>
+  <object x="672" y="64" width="64" height="32"/>
+  <object x="768" y="64" width="32" height="32"/>
+  <object x="1024" y="-64"/>
+  <object x="832" y="448"/>
+ </objectgroup>
+</map>

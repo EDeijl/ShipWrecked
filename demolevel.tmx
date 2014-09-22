@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="100" height="50" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="tilesetbasic" tilewidth="64" tileheight="64">
+  <image source="tilesetbasic.png" width="512" height="256"/>
+ </tileset>
+ <layer name="background" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztw0ENAAAMA6GTUP9qJ2MfSFg1VVVVVVVVVVVVVVVVVVVVVVVVVd8fkqw4kA==
+  </data>
+ </layer>
+ <layer name="platforms" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztXIlOwzAMDWzAxoBpA4E2tv7/Z9KIRTLGcZyzSRtLT4I2pIlffLZiUEoNN9xlwtDhjbPKJ+8V7K81YD5WI74Cse58JOcjRocp51oqoA61bVwj5vpUf+2k8xHHRyr9nRPPtyRAPp7Vb16073xUwQfmRQLInbm2s8wz9V5bQGy+a2xAMk+3l7R8HIhrnY98fGwFOsWC+XgB914sYzvcfKwUf8ZtXGE+oA0dR5yIsXOFtIfExVSYC+n6AdfYWla3sdS97q/k+9dy79CJqeGu6HcIfG9NzNf5CJMUOqFqSMzVx4jL7WfTE4up/WuHlA9dA3wDpH425pda15ztQsIHzmtS62bpfFAxujZ/lYqPDbHXmmDrZ+yI6xIpxQeMHz7PrL1nD/Wu4yKVc/pI7faB/z60l5YSuC8H95Wq30QB+wob4LqgvvaW9cXw4SM+3En4pDjAz3P5KarHBIXTTQquufpFAliTpvAHPgL59I0Hoe+5Od3ktL0Qf4j9AZc3Hh1rc53TWMkR56R8nCzX9ZqkPo/zGTY+covkjBt7LdErhXvX+ZGpIS9KJqniWygfMd/GSP0q1cc2a53KPrQc1f/+bUwebgTzQcUjfFZL9mNsOpqaD1/R/tvl47VATl17nOo9PeU3WuMjRGrkYy72YRPunaSUD1vdkaM+LMmH9tWPIx4seAM/P414VbJcBOYG0M719R0a4xNfXeen5Jmtra8TY28wV/HdF8XzIXAunz3hMza1rmP44Goz394KlyN0+5CtnZOQXpet7siR/7bMB1c7xNRkWDe15Fe23sSeuZezL10aJfmA+qTyEhdXnK9owbZ8+CiR70pyOTMGx7Sl8VFin9SzoN45nS+RD6oXn4sP7Z/wexncu9sy97RgLqfWZa4zCyWnfcDvqKh3ZoNjbbnWWQq2/ISqB3Psk+MefwOq1Pz5yF3LpH7+UvjAfQoOKfMr31pq8Bjb4ne0kvNpYrqJlS2eu1YgOZ/9/xHUhdq/bVwasA216Jc7ymMDMPVaOjo6OnzxA+J1uB4=
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object name="platform" x="1728" y="1856" width="320" height="64"/>
+  <object name="platform" x="2176" y="1792">
+   <polygon points="0,0 0,64 -64,64 -64,128 64,128 64,0"/>
+  </object>
+  <object name="outside" x="1664" y="1856">
+   <polyline points="0,0 -1280,0 -1280,-512 -640,-512 -640,-1024 -768,-1024 -768,-1088 -832,-1088 -832,-1152 -896,-1152 -896,-1088 -960,-1088 -960,-1024 -1216,-1024 -1216,-1088 -1280,-1088 -1280,-1216 -1344,-1216 -1344,-1152 -1408,-1152 -1408,-1024 -1472,-1024 -1472,-1792 -64,-1792 -64,-1344 192,-1344 192,-960 64,-960 64,-512 -192,-512 -192,-960 -320,-960 -320,-1344 -128,-1344 -128,-1600 -256,-1600 -256,-1728 -1280,-1728 -1280,-1600 -1344,-1600 -1344,-1408 -1216,-1408 -1216,-1344 -512,-1344 -512,-576 -512,-512 -320,-512 -320,-192 -192,-192 -192,-320 768,-320 768,-128 896,-128 896,-512 768,-512 832,-512 832,-576 832,-704 1024,-704 1024,-576 1728,-576 1728,-512 2752,-512 2752,-448 3008,-448 3008,-512 3136,-512 3136,-576 3328,-576 3328,-640 3392,-640 3392,-768 3648,-768 3648,-704 3776,-704 3776,-1088 4352,-1088 4352,-1024 4416,-1024 4416,-1088 4608,-1088 4608,-960 4352,-960 4352,-896 4608,-896 4608,-512 3712,-512 3712,64 3456,64 3456,128 3712,128 3712,320 3648,320 3648,384 3712,384 3712,576 3840,576 3840,320 4160,320 4160,576 4288,576 4288,320 4672,320 4672,768 4032,768 4032,512 3968,512 3968,768 3264,768 3264,384 3584,384 3584,320 3392,320 3392,-128 3584,-128 3584,-192 3392,-192 3392,-384 2752,-384 2752,-320 1728,-320 1728,-256 1600,-256 1600,0 1984,0 1984,192 1600,192 1600,448 1984,448 1984,768 1280,768 1280,832 1984,832 1984,1024 1792,1024 1792,896 1216,896 1216,704 1792,704 1792,640 1536,640 1536,128 1792,128 1792,64 1536,64 1536,-256 1088,-256 1088,-512 960,-512 960,0 640,0 640,64 768,64 768,256 0,256 0,0"/>
+  </object>
+  <object name="platform" x="5184" y="1152" width="128" height="192"/>
+  <object name="platform" x="5184" y="2368">
+   <polyline points="0,0 -128,0 -128,64 -64,64 -64,128 128,128 128,192 192,192 192,64 0,64 0,0"/>
+  </object>
+  <object name="platform" x="1536" y="896" width="128" height="64"/>
+  <object name="platform" x="1536" y="1152" width="128" height="64"/>
+ </objectgroup>
+ <objectgroup name="extras">
+  <object name="startGame" x="576" y="1344" width="64" height="192"/>
+  <object name="endGame" x="6144" y="2432" width="192" height="192"/>
+  <object name="objectCollectible_1" x="1536" y="1024" width="128" height="128"/>
+  <object name="objectCollectible_2" x="3520" y="2752" width="128" height="128"/>
+  <object name="objectCollectible_3" x="6144" y="768" width="128" height="128"/>
+ </objectgroup>
+</map>
