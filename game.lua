@@ -6,7 +6,7 @@ require 'map_manager'
 module ( "Game", package.seeall )
 
 
-MapManager:initialize('assets/maps/test.lua')
+MapManager:initialize('assets/maps/level1_1.lua')
 
 -- We'll define our resources here
 -- Look at chapter 6 if you have
@@ -57,45 +57,9 @@ local resource_definitions = {
 -- speed when the camera
 -- moves.
 local background_objects = MapManager:getBackgroundObjects()
---local background_objects = {
-  
---  background = {
---    position = { 0, 70 },
---    parallax = { 0.05, 0.05 }
---  },
-  
---  farAway = {
---    position = { 0, 50 },
---    parallax = { 0.1, 0.1 }
---  },
-  
---  main = {
---    position = { 0, -75 },
---    parallax = { 1, 1 }
---  },
-  
---}
+
 
 local scene_objects = MapManager.mapObjects
---local scene_objects = {
---  floor = {
---    type = MOAIBox2DBody.STATIC,
---    position = { 0, -WORLD_RESOLUTION_Y/2 },
---    size = { 2 * WORLD_RESOLUTION_X, 10}
---  },
-  
---  platform1 = {
---    type = MOAIBox2DBody.STATIC,
---    position = { 100, -50 },
---    size = {100, 20}
---  },
-
---  platform2 = {
---    type = MOAIBox2DBody.STATIC,
---    position = { -100, 100 },
---    size = {150, 20}
---  },
---}
 
 ------------------------------------------------
 -- start ( )
@@ -150,6 +114,7 @@ function Game:initialize ()
   
   -- Initialize the character and display
   -- it on the main layer.
+  position = 
   Character:initialize ( self.layers.main )
   
   -- Initialize the HUD

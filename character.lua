@@ -36,7 +36,7 @@ local character_object = {
 -- the 'layer' parameter to show the character 
 -- on that layer
 ------------------------------------------------
-function Character:initialize ( layer )
+function Character:initialize ( layer, position )
   -- We load the character resource
   self.deck = ResourceManager:get ( 'character' )
   
@@ -47,7 +47,7 @@ function Character:initialize ( layer )
   
   -- We set the location using the 'character_object'
   -- configuration table
-  self.prop:setLoc ( 0, 0 )
+  self.prop:setLoc (unpack(position))
   
   -- We insert the prop into the layer
   -- that was passed as parameter

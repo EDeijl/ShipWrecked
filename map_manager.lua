@@ -53,9 +53,31 @@ end
 function MapManager:buildObject(object, objectType)
   local mapObject = {
     type = objectType,
-    position = {object.x - WORLD_RESOLUTION_X / 2 + object.width / 2, -object.y - object.height/2 + WORLD_RESOLUTION_Y/2},
-    size = { object.width, object.height }
-  }    
+  }
+  if object.shape == "rectangle" then
+    mapObject = {
+      name = object.name,
+      type = objectType,
+      shape = object.shape,
+      position = {object.x - WORLD_RESOLUTION_X / 2 + object.width / 2, -object.y - object.height/2 + WORLD_RESOLUTION_Y/2},
+      size = { object.width, object.height }
+    }    
+  elseif object.shape == "polyline" then
+    mapObject = {
+      name = object.name,
+      type = objectType,
+      shape = object.shape,
+      position = {object.x - WORLD_RESOLUTION_X / 2 + object.width / 2, -object.y - object.height/2 + WORLD_RESOLUTION_Y/2},
+      size = {object.width, object.height},
+      shapeData = object.polyline
+    }
+  elseif object.shape == "polygon" then
+    -- TODO
+  elseif object.shape == "elipse" then
+    -- TODO
+  end
+
+
   table.insert(self.mapObjects, mapObject)
 end
 

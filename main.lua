@@ -12,7 +12,7 @@ RESOURCE_TYPE_FONT = 2
 RESOURCE_TYPE_SOUND = 3
 
 -- Open main screen
-MOAISim.openWindow ( "Platformer", SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
+MOAISim.openWindow ( "Shipwrecked in spesh", SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
   
 -- Setup viewport
 viewport = MOAIViewport.new ()
