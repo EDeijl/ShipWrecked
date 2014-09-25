@@ -6,7 +6,7 @@ require 'map_manager'
 module ( "Game", package.seeall )
 
 
-MapManager:initialize('assets/maps/level1_1.lua')
+MapManager:initialize('assets/maps/level1_1_1.lua')
 
 -- We'll define our resources here
 -- Look at chapter 6 if you have
@@ -115,9 +115,9 @@ function Game:initialize ()
   -- Initialize the character and display
   -- it on the main layer.
   local position = scene_objects["startGame"].position
-  
+  local x, y = unpack(position)
   Character:initialize ( self.layers.main, position )
-  self.camera:setLoc(unpack(position))
+  self.camera:setLoc({x, y })
   
   -- Initialize the HUD
   HUD:initialize ()
@@ -248,6 +248,9 @@ function Game:updateCamera ()
     
   if math.abs ( x - maxBorderX ) < 100 then
     MOAICoroutine.blockOnAction ( self.camera:moveLoc(50, 0, 1, MOAIEaseType.LINEAR) )
+  end
+  if math.abs( y - maxBorderY ) < 100 then
+    MOAICoroutine.blockOnAction(self.camera:moveLoc(0, 50, 1, MOAIEaseType.LINEAR))
   end
   
 end

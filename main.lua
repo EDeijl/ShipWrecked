@@ -17,7 +17,8 @@ MOAISim.openWindow ( "Shipwrecked in spesh", SCREEN_RESOLUTION_X, SCREEN_RESOLUT
 -- Setup viewport
 viewport = MOAIViewport.new ()
 viewport:setSize ( SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
-viewport:setScale ( WORLD_RESOLUTION_X, WORLD_RESOLUTION_Y )
+viewport:setScale ( WORLD_RESOLUTION_X, -WORLD_RESOLUTION_Y )
+viewport:setOffset(-1,1)
 
 require 'audio_manager'
 require 'game'

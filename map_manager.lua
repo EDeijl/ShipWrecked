@@ -31,7 +31,7 @@ function MapManager:addGrid(mapLayer)
   mapGrid:setSize(self.map.width, self.map.height, self.map.tilewidth, self.map.tileheight)
   for i = 1, self.map.height do
     for j = 1, self.map.width do
-      local tileData = mapLayer.data[(map.height-i)*map.width+j]
+      local tileData = mapLayer.data[j + map.width*i]
       mapGrid:setTile(j,i,tileData)
     end
   end
@@ -59,7 +59,7 @@ function MapManager:buildObject(object, objectType)
       name = object.name,
       type = objectType,
       shape = object.shape,
-      position = {object.x - WORLD_RESOLUTION_X / 2 + object.width / 2, -object.y - object.height/2 + WORLD_RESOLUTION_Y/2},
+      position = {object.x  + object.width / 2, (object.y + object.height/2) - self.map.tileheight },
       size = { object.width, object.height }
     }    
   elseif object.shape == "polyline" then
@@ -67,7 +67,7 @@ function MapManager:buildObject(object, objectType)
       name = object.name,
       type = objectType,
       shape = object.shape,
-      position = {object.x - WORLD_RESOLUTION_X / 2 + object.width / 2, -object.y - object.height/2 + WORLD_RESOLUTION_Y/2},
+      position = {object.x + object.width / 2, -object.y - object.height/2 },
       size = {object.width, object.height},
       shapeData = object.polyline
     }
@@ -85,7 +85,7 @@ function MapManager:getBackgroundObjects()
   local backgroundObjects = {}
   for name, mapGrid in pairs(self.mapGrids) do
     local object = {
-      position = {-WORLD_RESOLUTION_X/2, -WORLD_RESOLUTION_Y / 2 },
+      position = {0,0},
       parallax = {1,1},
       deck = self.tileDeck,
       mapGrid = mapGrid,
