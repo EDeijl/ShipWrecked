@@ -114,8 +114,10 @@ function Game:initialize ()
   
   -- Initialize the character and display
   -- it on the main layer.
-  position = 
-  Character:initialize ( self.layers.main )
+  local position = scene_objects["startGame"].position
+  
+  Character:initialize ( self.layers.main, position )
+  self.camera:setLoc(unpack(position))
   
   -- Initialize the HUD
   HUD:initialize ()

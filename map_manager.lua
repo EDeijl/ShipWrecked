@@ -78,7 +78,7 @@ function MapManager:buildObject(object, objectType)
   end
 
 
-  table.insert(self.mapObjects, mapObject)
+  mapObjects[object.name] = mapObject
 end
 
 function MapManager:getBackgroundObjects()

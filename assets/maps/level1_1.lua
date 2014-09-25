@@ -287,7 +287,7 @@ return {
       properties = {},
       objects = {
         {
-          name = "platform",
+          name = "platform1",
           type = "",
           shape = "rectangle",
           x = 3648,
@@ -298,7 +298,7 @@ return {
           properties = {}
         },
         {
-          name = "platform",
+          name = "platform2",
           type = "",
           shape = "rectangle",
           x = 3328,
@@ -309,7 +309,7 @@ return {
           properties = {}
         },
         {
-          name = "platform",
+          name = "platform3",
           type = "",
           shape = "rectangle",
           x = 4352,
@@ -320,7 +320,7 @@ return {
           properties = {}
         },
         {
-          name = "platform",
+          name = "platform4",
           type = "",
           shape = "rectangle",
           x = 4160,
@@ -331,7 +331,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside1",
           type = "",
           shape = "rectangle",
           x = 1984,
@@ -342,7 +342,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside2",
           type = "",
           shape = "rectangle",
           x = 2752,
@@ -353,7 +353,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside3",
           type = "",
           shape = "rectangle",
           x = 3072,
@@ -364,7 +364,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside4",
           type = "",
           shape = "rectangle",
           x = 3072,
@@ -375,7 +375,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside5",
           type = "",
           shape = "rectangle",
           x = 3328,
@@ -386,7 +386,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside6",
           type = "",
           shape = "rectangle",
           x = 3328,
@@ -397,7 +397,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside7",
           type = "",
           shape = "rectangle",
           x = 1920,
@@ -408,7 +408,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside8",
           type = "",
           shape = "rectangle",
           x = 1984,
@@ -419,7 +419,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside9",
           type = "",
           shape = "rectangle",
           x = 2560,
@@ -430,7 +430,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside10",
           type = "",
           shape = "rectangle",
           x = 2624,
@@ -441,7 +441,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside11",
           type = "",
           shape = "rectangle",
           x = 2688,
@@ -452,7 +452,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside12",
           type = "",
           shape = "rectangle",
           x = 3520,
@@ -463,7 +463,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside13",
           type = "",
           shape = "rectangle",
           x = 3328,
@@ -474,7 +474,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside14",
           type = "",
           shape = "rectangle",
           x = 3264,
@@ -485,7 +485,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside15",
           type = "",
           shape = "rectangle",
           x = 3328,
@@ -496,7 +496,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside16",
           type = "",
           shape = "rectangle",
           x = 3648,
@@ -507,7 +507,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside17",
           type = "",
           shape = "rectangle",
           x = 3712,
@@ -518,7 +518,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside18",
           type = "",
           shape = "rectangle",
           x = 3904,
@@ -529,7 +529,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside19",
           type = "",
           shape = "rectangle",
           x = 3968,
@@ -540,7 +540,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside20",
           type = "",
           shape = "rectangle",
           x = 4096,
@@ -551,7 +551,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside21",
           type = "",
           shape = "rectangle",
           x = 3968,
@@ -562,7 +562,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside22",
           type = "",
           shape = "rectangle",
           x = 4160,
@@ -573,7 +573,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside23",
           type = "",
           shape = "rectangle",
           x = 4352,
@@ -584,7 +584,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside24",
           type = "",
           shape = "rectangle",
           x = 4672,
@@ -595,7 +595,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside25",
           type = "",
           shape = "rectangle",
           x = 4352,
@@ -606,7 +606,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside26",
           type = "",
           shape = "rectangle",
           x = 4352,
@@ -617,7 +617,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside27",
           type = "",
           shape = "rectangle",
           x = 4096,
@@ -628,7 +628,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside28",
           type = "",
           shape = "rectangle",
           x = 4096,
@@ -639,7 +639,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside29",
           type = "",
           shape = "rectangle",
           x = 4160,
@@ -650,7 +650,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside30",
           type = "",
           shape = "rectangle",
           x = 4224,
@@ -661,7 +661,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside31",
           type = "",
           shape = "rectangle",
           x = 4608,
@@ -672,7 +672,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside32",
           type = "",
           shape = "rectangle",
           x = 4672,
@@ -683,7 +683,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside33",
           type = "",
           shape = "rectangle",
           x = 5568,
@@ -694,7 +694,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside34",
           type = "",
           shape = "rectangle",
           x = 5248,
@@ -705,7 +705,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside35",
           type = "",
           shape = "rectangle",
           x = 4864,
@@ -716,7 +716,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside36",
           type = "",
           shape = "rectangle",
           x = 4928,
@@ -727,7 +727,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside37",
           type = "",
           shape = "rectangle",
           x = 4672,
@@ -738,7 +738,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside38",
           type = "",
           shape = "rectangle",
           x = 3904,
@@ -749,7 +749,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside39",
           type = "",
           shape = "rectangle",
           x = 3904,
@@ -760,7 +760,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside40",
           type = "",
           shape = "rectangle",
           x = 3968,
@@ -771,7 +771,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside41",
           type = "",
           shape = "rectangle",
           x = 3904,
@@ -782,7 +782,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside42",
           type = "",
           shape = "rectangle",
           x = 3968,
@@ -793,7 +793,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside43",
           type = "",
           shape = "rectangle",
           x = 4160,
@@ -804,7 +804,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside44",
           type = "",
           shape = "rectangle",
           x = 3776,
@@ -815,7 +815,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside45",
           type = "",
           shape = "rectangle",
           x = 3776,
@@ -826,7 +826,7 @@ return {
           properties = {}
         },
         {
-          name = "outside",
+          name = "outside46",
           type = "",
           shape = "rectangle",
           x = 3776,
