@@ -33,9 +33,9 @@ local resource_definitions = {
 
   character = {
     type = RESOURCE_TYPE_TILED_IMAGE,
-    fileName = 'character/character.png',
-    tileMapSize = {20, 6},
-    width = 64, height = 64,
+    fileName = 'character/charsheet.png',
+    tileMapSize = {24, 14},
+    width = 128, height = 128,
   },
   
   hudFont = {
@@ -234,6 +234,10 @@ function Game:keyPressed ( key, down )
   if key == 'left' then Character:moveLeft ( down ) end
   if key == 'up' then Character:jump ( down ) end
   
+  if key == 'w' then Character:changeGrav ( key, down ) end
+  if key == 'a' then Character:changeGrav ( key, down ) end
+  if key == 's' then Character:changeGrav ( key, down ) end
+  if key == 'd' then Character:changeGrav ( key, down ) end
 end
 
 function Game:updateCamera ()
