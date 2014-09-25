@@ -233,7 +233,7 @@ end
 function Character:run ( direction, keyDown ) 
   
   if keyDown then
-    self.prop:setScl ( direction, 1 )
+    self.prop:setScl ( direction, -1 )
    
     velX, velY = self.physics.body:getLinearVelocity ()
     self.physics.body:setLinearVelocity ( direction * 100, velY )
