@@ -29,9 +29,9 @@ end
 function MapManager:addGrid(mapLayer)
   mapGrid = MOAIGrid.new()
   mapGrid:setSize(self.map.width, self.map.height, self.map.tilewidth, self.map.tileheight)
-  for i = 1, self.map.height do
-    for j = 1, self.map.width do
-      local tileData = mapLayer.data[j + map.width*i]
+  for i = 0, self.map.height-1 do
+    for j = 0, self.map.width-1 do
+      local tileData = mapLayer.data[(j + map.width*i)]
       mapGrid:setTile(j,i,tileData)
     end
   end

@@ -117,8 +117,9 @@ function Game:initialize ()
   local position = scene_objects["startGame"].position
   local x, y = unpack(position)
   Character:initialize ( self.layers.main, position )
-  self.camera:setLoc({x, y })
-  
+  self.camera:setLoc(self.layers.background:wndToWorld(x,y))
+  print (self.camera:getLoc())
+  print (self.camera:getWorldLoc())
   -- Initialize the HUD
   HUD:initialize ()
   
