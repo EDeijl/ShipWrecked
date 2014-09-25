@@ -50,7 +50,7 @@ function Character:initialize ( layer, position )
   -- configuration table
   
   self.prop:setLoc (0,0 )
-  
+  self.prop:setScl(1,-1)
   -- We insert the prop into the layer
   -- that was passed as parameter
   layer:insertProp ( self.prop )
@@ -273,7 +273,7 @@ end
 function Character:jump ( keyDown )
   if keyDown and not self.jumping then
     --AudioManager:play ( 'jump' )
-    self.physics.body:applyForce ( 0, 8000 )
+    self.physics.body:applyForce ( 0, -8000 )
     self.jumping = true
     self:startAnimation ( 'jump' )
   end

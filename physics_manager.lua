@@ -21,7 +21,7 @@ function PhysicsManager:initialize ( layer )
   -- We set the gravity to something
   -- that is not realistic but is useful
   -- for our game
-  self.world:setGravity ( 0, -100 )
+  self.world:setGravity ( 0, 100 )
   
   -- We start the simulation so objects
   -- begin to interact.
