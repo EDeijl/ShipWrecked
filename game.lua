@@ -117,7 +117,7 @@ function Game:initialize ()
   local position = scene_objects["startGame"].position
   local x, y = unpack(position)
   Character:initialize ( self.layers.main, position )
-  self.camera:setLoc(self.layers.background:wndToWorld(x,y))
+  self.camera:setLoc((x-WORLD_RESOLUTION_X/2),(y-WORLD_RESOLUTION_Y/2))
   print (self.camera:getLoc())
   print (self.camera:getWorldLoc())
   -- Initialize the HUD
@@ -243,19 +243,25 @@ end
 
 function Game:updateCamera ()
   x, y = Character.physics.body:getPosition ()
+  print("x: "..x.." y: "..y)
+ -- self.camera:setLoc((x-WORLD_RESOLUTION_X/2),(y-WORLD_RESOLUTION_Y/2))
   
-  minBorderX, minBorderX = self.layers.background:wndToWorld ( 0, 0 )
+  minBorderX, minBorderY = self.layers.background:wndToWorld ( 0, 0 )
   maxBorderX, maxBorderY = self.layers.background:wndToWorld ( SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
   
-  if math.abs ( x - minBorderX ) < 10 then
-    MOAICoroutine.blockOnAction ( self.camera:moveLoc(-50, 0, 1, MOAIEaseType.LINEAR) )
+  if math.abs ( x - minBorderX ) < 100 then
+    MOAICoroutine.blockOnAction ( self.camera:moveLoc(-100, 0, 1, MOAIEaseType.LINEAR) )
   end
     
   if math.abs ( x - maxBorderX ) < 100 then
-    MOAICoroutine.blockOnAction ( self.camera:moveLoc(50, 0, 1, MOAIEaseType.LINEAR) )
+    MOAICoroutine.blockOnAction ( self.camera:moveLoc(100, 0, 1, MOAIEaseType.LINEAR) )
   end
+  print ("y: "..y.." maxY: "..maxBorderY)
   if math.abs( y - maxBorderY ) < 100 then
-    MOAICoroutine.blockOnAction(self.camera:moveLoc(0, 50, 1, MOAIEaseType.LINEAR))
+    MOAICoroutine.blockOnAction(self.camera:moveLoc(0, 100, 1, MOAIEaseType.LINEAR))
+  end
+  if math.abs( y - minBorderY ) < 100 then
+    MOAICoroutine.blockOnAction(self.camera:moveLoc(0, -100, 1, MOAIEaseType.LINEAR))
   end
   
 end
