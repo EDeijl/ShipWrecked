@@ -23,9 +23,9 @@ local character_object = {
     },
 
     jump = {
-      startFrame = 89,
-      frameCount = 3,
-      time = 0.1,
+      startFrame = 193,
+      frameCount = 8,
+      time = 0.05,
       mode = MOAITimer.NORMAL
     },
   }
