@@ -89,6 +89,8 @@ function Character:initialize ( layer, position )
 
   -- Initialize physics
   self:initializePhysics ()
+  
+  self.movingdirection = 1
 end
 
 ------------------------------------------------
@@ -265,10 +267,12 @@ end
 
 
 function Character:moveLeft ( keyDown)
+  self.movingdirection = -1
   self:run ( -1, keyDown)
 end
 
 function Character:moveRight ( keyDown)
+  self.movingdirection = 1
   self:run ( 1, keyDown)
 end
 
@@ -284,7 +288,18 @@ end
 function Character:jump ( keyDown )
   if keyDown and not self.jumping then
     --AudioManager:play ( 'jump' )
+    local direction = PhysicsManager:getGravityDirection()
+    if direction == "up" then
+    self.physics.body:applyForce ( 0, 8000 )
+  elseif direction == "down" then
     self.physics.body:applyForce ( 0, -8000 )
+  elseif direction == "left" then
+    self.physics.body:applyForce ( 8000, 0 )
+  elseif direction == "right" then
+    self.physics.body:applyForce ( -8000, 0 )
+      end
+      
+
     self.jumping = true
     self:startAnimation ( 'jump' )
   end
@@ -299,28 +314,18 @@ function Character:changeGrav ( key, keyDown )
   self.physics.body:setAwake(true)
   if key == 'a' then 
     PhysicsManager:changeGravity("left")
-    self.prop:setRot(90)
-    self.prop:setScl(1,-1)
+    self.prop:setRot(90) 
   elseif key == 'w' then
     PhysicsManager:changeGravity("up")
     self.prop:setRot(180)
-    self.prop:setScl(1,1)
-
-
   elseif key == 'd' then
     PhysicsManager:changeGravity("right")
     self.prop:setRot(270)
-    self.prop:setScl(-1,1)
-
-
   elseif key == 's' then
     PhysicsManager:changeGravity("down")
     self.prop:setRot(0)
-    self.prop:setScl(-1,-1)
-
-
   end
-
+self.prop:setScl(self.movingdirection,-1)
 
 end
 

@@ -118,9 +118,9 @@ function HUD:update ()
   -- inverted, so it has to be facing
   -- right.
   if x > 0 then
-    self.leftRightIndicator:setString ( "Left" )
-  else
     self.leftRightIndicator:setString ( "Right" )
+  else
+    self.leftRightIndicator:setString ( "Left" )
   end
   
   -- To update the character position
