@@ -20,30 +20,34 @@ function InputManager:initialize ()
 
   function onLevelEvent(x,y,z)
     print ("Motion: x=".. x .. ", y=".. y .. ", z=".. z)
-    if x <= 3 and x >= -3 and y >= 7 then
+    if round(x) == 0 and round(y) == 1 then
+      print "right"
       Game:keyPressed('d', true)
       Game:keyPressed('d', false)
-    elseif x>=7 and y <= 3 and y >= -3 then
+    elseif round(x) == 1 and round(y) == 0 then
+      print "down"
       Game:keyPressed('s', true) 
       Game:keyPressed('s', false) 
-    elseif x <= -7 and y >= -3 and y <= 3 then
+    elseif round(x) == -1 and round(y) == 0 then
+      print "up"
       Game:keyPressed('w', true)
       Game:keyPressed('w', false)
-    elseif x <=3 and x >= -3 and y <=-7 then
+    elseif round(x) == 0 and round(y) == -1 then
+      print "left"
       Game:keyPressed('a', true)
       Game:keyPressed('a', false)
     end
-    
+
   end
 
 
   if MOAIInputMgr.device.keyboard then
     MOAIInputMgr.device.keyboard:setCallback ( onKeyboardEvent )
+  else
+    MOAIInputMgr.device.level:setCallback(onLevelEvent)
+
   end
 
-  if MOAIInputMgr.device.level then
-    MOAIInputMgr.device.level:setCallback(onLevelEvent)
-  end
 
 
 end
