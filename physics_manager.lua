@@ -37,6 +37,7 @@ function PhysicsManager:initialize ( layer )
 end
 
 function PhysicsManager:changeGravity(direction)
+  self.GRAVITY_DIRECTION = direction
   if direction == "up" then
     self.world:setGravity(0, -GRAVITY)
   elseif direction == "down" then
