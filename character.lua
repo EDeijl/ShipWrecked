@@ -231,21 +231,23 @@ function Character:initializePhysics ()
 
 end
 
-function Character:run ( direction, keyDown, gravDirection ) 
-
+function Character:run ( direction, keyDown ) 
   if keyDown then
-    print (type(gravDirection))
-    local x, y = gravDirection
-    print ("gravx: "..x)
-    --print ("gravy: "..y)
-    if x < 0 then
-      direction = direction * -1
-    end
-    
+
+    local gravDirection = PhysicsManager:getGravityDirection()
+    print (gravDirection)
     self.prop:setScl ( direction, -1 )
-    print ("SIOMETIN: "..self.physics.body:getLinearVelocity ())
     velX, velY = self.physics.body:getLinearVelocity ()
-    self.physics.body:setLinearVelocity ( direction * 100, velY )
+    if gravDirection ==  "down"  then
+      self.physics.body:setLinearVelocity ( direction * 100, velY )
+    elseif gravDirection == "up" then
+      self.physics.body:setLinearVelocity ( direction * 100, velY )
+      self.prop:setScl(-direction, -1)
+    elseif gravDirection == "left"  then
+      self.physics.body:setLinearVelocity(velX, direction * 100)
+    elseif  gravDirection == "right" then
+      self.physics.body:setLinearVelocity(velX, -direction * 100)
+    end
 
     if ( self.currentAnimation ~= self:getAnimation ( 'run' ) ) and not self.jumping then
       self:startAnimation ( 'run' )
@@ -263,13 +265,11 @@ end
 
 
 function Character:moveLeft ( keyDown)
-  local gravDirection = PhysicsManager:getGravity()
-  self:run ( -1, keyDown , gravDirection)
+  self:run ( -1, keyDown)
 end
 
 function Character:moveRight ( keyDown)
-  local gravDirection = PhysicsManager:getGravity()
-  self:run ( 1, keyDown, gravDirection )
+  self:run ( 1, keyDown)
 end
 
 

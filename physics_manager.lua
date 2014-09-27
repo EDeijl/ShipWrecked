@@ -21,7 +21,7 @@ function PhysicsManager:initialize ( layer )
   -- that is not realistic but is useful
   -- for our game
   self.world:setGravity ( 0, GRAVITY )
-
+  self.GRAVITY_DIRECTION = "down"
   -- We start the simulation so objects
   -- begin to interact.
   self.world:start ()
@@ -49,6 +49,8 @@ function PhysicsManager:changeGravity(direction)
   end
 end
 
-function PhysicsManager:getGravity()
-    return self.world:getGravity()
+function PhysicsManager:getGravityDirection()
+    return self.GRAVITY_DIRECTION
   end
+  
+  
