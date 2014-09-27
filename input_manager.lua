@@ -20,6 +20,20 @@ function InputManager:initialize ()
 
   function onLevelEvent(x,y,z)
     print ("Motion: x=".. x .. ", y=".. y .. ", z=".. z)
+    if x <= 3 and x >= -3 and y >= 7 then
+      Game:keyPressed('d', true)
+      Game:keyPressed('d', false)
+    elseif x>=7 and y <= 3 and y >= -3 then
+      Game:keyPressed('s', true) 
+      Game:keyPressed('s', false) 
+    elseif x <= -7 and y >= -3 and y <= 3 then
+      Game:keyPressed('w', true)
+      Game:keyPressed('w', false)
+    elseif x <=3 and x >= -3 and y <=-7 then
+      Game:keyPressed('a', true)
+      Game:keyPressed('a', false)
+    end
+    
   end
 
 
