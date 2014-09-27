@@ -243,7 +243,6 @@ end
 
 function Game:updateCamera ()
   x, y = Character.physics.body:getPosition ()
-  print("x: "..x.." y: "..y)
  -- self.camera:setLoc((x-WORLD_RESOLUTION_X/2),(y-WORLD_RESOLUTION_Y/2))
   
   minBorderX, minBorderY = self.layers.background:wndToWorld ( 0, 0 )
@@ -256,7 +255,6 @@ function Game:updateCamera ()
   if math.abs ( x - maxBorderX ) < 100 then
     MOAICoroutine.blockOnAction ( self.camera:moveLoc(100, 0, 1, MOAIEaseType.LINEAR) )
   end
-  print ("y: "..y.." maxY: "..maxBorderY)
   if math.abs( y - maxBorderY ) < 100 then
     MOAICoroutine.blockOnAction(self.camera:moveLoc(0, 100, 1, MOAIEaseType.LINEAR))
   end

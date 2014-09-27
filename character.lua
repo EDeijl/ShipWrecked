@@ -296,6 +296,7 @@ function Character:stopJumping ()
 end
 
 function Character:changeGrav ( key, keyDown )
+  self.physics.body:setAwake(true)
   if key == 'a' then 
     PhysicsManager:changeGravity("left")
     self.prop:setRot(90)
