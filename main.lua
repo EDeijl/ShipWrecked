@@ -2,7 +2,7 @@ require 'config'
 require 'resource_definitions'
 require 'resource_manager'
 require 'input_manager'
-
+require 'utils'
 ------------------------------------------------
 -- Resource type constants
 ------------------------------------------------
