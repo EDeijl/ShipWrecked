@@ -45,6 +45,12 @@ local resource_definitions = {
     fontSize = 26,
     dpi = 160
   },
+  button_normal_center = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/button_normal_center.png',
+    width = 100, height = 40
+  }
+  
 }
 
 

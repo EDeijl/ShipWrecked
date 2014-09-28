@@ -47,7 +47,29 @@ function InputManager:initialize ()
     MOAIInputMgr.device.level:setCallback(onLevelEvent)
 
   end
+  if MOAIInputMgr.device.pointer then
+    MOAIInputMgr.device.mouseLeft:setCallback(
+      function(isMouseDown)
+        local x, y = MOAIInputMgr.device.pointer:getLoc()
+        if isMouseDown then
+          HUD:handleClickOrTouch(x,y, true)
+        else
+          HUD:handleClickOrTouch(x,y, false)
+        end
 
+      end
+    )
+  else
+    MOAIInputMgr.device.touch:setCallback(
+      function(eventType, idx, x, y, tapCount)
+        if eventType == MOAITouchSensor.TOUCH_DOWN then
+          HUD:handleClickOrTouch(x, y, true)
+        elseif eventType == MOAITouchSensor.TOUCH_UP then
+          HUD:handleClickOrTouch(x, y, false)
+        end
+      end
+    )
+  end
 
 
 end
