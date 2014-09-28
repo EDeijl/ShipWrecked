@@ -219,15 +219,16 @@ function Character:initializePhysics ()
   -- Now, we position it using our position definition.
   -- In this way we know our physics object will start at
   -- the same position that our rendered object.
-  self.physics.body:setTransform ( unpack ( character_object.position ) )
+  local x, y = unpack ( character_object.position )
+  self.physics.body:setTransform ( x,y-100 )
   self.physics.body:setAwake(true)
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
-  self.physics.fixture = self.physics.body:addRect( -64, -64, 64, 64  )
+  self.physics.fixture = self.physics.body:addRect( -30, -64, 30, 64  )
   self.physics.fixture.name = "mainbody"
   --Create a foot fixture
   --Used to check if the player is on the ground
-  self.physics.footfixture = self.physics.body:addRect( -63.5, -65, 63.5, -63  )
+  self.physics.footfixture = self.physics.body:addRect( -29.8, 65, 29.8, 63  )
   self.physics.footfixture.name = "foot"
   -- Now we need to bind our prop with the physics object.
   self.prop:setParent ( self.physics.body )
@@ -315,23 +316,23 @@ function Character:changeGrav ( key, keyDown )
   if key == 'a' then 
     PhysicsManager:changeGravity("left")
      
-    self.physics.body:setTransform (x, y, 270 )
-    self.prop:setRot(180)
+    self.physics.body:setTransform (x, y, 90 )
+--    self.prop:setRot(180)
   elseif key == 'w' then
     PhysicsManager:changeGravity("up")
     
-    self.physics.body:setTransform (x, y, 0 )
-    self.prop:setRot(180)
+    self.physics.body:setTransform (x, y, 180 )
+--    self.prop:setRot(180)
   elseif key == 'd' then
     PhysicsManager:changeGravity("right")
     
-    self.physics.body:setTransform (x, y, 90 )
-    self.prop:setRot(180)
+    self.physics.body:setTransform (x, y, 270 )
+--    self.prop:setRot(180)
   elseif key == 's' then
     PhysicsManager:changeGravity("down")
     
-    self.physics.body:setTransform (x, y, 180 )
-    self.prop:setRot(180)
+    self.physics.body:setTransform (x, y, 0 )
+--    self.prop:setRot(180)
   end
 self.prop:setScl(self.movingdirection,-1)
 
