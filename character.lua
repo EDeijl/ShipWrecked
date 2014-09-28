@@ -215,7 +215,7 @@ function Character:initializePhysics ()
   -- First of all we add a dynamic body
   -- that will represent our character
   self.physics.body = PhysicsManager.world:addBody ( MOAIBox2DBody.DYNAMIC )
-
+  
   -- Now, we position it using our position definition.
   -- In this way we know our physics object will start at
   -- the same position that our rendered object.
@@ -224,13 +224,16 @@ function Character:initializePhysics ()
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
   self.physics.fixture = self.physics.body:addRect( -64, -64, 64, 64  )
-
+  self.physics.fixture.name = "mainbody"
+  --Create a foot fixture
+  --Used to check if the player is on the ground
+  self.physics.footfixture = self.physics.body:addRect( -63.5, -65, 63.5, -63  )
+  self.physics.footfixture.name = "foot"
   -- Now we need to bind our prop with the physics object.
   self.prop:setParent ( self.physics.body )
-
   -- Lastly we set a method that will handle collisions
   self.physics.fixture:setCollisionHandler ( onCollide, MOAIBox2DArbiter.BEGIN )
-
+  self.physics.footfixture:setCollisionHandler ( onFootCollide, MOAIBox2DArbiter.BEGIN + MOAIBox2DArbiter.END )
 end
 
 function Character:run ( direction, keyDown ) 
@@ -305,25 +308,30 @@ function Character:jump ( keyDown )
   end
 end
 
-function Character:stopJumping ()
-  self.jumping = false
-  self:stopMoving ()
-end
 
 function Character:changeGrav ( key, keyDown )
+  local x, y = self.physics.body:getPosition()
   self.physics.body:setAwake(true)
   if key == 'a' then 
     PhysicsManager:changeGravity("left")
-    self.prop:setRot(90) 
+     
+    self.physics.body:setTransform (x, y, 270 )
+    self.prop:setRot(180)
   elseif key == 'w' then
     PhysicsManager:changeGravity("up")
+    
+    self.physics.body:setTransform (x, y, 0 )
     self.prop:setRot(180)
   elseif key == 'd' then
     PhysicsManager:changeGravity("right")
-    self.prop:setRot(270)
+    
+    self.physics.body:setTransform (x, y, 90 )
+    self.prop:setRot(180)
   elseif key == 's' then
     PhysicsManager:changeGravity("down")
-    self.prop:setRot(0)
+    
+    self.physics.body:setTransform (x, y, 180 )
+    self.prop:setRot(180)
   end
 self.prop:setScl(self.movingdirection,-1)
 
@@ -333,8 +341,13 @@ end
 
 function onCollide (  phase, fixtureA, fixtureB, arbiter )
 
-  if Game:belongsToScene(fixtureB) then
-    Character:stopJumping ()
-  end
-
 end
+function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
+  if fixtureA.name == "foot" and phase == MOAIBox2DArbiter.BEGIN then
+    Character.jumping = false
+    Character:startAnimation ( 'idle' )
+  elseif phase == MOAIBox2DArbiter.END then
+    Character.jumping = true
+  end
+end
+
