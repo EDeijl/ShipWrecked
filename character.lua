@@ -338,11 +338,19 @@ self.prop:setScl(self.movingdirection,-1)
 
 end
 
+function Character:die()
+  Game:endGame()
+end
+
 
 
 function onCollide (  phase, fixtureA, fixtureB, arbiter )
-
+  if fixtureA.name == "player" and fixtureB.name == "deadly" and phase == MOAIBox2DArbiter.BEGIN then
+    Character:die()
+  end
 end
+
+
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "foot" and phase == MOAIBox2DArbiter.BEGIN then
     Character.jumping = false
