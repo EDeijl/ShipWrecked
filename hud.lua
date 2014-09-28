@@ -67,8 +67,8 @@ function HUD:initializeDebugHud ()
 
 end
 function HUD:initializeControls()
-  local leftButton = self:makeButton('left',60 ,SCREEN_RESOLUTION_Y - 75, 'left')
-  local rightButton = self:makeButton('right',170 ,SCREEN_RESOLUTION_Y - 75, 'right')
+  self.leftButton = self:makeButton('left',60 ,SCREEN_RESOLUTION_Y - 75, 'left')
+  self.rightButton = self:makeButton('right',170 ,SCREEN_RESOLUTION_Y - 75, 'right')
 end
 
 ------------------------------------------------
@@ -149,14 +149,26 @@ function HUD:makeButton (name, xloc, yloc, text)
   button:setLoc (xloc,yloc)
   button.name = name
   layer:insertProp (button)
-  buttontext = self:addTextbox ( 0, 200, MOAITextBox.CENTER_JUSTIFY, true, text )
+  buttontext = self:addTextbox( 0, 200, MOAITextBox.CENTER_JUSTIFY, true, text )
   partition:insertProp(button)
 
   return button
 
 end
 
+
+function HUD:showEndScreen()
+  self.restartButton = HUD:makeButton('restart', SCREEN_RESOLUTION_X / 2, SCREEN_RESOLUTION_Y / 2, 'restart')
+end
+
+function HUD:removeEndScreen()
+  layer:removeProp(self.restartButton)
+  partition:removeProp(self.restartButton)
+end
+
+
 function HUD:addTextbox ( top, height, alignment, yflip, textinput)
+
   textbox = MOAITextBox.new ()
   textbox:setString ( textinput )
   textbox:setFont ( font )
@@ -168,6 +180,7 @@ function HUD:addTextbox ( top, height, alignment, yflip, textinput)
   return textbox
 end
 
+
 function HUD:handleClickOrTouch(x, y, down)
   local pickedProp = partition:propForPoint(layer:wndToWorld(x,y))
   if pickedProp then
@@ -175,6 +188,8 @@ function HUD:handleClickOrTouch(x, y, down)
       Game:keyPressed ( 'left', down )
     elseif pickedProp.name == 'right' then
       Game:keyPressed ('right', down)
+    elseif pickedProp.name == 'restart' then
+      Game:restart()
     end
   else
     Game:keyPressed ('up', down)

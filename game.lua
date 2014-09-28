@@ -245,6 +245,8 @@ function Game:keyPressed ( key, down )
   if key == 'a' then Character:changeGrav ( key, down ) end
   if key == 's' then Character:changeGrav ( key, down ) end
   if key == 'd' then Character:changeGrav ( key, down ) end
+  
+  if key == 'r' then self:endGame() end
 end
 
 function Game:updateCamera ()
@@ -256,21 +258,16 @@ function Game:updateCamera ()
   minBorderX, minBorderY = self.layers.background:wndToWorld ( 0, 0 )
   maxBorderX, maxBorderY = self.layers.background:wndToWorld ( SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
   
---  if math.abs ( x - minBorderX ) < 100 then
---    MOAICoroutine.blockOnAction ( self.camera:moveLoc(-100, 0, 1, MOAIEaseType.LINEAR) )
---  end
-    
+end
 
---  if math.abs ( x - maxBorderX ) < 100 then
---    MOAICoroutine.blockOnAction ( self.camera:moveLoc(100, 0, 1, MOAIEaseType.LINEAR) )
---  end
---  print ("y: "..y.." maxY: "..maxBorderY)
---  if math.abs( y - maxBorderY ) < 100 then
---    MOAICoroutine.blockOnAction(self.camera:moveLoc(0, 100, 1, MOAIEaseType.LINEAR))
---  end
---  if math.abs( y - minBorderY ) < 100 then
---    MOAICoroutine.blockOnAction(self.camera:moveLoc(0, -100, 1, MOAIEaseType.LINEAR))
---  end
+function Game:restart()
+  HUD:removeEndScreen()
+  self:start()
+end
+
+
+function Game:endGame()
+  HUD:showEndScreen()
   
 end
 
