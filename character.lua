@@ -1,7 +1,7 @@
 module ( "Character", package.seeall )
 
 require "physics_manager"
-
+require 'bullet'
 -- This will define all the initialization
 -- parameters for the character, including its
 -- position and animations.
@@ -314,32 +314,28 @@ function Character:changeGrav ( key, keyDown )
   local x, y = self.physics.body:getPosition()
   self.physics.body:setAwake(true)
   if key == 'a' then 
-    PhysicsManager:changeGravity("left")
-     
+    PhysicsManager:changeGravity("left")     
     self.physics.body:setTransform (x, y, 90 )
---    self.prop:setRot(180)
+    self:startAnimation ( 'idle' )
   elseif key == 'w' then
-    PhysicsManager:changeGravity("up")
-    
+    PhysicsManager:changeGravity("up")   
     self.physics.body:setTransform (x, y, 180 )
---    self.prop:setRot(180)
+    self:startAnimation ( 'idle' )
   elseif key == 'd' then
-    PhysicsManager:changeGravity("right")
-    
+    PhysicsManager:changeGravity("right")  
     self.physics.body:setTransform (x, y, 270 )
---    self.prop:setRot(180)
+    self:startAnimation ( 'idle' )
   elseif key == 's' then
     PhysicsManager:changeGravity("down")
-    
     self.physics.body:setTransform (x, y, 0 )
---    self.prop:setRot(180)
+    self:startAnimation ( 'idle' )
   end
 self.prop:setScl(self.movingdirection,-1)
 
 end
 
-function Character:die()
-  Game:endGame()
+function Character:shoot()
+    Bullet:initialize(Game.layers.main, character_object.position)
 end
 
 
@@ -354,6 +350,7 @@ end
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "foot" and phase == MOAIBox2DArbiter.BEGIN then
     Character.jumping = false
+    Character:stopMoving ()
     Character:startAnimation ( 'idle' )
   elseif phase == MOAIBox2DArbiter.END then
     Character.jumping = true

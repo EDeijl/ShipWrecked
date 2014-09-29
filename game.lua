@@ -246,7 +246,7 @@ function Game:keyPressed ( key, down )
   if key == 's' then Character:changeGrav ( key, down ) end
   if key == 'd' then Character:changeGrav ( key, down ) end
   
-  if key == 'r' then self:endGame() end
+  if key == 'space' then Character:shoot() end
 end
 
 function Game:updateCamera ()
