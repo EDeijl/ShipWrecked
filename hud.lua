@@ -195,3 +195,11 @@ function HUD:handleClickOrTouch(x, y, down)
     Game:keyPressed ('up', down)
   end
 end
+
+
+function HUD:rotateProp(prop, targetX, targetY, targetRot)
+  xProp, yProp = prop:getLoc()
+  propRot = prop:getRot()
+  prop:moveLoc(targetX - xProp, targetY - yProp, 0, MOAIEaseType.SMOOTH)
+  prop:moveRot(targetRot - propRot)
+  end
