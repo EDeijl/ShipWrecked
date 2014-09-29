@@ -6,7 +6,7 @@ require 'map_manager'
 module ( "Game", package.seeall )
 
 
-MapManager:initialize('assets/maps/level1_1_1.lua')
+MapManager:initialize('assets/maps/demo_level.lua')
 
 -- We'll define our resources here
 -- Look at chapter 6 if you have
