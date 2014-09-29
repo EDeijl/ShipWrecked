@@ -339,9 +339,14 @@ function Character:shoot()
 end
 
 
-function onCollide (  phase, fixtureA, fixtureB, arbiter )
 
+function onCollide (  phase, fixtureA, fixtureB, arbiter )
+  if fixtureA.name == "player" and fixtureB.name == "deadly" and phase == MOAIBox2DArbiter.BEGIN then
+    Character:die()
+  end
 end
+
+
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "foot" and phase == MOAIBox2DArbiter.BEGIN then
     Character.jumping = false
