@@ -241,7 +241,7 @@ function Character:run ( direction, keyDown )
   if keyDown then
 
     local gravDirection = PhysicsManager:getGravityDirection()
-    print (gravDirection)
+    --print (gravDirection)
     self.prop:setScl ( direction, -1 )
     velX, velY = self.physics.body:getLinearVelocity ()
     if gravDirection ==  "down"  then
@@ -293,6 +293,8 @@ function Character:jump ( keyDown )
   if keyDown and not self.jumping then
     --AudioManager:play ( 'jump' )
     local direction = PhysicsManager:getGravityDirection()
+    self.jumping = true
+    self.jumps = true
     if direction == "up" then
     self.physics.body:applyForce ( 0, 8000 )
   elseif direction == "down" then
@@ -304,7 +306,7 @@ function Character:jump ( keyDown )
       end
       
 
-    self.jumping = true
+    
     self:startAnimation ( 'jump' )
   end
 end
@@ -348,12 +350,24 @@ end
 
 
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
-  if fixtureA.name == "foot" and phase == MOAIBox2DArbiter.BEGIN then
-    Character.jumping = false
-    Character:stopMoving ()
-    Character:startAnimation ( 'idle' )
-  elseif phase == MOAIBox2DArbiter.END then
+ if phase == MOAIBox2DArbiter.BEGIN and Character.jumping == true and fixtureB.name == "object" then
+      print '1'
+      Character.jumping = false
+      Character:stopMoving()
+  end
+ if phase == MOAIBox2DArbiter.BEGIN and Character.jumping == true then
+      print '1'
+      Character.jumping = false
+      Character:stopMoving()
+  end
+  if phase == MOAIBox2DArbiter.BEGIN and Character.jumps == true then
+      print '2'
+      Character.jumps = false
+      Character:stopMoving()
+  end
+  if phase == MOAIBox2DArbiter.END then
+    print '3'
     Character.jumping = true
   end
-end
 
+end

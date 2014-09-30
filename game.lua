@@ -220,6 +220,7 @@ function Game:loadScene ()
     width, height = unpack ( attr.size );
     
     local fixture = body:addRect ( -width/2, -height/2, width/2, height/2 )
+    fixture.name = "object"
     fixture:setFriction( 0 )
     
     self.objects[key] = { body = body, fixture = fixture }
