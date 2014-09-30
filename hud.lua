@@ -6,6 +6,10 @@ module ( "HUD", package.seeall )
 ------------------------------------------------
 
 function HUD:initialize ()
+
+  self.xMargin = SCREEN_RESOLUTION_X / 30
+  self.yMargin = SCREEN_RESOLUTION_Y / 17
+  self.xyScale = SCREEN_RESOLUTION_Y / SCREEN_RESOLUTION_X
   -- Since we want the hud to be 
   -- independent of the world coordinates
   -- and be more window based, we create 
@@ -41,6 +45,7 @@ function HUD:initialize ()
   self:initializeDebugHud ()
 
   -- Add controls
+  self.root = MOAITransform.new()
   self:initializeControls()
   layer:setPartition(partition)
 end
@@ -67,8 +72,10 @@ function HUD:initializeDebugHud ()
 
 end
 function HUD:initializeControls()
-  self.leftButton = self:makeButton('left',60 ,SCREEN_RESOLUTION_Y - 75, 'left')
-  self.rightButton = self:makeButton('right',170 ,SCREEN_RESOLUTION_Y - 75, 'right')
+  self.leftButton = self:makeButton('left',self.xMargin + 50 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, 'left')
+  self.rightButton = self:makeButton('right',self.xMargin + 160 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, 'right')
+--  root:setLoc(self.xMargin + 55, SCREEN_RESOLUTION_Y - 20 - self.yMargin)
+
 end
 
 ------------------------------------------------
@@ -138,7 +145,32 @@ function HUD:update ()
   self.positionIndicator:setString ( "( " .. 
     math.floor ( x ) .. " , " .. 
     math.floor ( y ) .. " )" )
+  self:rotateHud()
+end
 
+function HUD:rotateHud()
+  if PhysicsManager:getGravityDirection() == "down" then
+    self.leftButton:setLoc( 50  + self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin - 20)
+    self.leftButton:setRot(0)
+    self.rightButton:setLoc( 155  + self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin - 20)
+    self.rightButton:setRot(0)
+  elseif PhysicsManager:getGravityDirection() == "left" then
+    self.leftButton:setLoc( 20 + self.yMargin, self.xMargin + 50)
+    self.leftButton:setRot(90)
+    self.rightButton:setLoc( 20 + self.yMargin, 155 + self.xMargin)
+    self.rightButton:setRot(90)
+
+  elseif PhysicsManager:getGravityDirection() == "right" then
+    self.leftButton:setLoc(SCREEN_RESOLUTION_X - 20 - self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 50)
+    self.leftButton:setRot(270)
+    self.rightButton:setLoc(SCREEN_RESOLUTION_X - 20 - self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 155)
+    self.rightButton:setRot(270)
+  elseif PhysicsManager:getGravityDirection() == "up" then
+    self.leftButton:setLoc(SCREEN_RESOLUTION_X - 50 - self.xMargin, self.yMargin + 20)
+    self.leftButton:setRot(180)
+    self.rightButton:setLoc(SCREEN_RESOLUTION_X - 155 - self.xMargin, self.yMargin + 20)
+    self.rightButton:setRot(180)
+  end
 end
 
 
@@ -149,7 +181,6 @@ function HUD:makeButton (name, xloc, yloc, text)
   button:setLoc (xloc,yloc)
   button.name = name
   layer:insertProp (button)
-  buttontext = self:addTextbox( 0, 200, MOAITextBox.CENTER_JUSTIFY, true, text )
   partition:insertProp(button)
 
   return button
@@ -194,4 +225,12 @@ function HUD:handleClickOrTouch(x, y, down)
   else
     Game:keyPressed ('up', down)
   end
+end
+
+
+function HUD:moveProp(prop, targetX, targetY, targetRot)
+  xProp, yProp = prop:getLoc()
+  propRot = prop:getRot()
+  prop:setLoc(targetX - xProp, targetY - yProp, 0, MOAIEaseType.SMOOTH)
+  prop:setLoc(targetRot - propRot)
 end
