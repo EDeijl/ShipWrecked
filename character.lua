@@ -334,9 +334,9 @@ self.prop:setScl(self.movingdirection,-1)
 
 end
 
-function Character:shoot()
-    Bullet:initialize(Game.layers.main, character_object.position)
-end
+--function Character:shoot()
+--    Bullet:initialize(Game.layers.main, character_object.position)
+--end
 
 
 
