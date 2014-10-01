@@ -7,6 +7,8 @@ module ( "HUD", package.seeall )
 
 function HUD:initialize ()
 
+  self.isOverlay = true
+
   self.xMargin = SCREEN_RESOLUTION_X / 30
   self.yMargin = SCREEN_RESOLUTION_Y / 17
   self.xyScale = SCREEN_RESOLUTION_Y / SCREEN_RESOLUTION_X
@@ -236,4 +238,7 @@ function HUD:moveProp(prop, targetX, targetY, targetRot)
   propRot = prop:getRot()
   prop:setLoc(targetX - xProp, targetY - yProp, 0, MOAIEaseType.SMOOTH)
   prop:setLoc(targetRot - propRot)
+end
+
+function HUD:cleanup()
 end
