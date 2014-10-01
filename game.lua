@@ -67,12 +67,12 @@ local background_objects ={}
 
 local scene_objects = {}
 
-------------------------------------------------
--- start ( )
--- initializes the game. this should be
--- called from main.lua
-------------------------------------------------
-function Game:start (levelFilePath)
+--------------------------------
+-- build( levelfilepath)
+-- builds the scene from a tiled map lua file
+--------------------------------
+
+function Game:build(levelFilePath)
   MapManager:initialize(levelFilePath)
   background_objects = MapManager:getBackgroundObjects()
 
@@ -81,6 +81,14 @@ function Game:start (levelFilePath)
 
   -- Do the initial setup
   self:initialize (levelFilePath)
+  return self
+end
+------------------------------------------------
+-- start ( )
+-- initializes the game. this should be
+-- called from main.lua
+------------------------------------------------
+function Game:start ()
 
   while ( true ) do
 
@@ -137,9 +145,9 @@ function Game:initialize (levelFilePath)
   HUD:initialize ()
 
   -- Initialize Audio
---  AudioManager:initialize ()
+  --  AudioManager:initialize ()
 
---  AudioManager:play ( 'backgroundMusic' )
+  --  AudioManager:play ( 'backgroundMusic' )
 
 end
 

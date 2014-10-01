@@ -23,8 +23,10 @@ viewport:setOffset(-1,1)
 require 'audio_manager'
 require 'game'
 
+level1 = Game:build('assets/maps/demo_level.lua')
+
 function mainLoop ()
-  Game:start ('assets/maps/demo_level.lua')
+  level1:start ()
 end
 
 gameThread = MOAICoroutine.new ()
