@@ -2,6 +2,7 @@ require 'config'
 require 'resource_definitions'
 require 'resource_manager'
 require 'input_manager'
+require 'scene_manager'
 require 'utils'
 ------------------------------------------------
 -- Resource type constants
@@ -24,14 +25,10 @@ require 'audio_manager'
 require 'game'
 
 level1 = Game:build('assets/maps/demo_level.lua')
-hud = HUD:initialize()
-MOAIRenderMgr.setRenderTable( level1:getLayers() )
-local renderTable = MOAIRenderMgr.getRenderTable ()
-table.insert ( renderTable, hud:getLayers() )
-MOAIRenderMgr.setRenderTable ( renderTable )
+SceneManager.pushScene(level1)
 
 function mainLoop ()
-  level1:start ()
+  SceneManager.update()
 end
 
 gameThread = MOAICoroutine.new ()
