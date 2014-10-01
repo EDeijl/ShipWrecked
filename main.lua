@@ -24,7 +24,7 @@ require 'audio_manager'
 require 'game'
 
 function mainLoop ()
-  Game:start ()
+  Game:start ('assets/maps/demo_level.lua')
 end
 
 gameThread = MOAICoroutine.new ()
