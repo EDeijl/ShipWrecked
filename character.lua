@@ -27,7 +27,8 @@ local character_object = {
       frameCount = 8,
       time = 0.05,
       mode = MOAITimer.NORMAL
-    },
+    }
+
   }
 }
 
@@ -50,13 +51,18 @@ function Character:initialize ( layer, position )
 
   -- We set the location using the 'character_object'
   -- configuration table
-
   self.prop:setLoc (0,0 )
   self.prop:setScl(1,-1)
   -- We insert the prop into the layer
   -- that was passed as parameter
   layer:insertProp ( self.prop )
-
+  self.move = {
+    left = false,
+    right = false
+  }
+  self.onGround = false
+  self.platform = nil
+  self.currentContactCount = 0
   -- We create a remapper to use
   -- for indexing the deck on our
   -- animations
@@ -89,7 +95,7 @@ function Character:initialize ( layer, position )
 
   -- Initialize physics
   self:initializePhysics ()
-  
+
   self.movingdirection = 1
 end
 
@@ -215,12 +221,12 @@ function Character:initializePhysics ()
   -- First of all we add a dynamic body
   -- that will represent our character
   self.physics.body = PhysicsManager.world:addBody ( MOAIBox2DBody.DYNAMIC )
-  
+
   -- Now, we position it using our position definition.
   -- In this way we know our physics object will start at
   -- the same position that our rendered object.
   local x, y = unpack ( character_object.position )
-  self.physics.body:setTransform ( x,y-100 )
+  self.physics.body:setTransform ( x,y)
   self.physics.body:setAwake(true)
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
@@ -237,47 +243,72 @@ function Character:initializePhysics ()
   self.physics.footfixture:setCollisionHandler ( onFootCollide, MOAIBox2DArbiter.BEGIN + MOAIBox2DArbiter.END )
 end
 
-function Character:run ( direction, keyDown ) 
-  if keyDown then
 
-    local gravDirection = PhysicsManager:getGravityDirection()
-    print (gravDirection)
-    self.prop:setScl ( direction, -1 )
-    velX, velY = self.physics.body:getLinearVelocity ()
-    if gravDirection ==  "down"  then
-      self.physics.body:setLinearVelocity ( direction * 100, velY )
-    elseif gravDirection == "up" then
-      self.physics.body:setLinearVelocity ( direction * 100, velY )
-      self.prop:setScl(-direction, -1)
-    elseif gravDirection == "left"  then
-      self.physics.body:setLinearVelocity(velX, direction * 100)
-    elseif  gravDirection == "right" then
-      self.physics.body:setLinearVelocity(velX, -direction * 100)
+function Character:run()
+  local dx, dy = self.physics.body:getLinearVelocity()
+  print ("left: ")
+  print(self.move.left)
+  print("right: ")
+  print(self.move.right)
+  print("onground: ")
+  print(self.onGround)
+  print("currentContactCount: " .. self.currentContactCount)
+  if self.onGround then
+    if self.move.right and not self.move.left then
+      self:startAnimation('run')
+      dx = 200
+    elseif self.move.left and not self.move.right then
+      self:startAnimation('run')
+      dx = -200
+    else 
+      self:startAnimation('idle')
+      dx = 0
     end
-
-    if ( self.currentAnimation ~= self:getAnimation ( 'run' ) ) and not self.jumping then
-      self:startAnimation ( 'run' )
-    end
-
   else
-
-    if not self.jumping then
-      self:stopMoving ()
+    if self.move.right and not self.move.left and dx <= 0 then
+      dx = 100
+    elseif self.move.left and not self.move.right and dx >= 0 then
+      dx = -100
     end
-
+  end
+  if self.platform then
+    dx = dx + self.platform:getLinearVelocity()
   end
 
+  local direction = PhysicsManager:getGravityDirection()
+  self.prop:setScl(self.movingdirection, -1)
+  if direction == "down" then
+    self.physics.body:setLinearVelocity(dx, dy)
+
+
+
+  elseif direction == "up" then
+    self.physics.body:setLinearVelocity(-dx, dy)
+
+
+  elseif direction == "left" then
+    self.physics.body:setLinearVelocity(0, dx)
+
+
+  elseif direction == "right" then
+    self.physics.body:setLinearVelocity(0, -dx)
+
+  else
+    self:startAnimation('idle')
+  end
 end
 
 
 function Character:moveLeft ( keyDown)
+  self.move.left = keyDown
   self.movingdirection = -1
-  self:run ( -1, keyDown)
+  self:run()
 end
 
 function Character:moveRight ( keyDown)
+  self.move.right = keyDown
   self.movingdirection = 1
-  self:run ( 1, keyDown)
+  self:run()
 end
 
 
@@ -286,25 +317,26 @@ function Character:stopMoving ()
     self.physics.body:setLinearVelocity ( 0, 0 )
     self:startAnimation ( 'idle' )
   end
-
 end
 
 function Character:jump ( keyDown )
-  if keyDown and not self.jumping then
-    --AudioManager:play ( 'jump' )
+  local jumpforce = 140
+  if keyDown and self.onGround then
     local direction = PhysicsManager:getGravityDirection()
-    if direction == "up" then
-    self.physics.body:applyForce ( 0, 8000 )
-  elseif direction == "down" then
-    self.physics.body:applyForce ( 0, -8000 )
-  elseif direction == "left" then
-    self.physics.body:applyForce ( 8000, 0 )
-  elseif direction == "right" then
-    self.physics.body:applyForce ( -8000, 0 )
-      end
-      
-
-    self.jumping = true
+    print("direction: " .. direction)
+    if direction == "down" then 
+      self.physics.body:setLinearVelocity(self.physics.body:getLinearVelocity(), 0)
+      self.physics.body:applyLinearImpulse(0,-jumpforce)
+    elseif direction == "up" then
+      self.physics.body:setLinearVelocity(self.physics.body:getLinearVelocity(), 0)
+      self.physics.body:applyLinearImpulse(0, jumpforce)
+    elseif direction == "left" then
+      self.physics.body:setLinearVelocity(0, self.physics.body:getLinearVelocity())
+      self.physics.body:applyLinearImpulse(jumpforce,0)
+    elseif direction == "right" then
+      self.physics.body:setLinearVelocity(0, self.physics.body:getLinearVelocity())
+      self.physics.body:applyLinearImpulse(-jumpforce,0)
+    end
     self:startAnimation ( 'jump' )
   end
 end
@@ -330,7 +362,7 @@ function Character:changeGrav ( key, keyDown )
     self.physics.body:setTransform (x, y, 0 )
     self:startAnimation ( 'idle' )
   end
-self.prop:setScl(self.movingdirection,-1)
+  self.prop:setScl(self.movingdirection,-1)
 
 end
 
@@ -348,12 +380,23 @@ end
 
 
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
-  if fixtureA.name == "foot" and phase == MOAIBox2DArbiter.BEGIN then
-    Character.jumping = false
-    Character:stopMoving ()
-    Character:startAnimation ( 'idle' )
+  if phase == MOAIBox2DArbiter.BEGIN then
+    Character.currentContactCount = Character.currentContactCount + 1
+    if fixtureB.name == 'platform' then
+      Character.platform = fixtureB:getBody()
+    end
   elseif phase == MOAIBox2DArbiter.END then
-    Character.jumping = true
+    Character.currentContactCount = Character.currentContactCount - 1
+    if fixtureB.name == 'platform' then
+      Character.platform = nil
+    end
+
+  end
+  if Character.currentContactCount == 0 then
+    Character.onGround = false
+  else
+    Character.onGround = true
+    Character:run()
   end
 end
 
