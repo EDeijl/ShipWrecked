@@ -88,15 +88,12 @@ end
 -- initializes the game. this should be
 -- called from main.lua
 ------------------------------------------------
-function Game:start ()
+function Game:update ()
 
   while ( true ) do
 
     self:updateCamera ()
-
-    -- Updating the hud
-    -- on each frame.
-    HUD:update ()
+    self.hud:update()
 
     coroutine.yield ()    
   end
@@ -142,7 +139,8 @@ function Game:initialize (levelFilePath)
   print (self.camera:getLoc())
   print (self.camera:getWorldLoc())
   -- Initialize the HUD
-
+  self.hud = HUD:initialize()
+  SceneManager.pushScene(hud)
   -- Initialize Audio
   --  AudioManager:initialize ()
 
@@ -225,6 +223,7 @@ function Game:loadBackground ()
 
 end
 
+
 function Game:loadScene ()
   self.objects = {}
   for key, attr in pairs ( scene_objects ) do
@@ -240,6 +239,7 @@ function Game:loadScene ()
   end
 end
 
+
 function Game:belongsToScene ( fixture )
   for key, object in pairs ( self.objects ) do
     if object.fixture == fixture then
@@ -248,6 +248,7 @@ function Game:belongsToScene ( fixture )
   end
   return false
 end
+
 
 function Game:keyPressed ( key, down )
 
@@ -263,6 +264,7 @@ function Game:keyPressed ( key, down )
   --if key == 'space' then Character:shoot() end
 end
 
+
 function Game:updateCamera ()
   x, y = Character.physics.body:getPosition ()
 
@@ -274,16 +276,16 @@ function Game:updateCamera ()
 
 end
 
+
 function Game:restart()
-  HUD:removeEndScreen()
   self:start()
 end
 
 
 function Game:endGame()
   HUD:showEndScreen()
-
 end
+
 
 function Game:getLayers()
   return self.renderTable
