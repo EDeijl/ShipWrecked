@@ -142,7 +142,6 @@ function Game:initialize (levelFilePath)
   print (self.camera:getLoc())
   print (self.camera:getWorldLoc())
   -- Initialize the HUD
-  HUD:initialize ()
 
   -- Initialize Audio
   --  AudioManager:initialize ()
@@ -177,7 +176,7 @@ function Game:setupLayers ()
 
   -- We create a render table that
   -- has all the layers in order.
-  local renderTable = {
+  self.renderTable = {
     self.layers.background,
     self.layers.farAway,
     self.layers.main,
@@ -285,6 +284,11 @@ function Game:endGame()
   HUD:showEndScreen()
 
 end
+
+function Game:getLayers()
+  return self.renderTable
+end
+
 
 ------------------------------------------------
 -- sleepCoroutine  ( time )

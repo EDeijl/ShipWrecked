@@ -37,9 +37,7 @@ function HUD:initialize ()
   self.layer:setViewport ( self.viewport )
   partition = MOAIPartition.new()
   -- Now we need to render the layer.
-  local renderTable = MOAIRenderMgr.getRenderTable ()
-  table.insert ( renderTable, self.layer )
-  MOAIRenderMgr.setRenderTable ( renderTable )
+  
 
   -- Add left and right indicator
   self:initializeDebugHud ()
@@ -48,6 +46,11 @@ function HUD:initialize ()
   self.root = MOAITransform.new()
   self:initializeControls()
   layer:setPartition(partition)
+  return self
+end
+
+function HUD:getLayers()
+  return self.layer
 end
 
 ------------------------------------------------
