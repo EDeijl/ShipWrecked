@@ -2,6 +2,7 @@ require 'config'
 require 'resource_definitions'
 require 'resource_manager'
 require 'input_manager'
+require 'scene_manager'
 require 'utils'
 ------------------------------------------------
 -- Resource type constants
@@ -13,7 +14,7 @@ RESOURCE_TYPE_SOUND = 3
 
 -- Open main screen
 MOAISim.openWindow ( "Shipwrecked in spesh", SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
-  
+
 -- Setup viewport
 viewport = MOAIViewport.new ()
 viewport:setSize ( SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
@@ -23,8 +24,11 @@ viewport:setOffset(-1,1)
 require 'audio_manager'
 require 'game'
 
+level1 = Game:build('assets/maps/demo_level.lua')
+SceneManager.pushScene(level1)
+
 function mainLoop ()
-  Game:start ()
+  SceneManager.update()
 end
 
 gameThread = MOAICoroutine.new ()

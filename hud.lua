@@ -7,6 +7,8 @@ module ( "HUD", package.seeall )
 
 function HUD:initialize ()
 
+  self.isOverlay = true
+
   self.xMargin = SCREEN_RESOLUTION_X / 30
   self.yMargin = SCREEN_RESOLUTION_Y / 17
   self.xyScale = SCREEN_RESOLUTION_Y / SCREEN_RESOLUTION_X
@@ -37,9 +39,7 @@ function HUD:initialize ()
   self.layer:setViewport ( self.viewport )
   partition = MOAIPartition.new()
   -- Now we need to render the layer.
-  local renderTable = MOAIRenderMgr.getRenderTable ()
-  table.insert ( renderTable, self.layer )
-  MOAIRenderMgr.setRenderTable ( renderTable )
+  
 
   -- Add left and right indicator
   self:initializeDebugHud ()
@@ -48,6 +48,11 @@ function HUD:initialize ()
   self.root = MOAITransform.new()
   self:initializeControls()
   layer:setPartition(partition)
+  return self
+end
+
+function HUD:getLayers()
+  return self.layer
 end
 
 ------------------------------------------------
@@ -233,4 +238,7 @@ function HUD:moveProp(prop, targetX, targetY, targetRot)
   propRot = prop:getRot()
   prop:setLoc(targetX - xProp, targetY - yProp, 0, MOAIEaseType.SMOOTH)
   prop:setLoc(targetRot - propRot)
+end
+
+function HUD:cleanup()
 end
