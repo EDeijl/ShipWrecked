@@ -18,6 +18,10 @@ return {
       image = "./assets/maps/tileset.png",
       imagewidth = 1024,
       imageheight = 512,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
       properties = {},
       tiles = {}
     }
@@ -494,6 +498,7 @@ return {
           y = 2432,
           width = 1408,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -505,6 +510,7 @@ return {
           y = 2496,
           width = 64,
           height = 576,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -516,6 +522,7 @@ return {
           y = 3008,
           width = 704,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -527,6 +534,7 @@ return {
           y = 3008,
           width = 64,
           height = 640,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -538,6 +546,7 @@ return {
           y = 3584,
           width = 256,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -549,6 +558,7 @@ return {
           y = 3520,
           width = 128,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -560,6 +570,7 @@ return {
           y = 3456,
           width = 128,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -571,6 +582,7 @@ return {
           y = 3456,
           width = 64,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -582,6 +594,7 @@ return {
           y = 3392,
           width = 128,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -593,6 +606,7 @@ return {
           y = 3328,
           width = 128,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -604,6 +618,7 @@ return {
           y = 3264,
           width = 128,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -615,6 +630,7 @@ return {
           y = 2496,
           width = 64,
           height = 768,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -626,6 +642,7 @@ return {
           y = 2496,
           width = 448,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -637,6 +654,7 @@ return {
           y = 2560,
           width = 64,
           height = 320,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -648,6 +666,7 @@ return {
           y = 2816,
           width = 192,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -659,6 +678,7 @@ return {
           y = 2880,
           width = 64,
           height = 320,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -670,6 +690,7 @@ return {
           y = 3136,
           width = 576,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -681,6 +702,7 @@ return {
           y = 3200,
           width = 64,
           height = 192,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -692,6 +714,7 @@ return {
           y = 3328,
           width = 256,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -703,6 +726,7 @@ return {
           y = 3328,
           width = 64,
           height = 256,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -714,6 +738,7 @@ return {
           y = 3520,
           width = 448,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -725,6 +750,7 @@ return {
           y = 3584,
           width = 192,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -736,6 +762,7 @@ return {
           y = 3648,
           width = 128,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -747,6 +774,7 @@ return {
           y = 3712,
           width = 64,
           height = 128,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -758,6 +786,7 @@ return {
           y = 3776,
           width = 128,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -769,6 +798,7 @@ return {
           y = 3840,
           width = 640,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -780,6 +810,7 @@ return {
           y = 3840,
           width = 64,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -791,6 +822,7 @@ return {
           y = 3904,
           width = 64,
           height = 384,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -802,6 +834,7 @@ return {
           y = 4224,
           width = 768,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -813,6 +846,7 @@ return {
           y = 3584,
           width = 64,
           height = 640,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -824,6 +858,7 @@ return {
           y = 3584,
           width = 576,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -835,6 +870,7 @@ return {
           y = 3328,
           width = 64,
           height = 256,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -846,6 +882,7 @@ return {
           y = 3328,
           width = 576,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -857,6 +894,7 @@ return {
           y = 2688,
           width = 64,
           height = 640,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -868,6 +906,7 @@ return {
           y = 2432,
           width = 64,
           height = 320,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -879,6 +918,7 @@ return {
           y = 2688,
           width = 1088,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -890,6 +930,7 @@ return {
           y = 3200,
           width = 640,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -901,6 +942,7 @@ return {
           y = 3264,
           width = 64,
           height = 384,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -912,6 +954,7 @@ return {
           y = 3264,
           width = 64,
           height = 768,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -923,6 +966,7 @@ return {
           y = 3968,
           width = 320,
           height = 64,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -934,6 +978,7 @@ return {
           y = 3584,
           width = 64,
           height = 384,
+          rotation = 0,
           visible = true,
           properties = {}
         },
@@ -945,6 +990,19 @@ return {
           y = 3584,
           width = 192,
           height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 5952,
+          y = 2496,
+          width = 0,
+          height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         }
@@ -976,8 +1034,54 @@ return {
           y = 3264,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          name = "collectible_1",
+          type = "kinematic",
+          shape = "rectangle",
+          x = 3008,
+          y = 3520,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["animStart"] = "1",
+            ["animStop"] = "4"
+          }
+        },
+        {
+          name = "collectible_2",
+          type = "kinematic",
+          shape = "rectangle",
+          x = 4032,
+          y = 3136,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["animStart"] = "5",
+            ["animStop"] = "8"
+          }
+        },
+        {
+          name = "collectible_3",
+          type = "kinematic",
+          shape = "rectangle",
+          x = 5248,
+          y = 2752,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["animStart"] = "9",
+            ["animStop"] = "12"
+          }
         }
       }
     }

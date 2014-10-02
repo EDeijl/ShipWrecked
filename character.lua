@@ -1,7 +1,7 @@
 module ( "Character", package.seeall )
 
 require "physics_manager"
-require 'bullet'
+require "bullet"
 -- This will define all the initialization
 -- parameters for the character, including its
 -- position and animations.
@@ -231,7 +231,7 @@ function Character:initializePhysics ()
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
   self.physics.fixture = self.physics.body:addRect( -30, -64, 30, 64  )
-  self.physics.fixture.name = "mainbody"
+  self.physics.fixture.name = "player"
   --Create a foot fixture
   --Used to check if the player is on the ground
   self.physics.footfixture = self.physics.body:addRect( -29.8, 65, 29.8, 63  )
@@ -242,7 +242,6 @@ function Character:initializePhysics ()
   self.physics.fixture:setCollisionHandler ( onCollide, MOAIBox2DArbiter.BEGIN )
   self.physics.footfixture:setCollisionHandler ( onFootCollide, MOAIBox2DArbiter.BEGIN + MOAIBox2DArbiter.END )
 end
-
 
 function Character:run()
   local dx, dy = self.physics.body:getLinearVelocity()
@@ -313,7 +312,7 @@ end
 
 
 function Character:stopMoving ()
-  if not self.jumping then
+  if not self.jumps then
     self.physics.body:setLinearVelocity ( 0, 0 )
     self:startAnimation ( 'idle' )
   end
@@ -371,11 +370,11 @@ end
 --end
 
 
-
 function onCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "player" and fixtureB.name == "deadly" and phase == MOAIBox2DArbiter.BEGIN then
     Character:die()
   end
+
 end
 
 
@@ -398,5 +397,5 @@ function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
     Character.onGround = true
     Character:run()
   end
-end
 
+end
