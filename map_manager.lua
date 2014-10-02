@@ -60,7 +60,8 @@ function MapManager:buildObject(object, objectType)
       type = objectType,
       shape = object.shape,
       position = {object.x  + object.width / 2, (object.y + object.height/2) - self.map.tileheight },
-      size = { object.width, object.height }
+      size = { object.width, object.height },
+      properties = object.properties 
     }    
   elseif object.shape == "polyline" then
     mapObject = {
