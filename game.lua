@@ -1,4 +1,5 @@
 require 'character'
+require 'collectible'
 require 'physics_manager'
 require 'hud'
 require 'map_manager'
@@ -49,10 +50,17 @@ local resource_definitions = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/button_normal_center.png',
     width = 100, height = 40
+  },
+
+  collectibles = 
+  {
+    type = RESOURCE_TYPE_TILED_IMAGE,
+    fileName = 'collectibles/colsheet.png',
+    tileMapSize = {4, 4},
+    width = 32, height = 32,
   }
 
 }
-
 
 -- define some properties for
 -- the background layers.
@@ -83,13 +91,18 @@ function Game:build(levelFilePath)
   self:initialize (levelFilePath)
   return self
 end
+collectibleTable = {}
+
+function Game:getTable()
+    return collectibleTable
+end
+
 ------------------------------------------------
 -- start ( )
 -- initializes the game. this should be
 -- called from main.lua
 ------------------------------------------------
 function Game:update ()
-
   while ( true ) do
 
     self:updateCamera ()
@@ -233,7 +246,20 @@ function Game:loadScene ()
     width, height = unpack ( attr.size );
 
     local fixture = body:addRect ( -width/2, -height/2, width/2, height/2 )
-    fixture:setFriction(0)
+    --print (attr.name)
+    
+    if string.find(attr.name, "collectible_") then
+      --print "check"
+      fixture.name = attr.name
+      local position = attr.position
+      local animStart = tonumber(attr.properties.animStart)
+      local animStop = tonumber(attr.properties.animStop)
+      local collectible = Collectible:new(attr.name, animStart, animStop, self.layers.main, position)
+      collectibleTable[attr.name] = collectible
+    else
+      fixture.name = "object"
+    end
+    fixture:setFriction( 0 )
 
     self.objects[key] = { body = body, fixture = fixture }
   end
