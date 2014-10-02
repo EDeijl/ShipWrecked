@@ -6,7 +6,7 @@ require "bullet"
 -- parameters for the character, including its
 -- position and animations.
 local character_object = {
-  position = { 100, 0 },
+  position = { 0, 0 },
   animations = {
     idle = {
       startFrame = 1,
@@ -62,7 +62,9 @@ function Character:initialize ( layer, position )
   }
   self.onGround = false
   self.platform = nil
-  self.currentContactCount = 0
+  
+  --Fix the problem with wanting to touch the first object twice
+  self.currentContactCount = -1
   -- We create a remapper to use
   -- for indexing the deck on our
   -- animations
@@ -226,7 +228,7 @@ function Character:initializePhysics ()
   -- In this way we know our physics object will start at
   -- the same position that our rendered object.
   local x, y = unpack ( character_object.position )
-  self.physics.body:setTransform ( x,y)
+  self.physics.body:setTransform ( x+150,y-100)
   self.physics.body:setAwake(true)
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
@@ -245,12 +247,12 @@ end
 
 function Character:run()
   local dx, dy = self.physics.body:getLinearVelocity()
-  print ("left: ")
-  print(self.move.left)
-  print("right: ")
-  print(self.move.right)
-  print("onground: ")
-  print(self.onGround)
+--  print ("left: ")
+--  print(self.move.left)
+--  print("right: ")
+--  print(self.move.right)
+--  print("onground: ")
+--  print(self.onGround)
   print("currentContactCount: " .. self.currentContactCount)
   if self.onGround then
     if self.move.right and not self.move.left then
@@ -380,22 +382,27 @@ end
 
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
   if phase == MOAIBox2DArbiter.BEGIN then
+    print ("fixB start: "..fixtureB.name)
     Character.currentContactCount = Character.currentContactCount + 1
+    print("currentContactCount: " .. Character.currentContactCount)
     if fixtureB.name == 'platform' then
       Character.platform = fixtureB:getBody()
     end
-  elseif phase == MOAIBox2DArbiter.END then
+  end
+  if phase == MOAIBox2DArbiter.END then
+    print ("fixB end: "..fixtureB.name)
     Character.currentContactCount = Character.currentContactCount - 1
+    print("currentContactCount: " .. Character.currentContactCount)
     if fixtureB.name == 'platform' then
       Character.platform = nil
     end
+  end
 
-  end
-  if Character.currentContactCount == 0 then
-    Character.onGround = false
-  else
-    Character.onGround = true
-    Character:run()
-  end
+if Character.currentContactCount == 0 then
+  Character.onGround = false
+else
+  Character.onGround = true
+  Character:run()
+end
 
 end

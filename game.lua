@@ -257,7 +257,7 @@ function Game:loadScene ()
       local collectible = Collectible:new(attr.name, animStart, animStop, self.layers.main, position)
       collectibleTable[attr.name] = collectible
     else
-      fixture.name = "object"
+      fixture.name = attr.name
     end
     fixture:setFriction( 0 )
 
