@@ -1,7 +1,7 @@
 module ( "Character", package.seeall )
 
 require "physics_manager"
-require 'bullet'
+require "bullet"
 -- This will define all the initialization
 -- parameters for the character, including its
 -- position and animations.
@@ -225,7 +225,7 @@ function Character:initializePhysics ()
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
   self.physics.fixture = self.physics.body:addRect( -30, -64, 30, 64  )
-  self.physics.fixture.name = "mainbody"
+  self.physics.fixture.name = "player"
   --Create a foot fixture
   --Used to check if the player is on the ground
   self.physics.footfixture = self.physics.body:addRect( -29.8, 65, 29.8, 63  )
@@ -238,6 +238,7 @@ function Character:initializePhysics ()
 end
 
 function Character:run ( direction, keyDown ) 
+  print (keyDown)
   if keyDown then
 
     local gravDirection = PhysicsManager:getGravityDirection()
@@ -260,10 +261,8 @@ function Character:run ( direction, keyDown )
     end
 
   else
-
-    if not self.jumping then
+      Character.jumps = false
       self:stopMoving ()
-    end
 
   end
 
@@ -282,7 +281,7 @@ end
 
 
 function Character:stopMoving ()
-  if not self.jumping then
+  if not self.jumps then
     self.physics.body:setLinearVelocity ( 0, 0 )
     self:startAnimation ( 'idle' )
   end
@@ -341,32 +340,30 @@ end
 --end
 
 
-
 function onCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "player" and fixtureB.name == "deadly" and phase == MOAIBox2DArbiter.BEGIN then
     Character:die()
   end
+
 end
 
 
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
- if phase == MOAIBox2DArbiter.BEGIN and Character.jumping == true and fixtureB.name == "object" then
-      print '1'
-      Character.jumping = false
-      Character:stopMoving()
+ if phase == MOAIBox2DArbiter.BEGIN and Character.jumps == true then
+     Character.jumps = false
+     Character.jumping = false
+     Character:stopMoving() 
+  end
+  if phase == MOAIBox2DArbiter.BEGIN and Character.jumping == true then
+     Character.jumps = false
+     Character.jumping = false
+     Character:stopMoving() 
   end
  if phase == MOAIBox2DArbiter.BEGIN and Character.jumping == true then
-      print '1'
-      Character.jumping = false
-      Character:stopMoving()
+     --Do nothing
   end
-  if phase == MOAIBox2DArbiter.BEGIN and Character.jumps == true then
-      print '2'
-      Character.jumps = false
-      Character:stopMoving()
-  end
+
   if phase == MOAIBox2DArbiter.END then
-    print '3'
     Character.jumping = true
   end
 
