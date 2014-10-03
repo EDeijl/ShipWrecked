@@ -39,6 +39,6 @@ function switchScene(key, down)
   if down then
     SceneManager.popScene(level1)
     level2 = Game:build('assets/maps/demo_chains.lua')
-    Scenemanager.pushScene(level2)
+    SceneManager.pushScene(level2)
   end
 end
