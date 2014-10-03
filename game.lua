@@ -88,7 +88,7 @@ function Game:build(levelFilePath)
   scene_objects = MapManager.mapObjects
 
   -- Do the initial setup
-  self:initialize (levelFilePath)
+  self:initialize ()
   return self
 end
 collectibleTable = {}
@@ -116,7 +116,7 @@ end
 -- initialize ( )
 -- does all the initial setup for the game
 ------------------------------------------------
-function Game:initialize (levelFilePath)  
+function Game:initialize ()  
   -- Initialize camera
 
 
@@ -286,6 +286,9 @@ function Game:keyPressed ( key, down )
   if key == 'a' then Character:changeGrav ( key, down ) end
   if key == 's' then Character:changeGrav ( key, down ) end
   if key == 'd' then Character:changeGrav ( key, down ) end
+  
+  if key == 'm' then switchScene(key, down) end
+  
 
   --if key == 'space' then Character:shoot() end
 end
@@ -317,6 +320,9 @@ function Game:getLayers()
   return self.renderTable
 end
 
+function Game:cleanup()
+  PhysicsManager.world:stop()
+end
 
 ------------------------------------------------
 -- sleepCoroutine  ( time )

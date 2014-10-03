@@ -34,6 +34,7 @@ local function addStateLayers(state, stackLoc)
     for j, layer in ipairs(state.layerTable[stackPos]) do
       MOAIRenderMgr.pushRenderPass(layer)
     end
+
   end
 end
 
