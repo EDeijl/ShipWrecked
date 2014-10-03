@@ -1,12 +1,12 @@
 module ( "Character", package.seeall )
 
 require "physics_manager"
-require 'bullet'
+require "bullet"
 -- This will define all the initialization
 -- parameters for the character, including its
 -- position and animations.
 local character_object = {
-  position = { 100, 0 },
+  position = { 0, 0 },
   animations = {
     idle = {
       startFrame = 1,
@@ -62,7 +62,9 @@ function Character:initialize ( layer, position )
   }
   self.onGround = false
   self.platform = nil
-  self.currentContactCount = 0
+  
+  --Fix the problem with wanting to touch the first object twice
+  self.currentContactCount = -1
   -- We create a remapper to use
   -- for indexing the deck on our
   -- animations
@@ -226,12 +228,12 @@ function Character:initializePhysics ()
   -- In this way we know our physics object will start at
   -- the same position that our rendered object.
   local x, y = unpack ( character_object.position )
-  self.physics.body:setTransform ( x,y)
+  self.physics.body:setTransform ( x+150,y-100)
   self.physics.body:setAwake(true)
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
   self.physics.fixture = self.physics.body:addRect( -30, -64, 30, 64  )
-  self.physics.fixture.name = "mainbody"
+  self.physics.fixture.name = "player"
   --Create a foot fixture
   --Used to check if the player is on the ground
   self.physics.footfixture = self.physics.body:addRect( -29.8, 65, 29.8, 63  )
@@ -243,15 +245,14 @@ function Character:initializePhysics ()
   self.physics.footfixture:setCollisionHandler ( onFootCollide, MOAIBox2DArbiter.BEGIN + MOAIBox2DArbiter.END )
 end
 
-
 function Character:run()
   local dx, dy = self.physics.body:getLinearVelocity()
-  print ("left: ")
-  print(self.move.left)
-  print("right: ")
-  print(self.move.right)
-  print("onground: ")
-  print(self.onGround)
+--  print ("left: ")
+--  print(self.move.left)
+--  print("right: ")
+--  print(self.move.right)
+--  print("onground: ")
+--  print(self.onGround)
   print("currentContactCount: " .. self.currentContactCount)
   if self.onGround then
     if self.move.right and not self.move.left then
@@ -313,7 +314,7 @@ end
 
 
 function Character:stopMoving ()
-  if not self.jumping then
+  if not self.jumps then
     self.physics.body:setLinearVelocity ( 0, 0 )
     self:startAnimation ( 'idle' )
   end
@@ -371,32 +372,37 @@ end
 --end
 
 
-
 function onCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "player" and fixtureB.name == "deadly" and phase == MOAIBox2DArbiter.BEGIN then
     Character:die()
   end
+
 end
 
 
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
   if phase == MOAIBox2DArbiter.BEGIN then
+    print ("fixB start: "..fixtureB.name)
     Character.currentContactCount = Character.currentContactCount + 1
+    print("currentContactCount: " .. Character.currentContactCount)
     if fixtureB.name == 'platform' then
       Character.platform = fixtureB:getBody()
     end
-  elseif phase == MOAIBox2DArbiter.END then
+  end
+  if phase == MOAIBox2DArbiter.END then
+    print ("fixB end: "..fixtureB.name)
     Character.currentContactCount = Character.currentContactCount - 1
+    print("currentContactCount: " .. Character.currentContactCount)
     if fixtureB.name == 'platform' then
       Character.platform = nil
     end
+  end
 
-  end
-  if Character.currentContactCount == 0 then
-    Character.onGround = false
-  else
-    Character.onGround = true
-    Character:run()
-  end
+if Character.currentContactCount == 0 then
+  Character.onGround = false
+else
+  Character.onGround = true
+  Character:run()
 end
 
+end
