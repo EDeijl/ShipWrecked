@@ -1,39 +1,22 @@
 module("SceneManager", package.seeall)
 
-local curState = nil
-local loadedStates = {}
-local stateStack = {}
+local scenes = {}
 
-local updateThread = MOAIThread.new()
-
-local function updateFunction()
-  while true do
-    coroutine.yield()
-    if curState then
-      if type(curState.onInput) == "function" then
-        curState:onInput()
-      end
-
-      if type(curState.onUpdate) == "function" then
-        curState:onUpdate()
-      end
-
-    else
-      print( "WARNING = There is no current state. please call state.push/state/swap to add a state.")
-    end
+local function setScene(scene)
+  local layers = {}
+  if scene then
+    layers = scene:getLayers()
   end
-end
+  if layers then 
+    if scene.isOverlay then
+      currentLayers = MOAIRenderMgr.getRenderTable()
+      table.insert(currentLayers, layers)
 
-local function addStateLayers(state, stackLoc)
-  if not state.layerTable then print ("WARNING -state: ".. state.stateFilename .. " does not have a layerTable" ) end
-
-  -- This grabs the layer set from the state that corresponds to the position in the stack that the state currently is.
-  -- If the state is the top most state, it wil grab layerSet[1] and so forth.
-  local stackPos = (#stateStack - stateLoc) + 1
-  if state.layerTable [stackPos] then
-    for j, layer in ipairs(state.layerTable[stackPos]) do
-      MOAIRenderMgr.pushRenderPass(layer)
+      MOAIRenderMgr.setRenderTable(layers)
+    else
+      MOAIRenderMgr.setRenderTable(layers)
     end
+<<<<<<< HEAD
 
   end
 end
@@ -45,92 +28,39 @@ local function rebuildRenderStack()
     addStateLayers(state, i)
   end
 end
+=======
+>>>>>>> parent of a1de7b3... rewrote the scene manager
 
-local function loadState(stateFile)
-  if not loadedStates[stateFile] then
-    local newState = dofile (stateFile)
-    loadedStates[stateFile] = newState
-    loadedStates[stateFile].stateFilename = stateFile
-  end
-
-  return loadedStates[stateFile]
-end
-
-function begin()
-  updateThread:run(updateFunction)
-end
-
-function getCurState()
-  return curState
-end
-
-function makePopup(state)
-  state.isPopup = true
-end
-
-function pop()
-  -- do the state's onLoseFocus
-  if type(curstate.onLoseFocus) == "function" then
-    curState:onLoseFocus()
-  end
-
-  -- do the state's onUnload
-  if type(curState.onUnload) == "function" then
-    curState:onUnload()
-  end
-
-  curState = nil
-  table.remove(stateStack, #stateStack)
-  curState = stateStack[#stateStack]
-
-  rebuildRenderStack()
-  MOAISim.forceGC()
-
-  if type(curState.onFocus) == "function" then
-    curState:onFocus()
-  end
-
-end
-
-function push(stateFile, ...)
-  if curState then
-    if type ( curState.onLoseFocus ) == "function" then
-      curState:onLoseFocus ( )
-    end
-  end
-
-  -- update the current state to the new one
-  local newState = loadState ( stateFile )
-  table.insert ( stateStack, newState )	
-  curState = stateStack [ #stateStack ]
-
-  -- do the state's onLoad
-  if type ( curState.onLoad ) == "function" then		
-    curState:onLoad ( ... )
-  end
-
-  -- do the state's onFocus
-  if type ( curState.onFocus ) == "function" then	
-    curState:onFocus ()
-  end
-
-  if curState.isPopup then
-
-    addStateLayers ( curState, #stateStack )
   else
-
-    rebuildRenderStack ()
+    MOAIRenderMgr.setRenderTable({})
   end
 end
-function stop ( )
 
-  updateThread:stop ()
+
+function SceneManager.pushScene(scene)
+  if not scene.isOverlay then
+    table.insert(scenes, scene)
+    scenes[#scenes]:initialize()
+    setScene(scenes[#scenes])
+  else
+    scene:initialize()
+    setScene(scene)
+  end
+
 end
 
-function swap ( stateFile, ... )
-
-  pop ()
-  push ( stateFile, ... )
+function SceneManager.popScene()
+  scenes[#scenes]:cleanup()
+  table.remove(scenes, #scenes)
+  if #scenes > 0 then
+    setScene(scenes[#scenes])
+  else
+    setScene(nil)
+  end
 end
 
-
+function SceneManager.update()
+  if #scenes > 0 then
+    scenes[#scenes]:update()
+  end
+end
