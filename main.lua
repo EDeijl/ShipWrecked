@@ -25,6 +25,7 @@ require 'audio_manager'
 require 'game'
 
 level1 = Game:build('assets/maps/demo_level.lua')
+
 SceneManager.pushScene(level1)
 
 function mainLoop ()
@@ -33,3 +34,11 @@ end
 
 gameThread = MOAICoroutine.new ()
 gameThread:run ( mainLoop )
+
+function switchScene(key, down)
+  if down then
+    SceneManager.popScene(level1)
+    level2 = Game:build('assets/maps/demo_chains.lua')
+    SceneManager.pushScene(level2)
+  end
+end

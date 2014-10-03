@@ -6,20 +6,21 @@ local function setScene(scene)
   local layers = {}
   if scene then
     layers = scene:getLayers()
-  end
-  if layers then 
-    if scene.isOverlay then
-      currentLayers = MOAIRenderMgr.getRenderTable()
-      table.insert(currentLayers, layers)
+    if layers then 
+      if scene.isOverlay then
+        currentLayers = MOAIRenderMgr.getRenderTable()
+        table.insert(currentLayers, layers)
 
-      MOAIRenderMgr.setRenderTable(layers)
+        MOAIRenderMgr.setRenderTable(layers)
+      else
+        MOAIRenderMgr.setRenderTable(layers)
+      end
+
     else
-      MOAIRenderMgr.setRenderTable(layers)
+      MOAIRenderMgr.setRenderTable({})
     end
-
-  else
-    MOAIRenderMgr.setRenderTable({})
   end
+
 end
 
 
