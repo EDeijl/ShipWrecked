@@ -75,6 +75,7 @@ local background_objects ={}
 
 local scene_objects = {}
 
+
 --------------------------------
 -- build( levelfilepath)
 -- builds the scene from a tiled map lua file
@@ -94,7 +95,7 @@ end
 collectibleTable = {}
 
 function Game:getTable()
-    return collectibleTable
+  return collectibleTable
 end
 
 ------------------------------------------------
@@ -247,7 +248,7 @@ function Game:loadScene ()
 
     local fixture = body:addRect ( -width/2, -height/2, width/2, height/2 )
     --print (attr.name)
-    
+
     if string.find(attr.name, "collectible_") then
       --print "check"
       fixture.name = attr.name
@@ -286,9 +287,9 @@ function Game:keyPressed ( key, down )
   if key == 'a' then Character:changeGrav ( key, down ) end
   if key == 's' then Character:changeGrav ( key, down ) end
   if key == 'd' then Character:changeGrav ( key, down ) end
-  
+
   if key == 'm' then switchScene(key, down) end
-  
+
 
   --if key == 'space' then Character:shoot() end
 end
@@ -306,32 +307,33 @@ function Game:updateCamera ()
 end
 
 
-function Game:restart()
-  self:start()
-end
+
+  function Game:restart()
+    self:start()
+  end
 
 
-function Game:endGame()
-  HUD:showEndScreen()
-end
+  function Game:endGame()
+    HUD:showEndScreen()
+  end
 
 
-function Game:getLayers()
-  return self.renderTable
-end
+  function Game:getLayers()
+    return self.renderTable
+  end
 
-function Game:cleanup()
-  PhysicsManager.world:stop()
-end
+  function Game:cleanup()
+    PhysicsManager.world:stop()
+  end
 
 ------------------------------------------------
 -- sleepCoroutine  ( time )
 -- helper method to freeze the thread for 
 -- 'time' seconds.
 ------------------------------------------------
-function sleepCoroutine ( time )
-  local timer = MOAITimer.new ()
-  timer:setSpan ( time )
-  timer:start ()
-  MOAICoroutine.blockOnAction ( timer )
-end
+  function sleepCoroutine ( time )
+    local timer = MOAITimer.new ()
+    timer:setSpan ( time )
+    timer:start ()
+    MOAICoroutine.blockOnAction ( timer )
+  end
