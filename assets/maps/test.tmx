@@ -15,7 +15,7 @@
  </layer>
  <layer name="main" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2MFOg0AQBmBi1Lse9KwXz2p9CN//hYSkRLLZklnoAoXvSyZpk5ZSfmYZaBoAAAAAAAAAAAAAAAAAAGApL23dVajXJf/EjjxU2u59pe12Lp0De3BreYztb81zYCny2J7Htj7bOrX1fa6vweu+Tsn7n/N3u3pOtimPdaXHSR7rWiuPp+a/Rz8q/eYtWisPPZEnj21Jj9NbU+f+UR4xc+fm6HGVR8xaeUT68IjPbsbmnks1vGeZmkfEEXtoyjoy/E7k892zz/fwHpVt+5ZEngGnx+naeUSzyPXl3tRaI6J5lPTF3nohZ608+r4sWaPkkTc3j7GeGJsVjqJkVuqMne+5a046t+ay6HP4nfonDiQyX825R+mykENc7TyOcF24plp59GsUZUrziNy/u1ZMV5qH9aeuyHO+4cwkj7pKrw3yqEse2yKP7YnMS+YmAAAAAAAAAAAAAAAA2I8/9csK1Q==
+   eJzt2MFOg0AQBmBi1LseNNGTXjyr9SF8/xcSkhLJZktmKVsofF8ySU0sbfdnloGmAQAAAAAAAAAAAAAAAAAALuWprZsK9XzJH7Ehd5WOe1vpuJ1T58AWXFseY9+35jlwKfJYn/u2Pts6tPV9rK/B674Oyd8/x/d29ZgcUx7LStdJHstaKo+H5r9HPyp95jVaKg89kSePdUnX6a2pc/8oj5hz5+bousojZqk8In24x2c3Y3PPqRres0zNI2KPPTRlHxm+J/L/3bPP9/A3Kjv2NYk8A07Xae48olnk+nJrau0R0TxK+mJrvZCzVB59X5bsUfLIOzePsZ4YmxX2omRW6oyd77lrTjq35rLoc/id+iN2JDJfnXOP0mUhh7hurV+Or1+b+fPYw3VhTrXy6PcoypTmEbl/d62YrjQP+09daR6553zDmUkedZVeG+RRlzzWRR7rE5mXzE0AAAAAAAAAAAAAAACwHX/Upwve
   </data>
  </layer>
  <layer name="walkBehind" width="100" height="100">
@@ -89,5 +89,7 @@
     <property name="animStop" value="12"/>
    </properties>
   </object>
+  <object name="spikes_1" x="3264" y="3712" width="32" height="320"/>
+  <object name="spikes_2" x="3424" y="3712" width="32" height="320"/>
  </objectgroup>
 </map>

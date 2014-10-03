@@ -31,7 +31,8 @@ local character_object = {
 
   }
 }
-
+ local lives = 3
+ local timer = 0
 ------------------------------------------------
 -- initialize ( MOAILayer2D: layer )
 -- sets everything up in order to use the 
@@ -40,6 +41,7 @@ local character_object = {
 -- on that layer
 ------------------------------------------------
 function Character:initialize ( layer, position )
+ 
   -- We load the character resource
   character_object.position = position
   self.deck = ResourceManager:get ( 'character' )
@@ -371,10 +373,44 @@ end
 --    Bullet:initialize(Game.layers.main, character_object.position)
 --end
 
+function Character:damage()
+  print "got damage"
+  if timer == 0 then
+    print "life - 1"
+    lives = lives - 1
+    Character:startDamageTimer()
+  end
+  if self.lives == 0 then
+    Character:die()
+    end
+end
+
+function Character:startDamageTimer()
+  print "started timer"
+  timer = 5
+  damageTimer = MOAITimer.new()
+  damageTimer:setMode( MOAITimer.LOOP)
+  damageTimer:setSpan(1)
+  damageTimer:setListener( MOAITimer.EVENT_TIMER_LOOP, function()
+      timer = timer - 1
+      if (timer == 0) then
+        damageTimer:stop()
+      end
+    end
+  )
+  damageTimer:start()
+
+end
+
+
+function Character:die()
+  print("player died")
+end
+
 
 function onCollide (  phase, fixtureA, fixtureB, arbiter )
-  if fixtureA.name == "player" and fixtureB.name == "deadly" and phase == MOAIBox2DArbiter.BEGIN then
-    Character:die()
+  if fixtureA.name == "player" and string.find(fixtureB.name, "spikes_") and phase == MOAIBox2DArbiter.BEGIN then
+    Character:damage()
   end
 
 end
@@ -396,6 +432,9 @@ function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
     if fixtureB.name == 'platform' then
       Character.platform = nil
     end
+  end
+  if string.find(fixtureB.name, "spikes_") and phase == MOAIBox2DArbiter.BEGIN then
+    Character:damage()
   end
 
 if Character.currentContactCount == 0 then
