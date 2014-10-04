@@ -6,6 +6,9 @@ module ( "HUD", package.seeall )
 ------------------------------------------------
 
 function HUD:initialize ()
+  -- Set the countdowntimer in seconds
+  self.countdownTime = 300
+  self.isOverlay = true
 
   self.xMargin = SCREEN_RESOLUTION_X / 30
   self.yMargin = SCREEN_RESOLUTION_Y / 17
@@ -37,17 +40,20 @@ function HUD:initialize ()
   self.layer:setViewport ( self.viewport )
   partition = MOAIPartition.new()
   -- Now we need to render the layer.
-  local renderTable = MOAIRenderMgr.getRenderTable ()
-  table.insert ( renderTable, self.layer )
-  MOAIRenderMgr.setRenderTable ( renderTable )
+
 
   -- Add left and right indicator
   self:initializeDebugHud ()
-
+  self:startTimer()
   -- Add controls
   self.root = MOAITransform.new()
   self:initializeControls()
   layer:setPartition(partition)
+  return self
+end
+
+function HUD:getLayers()
+  return self.layer
 end
 
 ------------------------------------------------
@@ -70,6 +76,9 @@ function HUD:initializeDebugHud ()
   -- in world coordinates.
   self.positionIndicator = self:newDebugTextBox ( 30, {10, 50, 200, 100} )
 
+  self.timerIndictator = self:newDebugTextBox ( 30, {10, 90, 300, 150 } )
+  
+  
 end
 function HUD:initializeControls()
   self.leftButton = self:makeButton('left',self.xMargin + 50 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, 'left')
@@ -146,6 +155,8 @@ function HUD:update ()
     math.floor ( x ) .. " , " .. 
     math.floor ( y ) .. " )" )
   self:rotateHud()
+
+  
 end
 
 function HUD:rotateHud()
@@ -175,7 +186,7 @@ end
 
 
 function HUD:makeButton (name, xloc, yloc, text)
-  local buttonGFX =ResourceManager:get('button_normal_center')
+  local buttonGFX =ResourceManager:get('button_right')
   local  button = MOAIProp2D.new()
   button:setDeck (buttonGFX)
   button:setLoc (xloc,yloc)
@@ -233,4 +244,22 @@ function HUD:moveProp(prop, targetX, targetY, targetRot)
   propRot = prop:getRot()
   prop:setLoc(targetX - xProp, targetY - yProp, 0, MOAIEaseType.SMOOTH)
   prop:setLoc(targetRot - propRot)
+end
+
+function HUD:startTimer()
+  countdownTimer = MOAITimer.new()
+  countdownTimer:setMode( MOAITimer.LOOP)
+  countdownTimer:setSpan(1)
+  countdownTimer:setListener( MOAITimer.EVENT_TIMER_LOOP, function()
+      self.countdownTime = self.countdownTime - .25
+      self.timerIndictator:setString( "Time left: "..self.countdownTime )
+      if (countdownTime == 0) then
+        countdownTimer:stop()
+      end
+    end
+  )
+  countdownTimer:start()
+end
+
+function HUD:cleanup()
 end

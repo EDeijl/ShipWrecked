@@ -17,6 +17,7 @@ function MapManager:setup()
   self.width = self.map.width* self.map.tilewidth
   self.height = self.map.height * self.map.tileheight
   self.tileDeck:setSize(self.map.tilesets[1].imagewidth / self.map.tilewidth, self.map.tilesets[1].imageheight / self.map.tileheight)
+  self.tileDeck:setRect(-0.5, 0.5, 0.5, -0.5)
   for key, mapLayer in pairs(self.map.layers) do
     if mapLayer.type == "tilelayer" then
       self:addGrid(mapLayer)
@@ -60,7 +61,8 @@ function MapManager:buildObject(object, objectType)
       type = objectType,
       shape = object.shape,
       position = {object.x  + object.width / 2, (object.y + object.height/2) - self.map.tileheight },
-      size = { object.width, object.height }
+      size = { object.width, object.height },
+      properties = object.properties 
     }    
   elseif object.shape == "polyline" then
     mapObject = {

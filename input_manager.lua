@@ -7,6 +7,23 @@ module ( "InputManager", package.seeall )
 ------------------------------------------------
 function InputManager:initialize ()
 
+
+
+  
+  if MOAIInputMgr.device.keyboard then
+    MOAIInputMgr.device.keyboard:setCallback ( onKeyboardEvent )
+  else
+    MOAIInputMgr.device.level:setCallback(onLevelEvent)
+
+  end
+  if MOAIInputMgr.device.pointer then
+    MOAIInputMgr.device.mouseLeft:setCallback(onClick)
+  else
+    MOAIInputMgr.device.touch:setCallback(onTouch)
+  end
+
+end
+
   function onKeyboardEvent ( key, down )
     if key == 119 then key = 'up' end
     if key == 97 then key = 'left' end
@@ -15,8 +32,8 @@ function InputManager:initialize ()
     if key == 106 then key = 'a' end
     if key == 107 then key = 's' end
     if key == 108 then key = 'd' end
-    
-    if key == 32 then key = 'space' end
+    if key == 109 then key = 'm' end
+    --if key == 32 then key = 'space' end
     Game:keyPressed ( key, down )
   end
 
@@ -41,37 +58,45 @@ function InputManager:initialize ()
     end
 
   end
+  function onClick(isMouseDown)
+    local x, y = MOAIInputMgr.device.pointer:getLoc()
+    print("x: " .. x .. ", y: " .. y)
+    print(currentScene._NAME)
+    if currentScene._NAME == 'Game' then
 
+      if isMouseDown then
+        HUD:handleClickOrTouch(x,y, true)
+      else
+        HUD:handleClickOrTouch(x,y, false)
+      end
 
-  if MOAIInputMgr.device.keyboard then
-    MOAIInputMgr.device.keyboard:setCallback ( onKeyboardEvent )
-  else
-    MOAIInputMgr.device.level:setCallback(onLevelEvent)
+    elseif currentScene._NAME == 'MainMenu' then
+      if isMouseDown then
+        print 'here'
+        MainMenu:handleClickOrTouch(x,y, true)
+      else
+        print 'there'
+        MainMenu:handleClickOrTouch(x,y,false)
+      end
+    end
 
   end
-  if MOAIInputMgr.device.pointer then
-    MOAIInputMgr.device.mouseLeft:setCallback(
-      function(isMouseDown)
-        local x, y = MOAIInputMgr.device.pointer:getLoc()
-        if isMouseDown then
-          HUD:handleClickOrTouch(x,y, true)
-        else
-          HUD:handleClickOrTouch(x,y, false)
-        end
 
+  function onTouch(eventType, idx, x, y, tapCount)
+    if currentScene._NAME == 'Game' then
+
+      if isMouseDown then
+        HUD:handleClickOrTouch(x,y, true)
+      else
+        HUD:handleClickOrTouch(x,y, false)
       end
-    )
-  else
-    MOAIInputMgr.device.touch:setCallback(
-      function(eventType, idx, x, y, tapCount)
-        if eventType == MOAITouchSensor.TOUCH_DOWN then
-          HUD:handleClickOrTouch(x, y, true)
-        elseif eventType == MOAITouchSensor.TOUCH_UP then
-          HUD:handleClickOrTouch(x, y, false)
-        end
+
+    elseif currentScene._NAME == 'MainMenu' then
+      if isMouseDown then
+
+        MainMenu:handleClickOrTouch(x,y, true)
+      else
+        MainMenu:handleClickOrTouch(x,y,false)
       end
-    )
+    end
   end
-
-
-end
