@@ -27,10 +27,10 @@ end
 function SceneManager.pushScene(scene)
   if not scene.isOverlay then
     table.insert(scenes, scene)
-    scenes[#scenes]:initialize()
+--    scenes[#scenes]:initialize()
     setScene(scenes[#scenes])
   else
-    scene:initialize()
+--    scene:initialize()
     setScene(scene)
   end
 
