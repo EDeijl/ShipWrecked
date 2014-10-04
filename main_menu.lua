@@ -26,27 +26,24 @@ function MainMenu:build()
 end
 
 function MainMenu:update()
-  while(true) do
-    
-    
+  while self.playing == true do
     coroutine.yield ()    
-
   end
 end
 
 function MainMenu:initialize()
 
-
+  self.playing = true
   ResourceDefinitions:setDefinitions ( resource_definitions )
   InputManager:initialize()
   self.renderTable = {}
   self.camera = MOAICamera2D.new()
 
-  layer = MOAILayer2D.new()
-  partition = MOAIPartition.new()
-  layer:setViewport ( viewport )
-  layer:setCamera ( self.camera )
-  layer:setPartition(partition)
+  self.layer = MOAILayer2D.new()
+  self.partition = MOAIPartition.new()
+  self.layer:setViewport ( viewport )
+  self.layer:setCamera ( self.camera )
+  self.layer:setPartition(self.partition)
 
   self:initializeBackground()
   self:initializeButtons()
@@ -63,7 +60,7 @@ function MainMenu:initializeBackground()
   local prop = MOAIProp2D.new()
   prop:setDeck(deck)
   prop:setLoc(SCREEN_RESOLUTION_X / 2, SCREEN_RESOLUTION_Y/2)
-  layer:insertProp(prop)
+  self.layer:insertProp(prop)
 end
 
 function MainMenu:initializeButtons()
@@ -81,8 +78,8 @@ function MainMenu:makeButton(name, xpos, ypos, text)
   button.name = name
   button:setDeck (buttonGFX)
   button:setLoc (xpos,ypos)
-  layer:insertProp (button)
-  partition:insertProp(button)
+  self.layer:insertProp (button)
+  self.partition:insertProp(button)
 
   return button
 end
@@ -95,8 +92,8 @@ function MainMenu:makeText(size, text, rectangle)
   textBox.name = text
   textBox:setAlignment(1, 1)
   textBox:setRect(unpack(rectangle))
-  layer:insertProp(textBox)
-  partition:insertProp(textBox)
+  self.layer:insertProp(textBox)
+  self.partition:insertProp(textBox)
   return textBox
 end
 
@@ -105,7 +102,7 @@ function MainMenu:getLayers()
 end
 
 function MainMenu:handleClickOrTouch(x, y, isDown)
-  local pickedProp = partition:propForPoint(layer:wndToWorld(x,y))
+  local pickedProp = self.partition:propForPoint(self.layer:wndToWorld(x,y))
   print (pickedProp.name)
   if pickedProp then
     if pickedProp.name == 'play' then
@@ -115,5 +112,6 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
 end
 
 function MainMenu:cleanup()
+  self.playing = false
 end
 
