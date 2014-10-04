@@ -69,14 +69,14 @@ function InputManager:initialize ()
   function onTouch(eventType, idx, x, y, tapCount)
     if currentScene._NAME == 'Game' then
 
-      if isMouseDown then
+      if eventType == MOAITouchSensor.TOUCH_DOWN then
         HUD:handleClickOrTouch(x,y, true)
       else
         HUD:handleClickOrTouch(x,y, false)
       end
 
     elseif currentScene._NAME == 'MainMenu' then
-      if isMouseDown then
+      if eventType == MOAITouchSensor.TOUCH_DOWN then
 
         MainMenu:handleClickOrTouch(x,y, true)
       else
