@@ -81,8 +81,8 @@ function HUD:initializeDebugHud ()
   
 end
 function HUD:initializeControls()
-  self.leftButton = self:makeButton('left',self.xMargin + 50 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, 'left')
-  self.rightButton = self:makeButton('right',self.xMargin + 160 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, 'right')
+  self.leftButton = self:makeButton('button_right', 'left',self.xMargin + 50 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, -1, 'left')
+  self.rightButton = self:makeButton('button_right', 'right',self.xMargin + 160 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, 1, 'right')
 --  root:setLoc(self.xMargin + 55, SCREEN_RESOLUTION_Y - 20 - self.yMargin)
 
 end
@@ -185,11 +185,12 @@ function HUD:rotateHud()
 end
 
 
-function HUD:makeButton (name, xloc, yloc, text)
-  local buttonGFX =ResourceManager:get('button_right')
+function HUD:makeButton (resource, name, xloc, yloc,scale, text)
+  local buttonGFX =ResourceManager:get(resource)
   local  button = MOAIProp2D.new()
   button:setDeck (buttonGFX)
   button:setLoc (xloc,yloc)
+  button:setScl(scale*0.2, 0.2)
   button.name = name
   layer:insertProp (button)
   partition:insertProp(button)

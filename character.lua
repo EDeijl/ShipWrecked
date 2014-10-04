@@ -249,12 +249,12 @@ end
 
 function Character:run()
   local dx, dy = self.physics.body:getLinearVelocity()
---  print ("left: ")
---  print(self.move.left)
---  print("right: ")
---  print(self.move.right)
---  print("onground: ")
---  print(self.onGround)
+  print ("left: ")
+  print(self.move.left)
+  print("right: ")
+  print(self.move.right)
+  print("onground: ")
+  print(self.onGround)
   print("currentContactCount: " .. self.currentContactCount)
   if self.onGround then
     if self.move.right and not self.move.left then
@@ -437,7 +437,7 @@ function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
     Character:damage()
   end
 
-if Character.currentContactCount == 0 then
+if Character.currentContactCount == -1 then
   Character.onGround = false
 else
   Character.onGround = true

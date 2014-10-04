@@ -8,22 +8,6 @@ module ( "InputManager", package.seeall )
 function InputManager:initialize ()
 
 
-
-  
-  if MOAIInputMgr.device.keyboard then
-    MOAIInputMgr.device.keyboard:setCallback ( onKeyboardEvent )
-  else
-    MOAIInputMgr.device.level:setCallback(onLevelEvent)
-
-  end
-  if MOAIInputMgr.device.pointer then
-    MOAIInputMgr.device.mouseLeft:setCallback(onClick)
-  else
-    MOAIInputMgr.device.touch:setCallback(onTouch)
-  end
-
-end
-
   function onKeyboardEvent ( key, down )
     if key == 119 then key = 'up' end
     if key == 97 then key = 'left' end
@@ -100,3 +84,18 @@ end
       end
     end
   end
+
+  if MOAIInputMgr.device.keyboard then
+    MOAIInputMgr.device.keyboard:setCallback ( onKeyboardEvent )
+  else
+    MOAIInputMgr.device.level:setCallback(onLevelEvent)
+
+  end
+  if MOAIInputMgr.device.pointer then
+    MOAIInputMgr.device.mouseLeft:setCallback(onClick)
+  else
+    MOAIInputMgr.device.touch:setCallback(onTouch)
+  end
+
+end
+
