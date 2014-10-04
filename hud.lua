@@ -180,7 +180,7 @@ end
 
 
 function HUD:makeButton (name, xloc, yloc, text)
-  local buttonGFX =ResourceManager:get('button_normal_center')
+  local buttonGFX =ResourceManager:get('button_right')
   local  button = MOAIProp2D.new()
   button:setDeck (buttonGFX)
   button:setLoc (xloc,yloc)
