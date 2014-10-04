@@ -8,29 +8,11 @@ module ( "Game", package.seeall )
 
 
 
-
 -- We'll define our resources here
 -- Look at chapter 6 if you have
 -- any doubt on these definitions.
 local resource_definitions = {
 
-  background = {
-    type = RESOURCE_TYPE_IMAGE, 
-    fileName = 'background/background_parallax.png', 
-    width = 797, height = 197,
-  },
-
-  farAway = {
-    type = RESOURCE_TYPE_IMAGE, 
-    fileName = 'background/far_away_parallax.png', 
-    width = 625, height = 205,
-  },
-
-  main = {
-    type = RESOURCE_TYPE_IMAGE, 
-    fileName = 'background/main_parallax.png', 
-    width = 975, height = 171,
-  },
 
   character = {
     type = RESOURCE_TYPE_TILED_IMAGE,
@@ -46,12 +28,11 @@ local resource_definitions = {
     fontSize = 26,
     dpi = 160
   },
-  button_normal_center = {
+  button_right = {
     type = RESOURCE_TYPE_IMAGE,
-    fileName = 'gui/button_normal_center.png',
-    width = 100, height = 40
+    fileName = 'gui/button_right.png',
+    width = 512, height = 512
   },
-
   collectibles = 
   {
     type = RESOURCE_TYPE_TILED_IMAGE,
@@ -71,7 +52,6 @@ local resource_definitions = {
 -- speed when the camera
 -- moves.
 local background_objects ={}
-
 
 local scene_objects = {}
 
@@ -325,6 +305,7 @@ end
   function Game:cleanup()
     PhysicsManager.world:stop()
   end
+
 
 ------------------------------------------------
 -- sleepCoroutine  ( time )

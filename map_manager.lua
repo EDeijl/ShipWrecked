@@ -17,6 +17,7 @@ function MapManager:setup()
   self.width = self.map.width* self.map.tilewidth
   self.height = self.map.height * self.map.tileheight
   self.tileDeck:setSize(self.map.tilesets[1].imagewidth / self.map.tilewidth, self.map.tilesets[1].imageheight / self.map.tileheight)
+  self.tileDeck:setRect(-0.5, 0.5, 0.5, -0.5)
   for key, mapLayer in pairs(self.map.layers) do
     if mapLayer.type == "tilelayer" then
       self:addGrid(mapLayer)
