@@ -11,13 +11,11 @@ RESOURCE_TYPE_IMAGE = 0
 RESOURCE_TYPE_TILED_IMAGE = 1
 RESOURCE_TYPE_FONT = 2
 RESOURCE_TYPE_SOUND = 3
-
+local gameOver = false
 -- level files
 level_files = {
   level1 = 'assets/maps/demo_level.lua'
 }
-
-
 
 -- Open main screen
 MOAISim.openWindow ( "Shipwrecked in spesh", SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
@@ -36,15 +34,22 @@ require 'main_menu'
 currentScene = MainMenu:build()
 SceneManager.pushScene(currentScene)
 
+
 function mainLoop ()
-  SceneManager.update()
+  while not gameOver do
+    SceneManager.update()
+    coroutine.yield()
+  end
 end
+
+
+function switchScene(level)
+  SceneManager.popScene(currentScene)
+  currentScene = Game:build(level)
+  SceneManager.pushScene(currentScene)
+end
+
+
 
 gameThread = MOAICoroutine.new ()
 gameThread:run ( mainLoop )
-
-function switchScene(level)
-    SceneManager.popScene(currentScene)
-    currentScene = Game:build(level)
-    SceneManager.pushScene(currentScene)
-end
