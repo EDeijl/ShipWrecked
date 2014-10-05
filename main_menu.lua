@@ -106,7 +106,7 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
   print (pickedProp.name)
   if pickedProp then
     if pickedProp.name == 'play' then
-      switchScene(level_files.level1)
+      switchScene(GAME_LEVEL, level_files.level1)
     end
   end
 end

@@ -11,6 +11,10 @@ RESOURCE_TYPE_IMAGE = 0
 RESOURCE_TYPE_TILED_IMAGE = 1
 RESOURCE_TYPE_FONT = 2
 RESOURCE_TYPE_SOUND = 3
+
+MAIN_MENU = 0
+MENU_LEVEL = 1
+GAME_LEVEL = 2
 local gameOver = false
 -- level files
 level_files = {
@@ -43,9 +47,24 @@ function mainLoop ()
 end
 
 
-function switchScene(level)
+
+-------------------------------------
+-- switchScene(sceneType, sceneData)
+-- sceneType can have values MAIN_MENU, MENU_LEVEL, GAME_LEVEL
+-- sceneData can hold a level file, or specific menu
+------------------------------------
+
+
+function switchScene(sceneType, sceneData)
   SceneManager.popScene(currentScene)
-  currentScene = Game:build(level)
+
+  if sceneType == MAIN_MENU then
+    currentScene = MainMenu:build()
+  elseif sceneType == MENU_LEVEL then
+    --- other menu thingies
+  elseif sceneType == GAME_LEVEL then
+    currentScene = Game:build(sceneData)
+  end
   SceneManager.pushScene(currentScene)
 end
 
