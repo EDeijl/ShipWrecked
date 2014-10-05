@@ -234,7 +234,7 @@ function Character:initializePhysics ()
   self.physics.body:setAwake(true)
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
-  self.physics.fixture = self.physics.body:addRect( -30, -64, 30, 64  )
+  self.physics.fixture = self.physics.body:addRect( -30, -32, 30, 64  )
   self.physics.fixture.name = "player"
   --Create a foot fixture
   --Used to check if the player is on the ground
@@ -380,7 +380,7 @@ function Character:damage()
     lives = lives - 1
     Character:startDamageTimer()
   end
-  if self.lives == 0 then
+  if lives == 0 then
     Character:die()
     end
 end
@@ -405,6 +405,7 @@ end
 
 function Character:die()
   print("player died")
+  switchScene(MAIN_MENU)
 end
 
 
