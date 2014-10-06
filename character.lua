@@ -27,8 +27,14 @@ local character_object = {
       frameCount = 8,
       time = 0.05,
       mode = MOAITimer.NORMAL
-    }
-
+    },
+    
+    hover = {
+      startFrame = 200,
+      frameCount = 1,
+      time = 0.1,
+      mode = MOAITimer.LOOP
+      }
   }
 }
  local lives = 3
@@ -102,6 +108,7 @@ function Character:initialize ( layer, position )
   self:initializePhysics ()
   Game:updateHud(lives)
   self.movingdirection = 1
+  self.isIdle = true
 end
 
 ------------------------------------------------
@@ -260,15 +267,19 @@ function Character:run()
   print("currentContactCount: " .. self.currentContactCount)
   if self.onGround then
     if self.move.right and not self.move.left then
+     
       self:startAnimation('run')
       dx = 200
+      self.movingdirection = 1
     elseif self.move.left and not self.move.right then
       self:startAnimation('run')
       dx = -200
+      self.movingdirection = -1
     else 
-      print "in run function if on ground"
+      --print "in run function if on ground"
       self:startAnimation('idle')
       dx = 0
+      
     end
 --  else
 --    if self.move.right and not self.move.left and dx <= 0 then
@@ -293,11 +304,11 @@ function Character:run()
 
 
   elseif direction == "left" then
-    self.physics.body:setLinearVelocity(0, dx)
+    self.physics.body:setLinearVelocity(dy, dx)
 
 
   elseif direction == "right" then
-    self.physics.body:setLinearVelocity(0, -dx)
+    self.physics.body:setLinearVelocity(dy, -dx)
 
 else
   print "in run if not on ground"
@@ -308,13 +319,11 @@ end
 
 function Character:moveLeft ( keyDown)
   self.move.left = keyDown
-  self.movingdirection = -1
   self:run()
 end
 
 function Character:moveRight ( keyDown)
   self.move.right = keyDown
-  self.movingdirection = 1
   self:run()
 end
 
@@ -356,22 +365,21 @@ function Character:changeGrav ( key, keyDown )
   if key == 'a' then 
     PhysicsManager:changeGravity("left")     
     self.physics.body:setTransform (x, y, 90 )
-    --self:startAnimation ( 'idle' )
   elseif key == 'w' then
     PhysicsManager:changeGravity("up")   
     self.physics.body:setTransform (x, y, 180 )
-    --self:startAnimation ( 'idle' )
   elseif key == 'd' then
     PhysicsManager:changeGravity("right")  
     self.physics.body:setTransform (x, y, 270 )
-    --self:startAnimation ( 'idle' )
   elseif key == 's' then
     PhysicsManager:changeGravity("down")
     self.physics.body:setTransform (x, y, 0 )
-    --self:startAnimation ( 'idle' )
+    
   end
   self.prop:setScl(self.movingdirection,-1)
-
+  if self.onGround == false then
+    self:startAnimation ( 'hover' )
+  end
 end
 
 --function Character:shoot()

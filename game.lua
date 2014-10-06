@@ -37,7 +37,7 @@ local resource_definitions = {
   {
     type = RESOURCE_TYPE_TILED_IMAGE,
     fileName = 'collectibles/colsheet.png',
-    tileMapSize = {4, 4},
+    tileMapSize = {24, 3},
     width = 32, height = 32,
   },
   col1_active = {
