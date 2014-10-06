@@ -4,7 +4,7 @@ local resource_definitions = {
   background = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/menu_background.png',
-    width = SCREEN_RESOLUTION_X, height = SCREEN_RESOLUTION_Y
+    width = WORLD_RESOLUTION_X, height = WORLD_RESOLUTION_Y
   },
   button_background = {
     type = RESOURCE_TYPE_IMAGE,
@@ -59,16 +59,18 @@ function MainMenu:initializeBackground()
   local deck = ResourceManager:get('background')
   local prop = MOAIProp2D.new()
   prop:setDeck(deck)
-  prop:setLoc(SCREEN_RESOLUTION_X / 2, SCREEN_RESOLUTION_Y/2)
+  print("resolution: " .. WORLD_RESOLUTION_X .. " ," .. WORLD_RESOLUTION_Y)
+  prop:setLoc(WORLD_RESOLUTION_X / 2, WORLD_RESOLUTION_Y/2)
+  print("background: " .. prop:getLoc())
   self.layer:insertProp(prop)
 end
 
 function MainMenu:initializeButtons()
   self.font = MOAIFont.new ()
   self.font = ResourceManager:get ( "font" )
-  button = self:makeButton('play', SCREEN_RESOLUTION_X/2, SCREEN_RESOLUTION_Y/2, 'play')
-  textBox = self:makeText(40, 'play', {SCREEN_RESOLUTION_X/2 - resource_definitions.button_background.width/2, SCREEN_RESOLUTION_Y/2 - resource_definitions.button_background.height/2, SCREEN_RESOLUTION_X/2 + resource_definitions.button_background.width/2, SCREEN_RESOLUTION_Y/2 + resource_definitions.button_background.height/2})
-
+  button = self:makeButton('play', WORLD_RESOLUTION_X/2, WORLD_RESOLUTION_Y/2, 'play')
+  textBox = self:makeText(40, 'play', {WORLD_RESOLUTION_X/2 - resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 - resource_definitions.button_background.height/2, WORLD_RESOLUTION_X/2 + resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 + resource_definitions.button_background.height/2})
+  print("button: " .. button:getLoc())
 end
 
 
