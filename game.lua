@@ -31,7 +31,7 @@ local resource_definitions = {
   button_right = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/button_right.png',
-    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
+    width = CONTROL_WORLD_SCALE * SCREEN_RESOLUTION_X, height = CONTROL_WORLD_SCALE * SCREEN_RESOLUTION_X
   },
   collectibles = 
   {
