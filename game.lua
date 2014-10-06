@@ -161,12 +161,13 @@ function Game:initialize ()
   -- it on the main layer.
   local position = scene_objects["startGame"].position
   local x, y = unpack(position)
+    self.hud = HUD:initialize()
   Character:initialize ( self.layers.main, position )
   self.camera:setLoc((x-WORLD_RESOLUTION_X/2),(y-WORLD_RESOLUTION_Y/2))
   print (self.camera:getLoc())
   print (self.camera:getWorldLoc())
   -- Initialize the HUD
-  self.hud = HUD:initialize()
+
   SceneManager.pushScene(hud)
   -- Initialize Audio
   --  AudioManager:initialize ()
@@ -337,6 +338,13 @@ end
 
 function Game:cleanup()
   PhysicsManager.world:stop()
+end
+
+function Game:updateHud(lives)
+  self.hud:setLives(lives)
+end
+function Game:updateCollectibleHud(collectible)
+  self.hud:setCollected(collectible)
 end
 
 
