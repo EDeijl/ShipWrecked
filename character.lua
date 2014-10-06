@@ -1,7 +1,7 @@
 module ( "Character", package.seeall )
 
 require "physics_manager"
-require "bullet"
+require "hud"
 -- This will define all the initialization
 -- parameters for the character, including its
 -- position and animations.
@@ -100,7 +100,7 @@ function Character:initialize ( layer, position )
 
   -- Initialize physics
   self:initializePhysics ()
-
+  Game:updateHud(lives)
   self.movingdirection = 1
 end
 
@@ -383,6 +383,7 @@ function Character:damage()
   if timer == 0 then
     print "life - 1"
     lives = lives - 1
+    Game:updateHud(lives)
     Character:startDamageTimer()
   end
   if lives == 0 then
@@ -419,6 +420,11 @@ function onCollide (  phase, fixtureA, fixtureB, arbiter )
     Character:damage()
   end
 
+end
+
+function Character:getLives()
+  print("lives: " .. lives)
+  return lives
 end
 
 

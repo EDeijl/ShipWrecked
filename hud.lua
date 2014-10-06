@@ -90,7 +90,12 @@ function HUD:initializeControls()
   self.col1 = self:makeInterfaceElement('col1_nonactive', 'col1', SCREEN_RESOLUTION_X - self.xMargin , 20 + self.yMargin, 1)
   self.col2 = self:makeInterfaceElement('col2_nonactive', 'col2', SCREEN_RESOLUTION_X - self.xMargin - 100, 20 + self.yMargin, 1)
   self.col3 = self:makeInterfaceElement('col3_nonactive', 'col3', SCREEN_RESOLUTION_X - self.xMargin - 200, 20 + self.yMargin, 1)
-
+  layer:insertProp(self.col1)
+  partition:insertProp(self.col1)  
+  layer:insertProp(self.col2)
+  partition:insertProp(self.col2)  
+  layer:insertProp(self.col3)
+  partition:insertProp(self.col3)
   self.life1 = self:makeInterfaceElement('life', 'life1', self.xMargin, 20+self.yMargin, 1)
   self.life2 = self:makeInterfaceElement('life', 'life2', self.xMargin + 100, 20+self.yMargin, 1)
   self.life3 = self:makeInterfaceElement('life', 'life3', self.xMargin + 200, 20+self.yMargin, 1)
@@ -165,9 +170,33 @@ function HUD:update ()
     math.floor ( x ) .. " , " .. 
     math.floor ( y ) .. " )" )
   self:rotateHud()
+end
 
+function HUD:setCollected(collectible)
+  if collectible.name == 'collectible_1' then
+    self.col1:setDeck(ResourceManager:get('col1_active'))
+  elseif collectible.name == 'collectible_2' then
+    self.col2:setDeck(ResourceManager:get('col2_active'))
+  elseif collectible.name == 'collectible_3' then
+    self.col3:setDeck(ResourceManager:get('col3_active'))
+  end
+end
+
+function HUD:setLives(lives)
+  lifePropList = { self.life1, self.life2, self.life3}
+  for k, v in pairs(lifePropList) do
+    print("k: " .. k)
+    layer:removeProp(v)
+  end
+
+  for i = 1, lives do
+    local key = 'life' .. i
+    print ("key: "..key)
+    layer:insertProp(lifePropList[i])
+  end
 
 end
+
 
 function HUD:rotateHud()
   if PhysicsManager:getGravityDirection() == "down" then
@@ -180,7 +209,7 @@ function HUD:rotateHud()
     self.col1:setLoc(SCREEN_RESOLUTION_X - self.xMargin , self.yMargin + 20)
     self.col2:setLoc(SCREEN_RESOLUTION_X - self.xMargin -100 , self.yMargin + 20)
     self.col3:setLoc(SCREEN_RESOLUTION_X - self.xMargin -200 , self.yMargin + 20)
-    
+
     self.col1:setRot(0)
     self.col2:setRot(0)
     self.col3:setRot(0)
@@ -193,8 +222,8 @@ function HUD:rotateHud()
     self.life2:setRot(180)
     self.life3:setRot(180)
 
-elseif PhysicsManager:getGravityDirection() == "left" then
-  
+  elseif PhysicsManager:getGravityDirection() == "left" then
+
     self.leftButton:setLoc( 20 + self.yMargin, self.xMargin + 50)
     self.leftButton:setRot(90)
     self.rightButton:setLoc( 20 + self.yMargin, 155 + self.xMargin)
@@ -225,7 +254,7 @@ elseif PhysicsManager:getGravityDirection() == "left" then
     self.col1:setLoc(20+self.yMargin, self.xMargin)
     self.col2:setLoc(20+self.yMargin, self.xMargin +100)
     self.col3:setLoc(20+self.yMargin, self.xMargin +200)
-    
+
     self.col1:setRot(270)
     self.col2:setRot(270)
     self.col3:setRot(270)
@@ -238,30 +267,31 @@ elseif PhysicsManager:getGravityDirection() == "left" then
     self.life2:setRot(90)
     self.life3:setRot(90)
 
-elseif PhysicsManager:getGravityDirection() == "up" then
-  
+  elseif PhysicsManager:getGravityDirection() == "up" then
+
     self.leftButton:setLoc(SCREEN_RESOLUTION_X - 50 - self.xMargin, self.yMargin + 20)
     self.leftButton:setRot(180)
     self.rightButton:setLoc(SCREEN_RESOLUTION_X - 155 - self.xMargin, self.yMargin + 20)
     self.rightButton:setRot(180)
-    
+
     self.col1:setLoc(self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin -20)
     self.col2:setLoc(self.xMargin +100, SCREEN_RESOLUTION_Y - self.yMargin -20)
     self.col3:setLoc(self.xMargin+200, SCREEN_RESOLUTION_Y - self.yMargin -20)
-    
+
     self.col1:setRot(180)
     self.col2:setRot(180)
     self.col3:setRot(180)
-    
+
     self.life1:setLoc(SCREEN_RESOLUTION_X - self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin -20)
     self.life2:setLoc(SCREEN_RESOLUTION_X - self.xMargin -100, SCREEN_RESOLUTION_Y - self.yMargin -20)
     self.life3:setLoc(SCREEN_RESOLUTION_X - self.xMargin -200, SCREEN_RESOLUTION_Y - self.yMargin -20)
-    
+
     self.life1:setRot(0)
     self.life2:setRot(0)
     self.life3:setRot(0)
   end
 end
+
 
 function HUD:makeInterfaceElement(resource, name, xloc, yloc, scale)
   local elementGFX = ResourceManager:get(resource)
@@ -270,8 +300,7 @@ function HUD:makeInterfaceElement(resource, name, xloc, yloc, scale)
   elementProp:setLoc(xloc, yloc)
   elementProp.name = name
   elementProp:setScl(scale*0.2, 0.2)
-  layer:insertProp(elementProp)
-  partition:insertProp(elementProp)
+
   return elementProp
 end
 

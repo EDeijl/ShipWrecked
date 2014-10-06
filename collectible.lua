@@ -129,4 +129,5 @@ function Collectible:collect()
   --print (self.name.." collected")
   self.physics.body:destroy()
   self.layer:removeProp(self.prop)
+  Game:updateCollectibleHud(self)
 end
