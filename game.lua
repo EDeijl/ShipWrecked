@@ -39,8 +39,41 @@ local resource_definitions = {
     fileName = 'collectibles/colsheet.png',
     tileMapSize = {4, 4},
     width = 32, height = 32,
+  },
+  col1_active = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col1_active.png',
+    width = 512, height = 512
+  },
+  col1_nonactive = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col1_nonactive.png',
+    width = 512, height = 512
+    },col2_active = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col2_active.png',
+    width = 512, height = 512
+  },
+  col2_nonactive = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col2_nonactive.png',
+    width = 512, height = 512
+  },
+  col3_active = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col3_active.png',
+    width = 512, height = 512
+  },
+  col3_nonactive = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col3_nonactive.png',
+    width = 512, height = 512
+  },
+  life = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/life.png',
+    width = 512, height = 512
   }
-
 }
 
 -- define some properties for
@@ -288,23 +321,23 @@ end
 
 
 
-  function Game:restart()
-    self:start()
-  end
+function Game:restart()
+  self:start()
+end
 
 
-  function Game:endGame()
-    HUD:showEndScreen()
-  end
+function Game:endGame()
+  HUD:showEndScreen()
+end
 
 
-  function Game:getLayers()
-    return self.renderTable
-  end
+function Game:getLayers()
+  return self.renderTable
+end
 
-  function Game:cleanup()
-    PhysicsManager.world:stop()
-  end
+function Game:cleanup()
+  PhysicsManager.world:stop()
+end
 
 
 ------------------------------------------------
@@ -312,9 +345,9 @@ end
 -- helper method to freeze the thread for 
 -- 'time' seconds.
 ------------------------------------------------
-  function sleepCoroutine ( time )
-    local timer = MOAITimer.new ()
-    timer:setSpan ( time )
-    timer:start ()
-    MOAICoroutine.blockOnAction ( timer )
-  end
+function sleepCoroutine ( time )
+  local timer = MOAITimer.new ()
+  timer:setSpan ( time )
+  timer:start ()
+  MOAICoroutine.blockOnAction ( timer )
+end

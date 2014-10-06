@@ -77,13 +77,23 @@ function HUD:initializeDebugHud ()
   self.positionIndicator = self:newDebugTextBox ( 30, {10, 50, 200, 100} )
 
   self.timerIndictator = self:newDebugTextBox ( 30, {10, 90, 300, 150 } )
-  
-  
+
+
 end
 function HUD:initializeControls()
+
+  -- make clickable buttons
   self.leftButton = self:makeButton('button_right', 'left',self.xMargin + 50 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, -1, 'left')
   self.rightButton = self:makeButton('button_right', 'right',self.xMargin + 160 , SCREEN_RESOLUTION_Y - 20 - self.yMargin, 1, 'right')
---  root:setLoc(self.xMargin + 55, SCREEN_RESOLUTION_Y - 20 - self.yMargin)
+
+  -- build other non clickable interface elements
+  self.col1 = self:makeInterfaceElement('col1_nonactive', 'col1', SCREEN_RESOLUTION_X - self.xMargin , 20 + self.yMargin, 1)
+  self.col2 = self:makeInterfaceElement('col2_nonactive', 'col2', SCREEN_RESOLUTION_X - self.xMargin - 100, 20 + self.yMargin, 1)
+  self.col3 = self:makeInterfaceElement('col3_nonactive', 'col3', SCREEN_RESOLUTION_X - self.xMargin - 200, 20 + self.yMargin, 1)
+
+  self.life1 = self:makeInterfaceElement('life', 'life1', self.xMargin, 20+self.yMargin, 1)
+  self.life2 = self:makeInterfaceElement('life', 'life2', self.xMargin + 100, 20+self.yMargin, 1)
+  self.life3 = self:makeInterfaceElement('life', 'life3', self.xMargin + 200, 20+self.yMargin, 1)
 
 end
 
@@ -156,32 +166,113 @@ function HUD:update ()
     math.floor ( y ) .. " )" )
   self:rotateHud()
 
-  
+
 end
 
 function HUD:rotateHud()
   if PhysicsManager:getGravityDirection() == "down" then
+
     self.leftButton:setLoc( 50  + self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin - 20)
     self.leftButton:setRot(0)
     self.rightButton:setLoc( 155  + self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin - 20)
     self.rightButton:setRot(0)
-  elseif PhysicsManager:getGravityDirection() == "left" then
+
+    self.col1:setLoc(SCREEN_RESOLUTION_X - self.xMargin , self.yMargin + 20)
+    self.col2:setLoc(SCREEN_RESOLUTION_X - self.xMargin -100 , self.yMargin + 20)
+    self.col3:setLoc(SCREEN_RESOLUTION_X - self.xMargin -200 , self.yMargin + 20)
+    
+    self.col1:setRot(0)
+    self.col2:setRot(0)
+    self.col3:setRot(0)
+
+    self.life1:setLoc(self.xMargin, self.yMargin +20)
+    self.life2:setLoc(self.xMargin +100, self.yMargin +20)
+    self.life3:setLoc(self.xMargin + 200, self.yMargin +20)
+
+    self.life1:setRot(180)
+    self.life2:setRot(180)
+    self.life3:setRot(180)
+
+elseif PhysicsManager:getGravityDirection() == "left" then
+  
     self.leftButton:setLoc( 20 + self.yMargin, self.xMargin + 50)
     self.leftButton:setRot(90)
     self.rightButton:setLoc( 20 + self.yMargin, 155 + self.xMargin)
     self.rightButton:setRot(90)
 
+    self.col1:setLoc(SCREEN_RESOLUTION_X - self.yMargin -20, SCREEN_RESOLUTION_Y - self.xMargin)
+    self.col2:setLoc(SCREEN_RESOLUTION_X - self.yMargin -20, SCREEN_RESOLUTION_Y - self.xMargin- 100)
+    self.col3:setLoc(SCREEN_RESOLUTION_X - self.yMargin -20, SCREEN_RESOLUTION_Y - self.xMargin- 200)
+    self.col1:setRot(90)
+    self.col2:setRot(90)
+    self.col3:setRot(90)
+
+    self.life1:setLoc(SCREEN_RESOLUTION_X - self.yMargin - 20, self.xMargin)
+    self.life2:setLoc(SCREEN_RESOLUTION_X - self.yMargin - 20,  self.xMargin + 100)
+    self.life3:setLoc(SCREEN_RESOLUTION_X - self.yMargin - 20,  self.xMargin + 200)
+
+    self.life1:setRot(270)
+    self.life2:setRot(270)
+    self.life3:setRot(270)
+
   elseif PhysicsManager:getGravityDirection() == "right" then
+
     self.leftButton:setLoc(SCREEN_RESOLUTION_X - 20 - self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 50)
     self.leftButton:setRot(270)
     self.rightButton:setLoc(SCREEN_RESOLUTION_X - 20 - self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 155)
     self.rightButton:setRot(270)
-  elseif PhysicsManager:getGravityDirection() == "up" then
+
+    self.col1:setLoc(20+self.yMargin, self.xMargin)
+    self.col2:setLoc(20+self.yMargin, self.xMargin +100)
+    self.col3:setLoc(20+self.yMargin, self.xMargin +200)
+    
+    self.col1:setRot(270)
+    self.col2:setRot(270)
+    self.col3:setRot(270)
+
+    self.life1:setLoc(self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin)
+    self.life2:setLoc(self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 100)
+    self.life3:setLoc(self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 200)
+
+    self.life1:setRot(90)
+    self.life2:setRot(90)
+    self.life3:setRot(90)
+
+elseif PhysicsManager:getGravityDirection() == "up" then
+  
     self.leftButton:setLoc(SCREEN_RESOLUTION_X - 50 - self.xMargin, self.yMargin + 20)
     self.leftButton:setRot(180)
     self.rightButton:setLoc(SCREEN_RESOLUTION_X - 155 - self.xMargin, self.yMargin + 20)
     self.rightButton:setRot(180)
+    
+    self.col1:setLoc(self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin -20)
+    self.col2:setLoc(self.xMargin +100, SCREEN_RESOLUTION_Y - self.yMargin -20)
+    self.col3:setLoc(self.xMargin+200, SCREEN_RESOLUTION_Y - self.yMargin -20)
+    
+    self.col1:setRot(180)
+    self.col2:setRot(180)
+    self.col3:setRot(180)
+    
+    self.life1:setLoc(SCREEN_RESOLUTION_X - self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin -20)
+    self.life2:setLoc(SCREEN_RESOLUTION_X - self.xMargin -100, SCREEN_RESOLUTION_Y - self.yMargin -20)
+    self.life3:setLoc(SCREEN_RESOLUTION_X - self.xMargin -200, SCREEN_RESOLUTION_Y - self.yMargin -20)
+    
+    self.life1:setRot(0)
+    self.life2:setRot(0)
+    self.life3:setRot(0)
   end
+end
+
+function HUD:makeInterfaceElement(resource, name, xloc, yloc, scale)
+  local elementGFX = ResourceManager:get(resource)
+  local elementProp = MOAIProp2D.new()
+  elementProp:setDeck(elementGFX)
+  elementProp:setLoc(xloc, yloc)
+  elementProp.name = name
+  elementProp:setScl(scale*0.2, 0.2)
+  layer:insertProp(elementProp)
+  partition:insertProp(elementProp)
+  return elementProp
 end
 
 
