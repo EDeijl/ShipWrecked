@@ -174,9 +174,9 @@ end
 
 function HUD:setCollected(collectible)
   if collectible.name == 'collectible_1' then
-    self.col1:setDeck(ResourceManager:get('col1_active'))
-  elseif collectible.name == 'collectible_2' then
     self.col2:setDeck(ResourceManager:get('col2_active'))
+  elseif collectible.name == 'collectible_2' then
+    self.col1:setDeck(ResourceManager:get('col1_active'))
   elseif collectible.name == 'collectible_3' then
     self.col3:setDeck(ResourceManager:get('col3_active'))
   end

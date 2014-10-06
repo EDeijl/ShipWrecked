@@ -28,17 +28,17 @@ local character_object = {
       time = 0.05,
       mode = MOAITimer.NORMAL
     },
-    
+
     hover = {
       startFrame = 200,
       frameCount = 1,
       time = 0.1,
       mode = MOAITimer.LOOP
-      }
+    }
   }
 }
- local lives = 3
- local timer = 0
+local lives = 3
+local timer = 0
 ------------------------------------------------
 -- initialize ( MOAILayer2D: layer )
 -- sets everything up in order to use the 
@@ -47,7 +47,7 @@ local character_object = {
 -- on that layer
 ------------------------------------------------
 function Character:initialize ( layer, position )
- 
+
   -- We load the character resource
   character_object.position = position
   self.deck = ResourceManager:get ( 'character' )
@@ -70,7 +70,7 @@ function Character:initialize ( layer, position )
   }
   self.onGround = false
   self.platform = nil
-  
+
   --Fix the problem with wanting to touch the first object twice
   self.currentContactCount = 0
   -- We create a remapper to use
@@ -258,61 +258,70 @@ end
 
 function Character:run()
   local dx, dy = self.physics.body:getLinearVelocity()
-  print ("left: ")
-  print(self.move.left)
-  print("right: ")
-  print(self.move.right)
-  print("onground: ")
-  print(self.onGround)
+--  print ("left: ")
+--  print(self.move.left)
+--  print("right: ")
+--  print(self.move.right)
+--  print("onground: ")
+--  print(self.onGround)
   print("currentContactCount: " .. self.currentContactCount)
+  local direction = PhysicsManager:getGravityDirection()
   if self.onGround then
     if self.move.right and not self.move.left then
-     
+
       self:startAnimation('run')
-      dx = 200
+      if direction == 'up' or direction == 'down' then
+        dx = 200
+      else
+        dy = 200
+      end
       self.movingdirection = 1
     elseif self.move.left and not self.move.right then
       self:startAnimation('run')
-      dx = -200
+      if direction == 'up' or direction == 'down' then
+        dx = -200
+      else
+        dy = -200
+      end
       self.movingdirection = -1
     else 
       --print "in run function if on ground"
       self:startAnimation('idle')
-      dx = 0
-      
+      if direction == 'up' or direction == 'down' then
+        dx = 0
+      else
+        dy = 0
+      end
+
     end
---  else
---    if self.move.right and not self.move.left and dx <= 0 then
---      dx = 100
---    elseif self.move.left and not self.move.right and dx >= 0 then
---      dx = -100
---    end
+  else
+    self:startAnimation('hover')
   end
+
+
   if self.platform then
     dx = dx + self.platform:getLinearVelocity()
   end
+  if self.onGround then
+    print ("dx: " ..dx)
+    print ("dy: " ..dy)
+    self.prop:setScl(self.movingdirection, -1)
+    if direction == "down" then
+      self.physics.body:setLinearVelocity(dx, dy)
 
-  local direction = PhysicsManager:getGravityDirection()
-  self.prop:setScl(self.movingdirection, -1)
-  if direction == "down" then
-    self.physics.body:setLinearVelocity(dx, dy)
+    elseif direction == "up" then
+      self.physics.body:setLinearVelocity(-dx, dy)
 
+    elseif direction == "left" then
+      self.physics.body:setLinearVelocity(dx, dy)
 
+    elseif direction == "right" then
+      self.physics.body:setLinearVelocity(dx, -dy)
 
-  elseif direction == "up" then
-    self.physics.body:setLinearVelocity(-dx, dy)
-
-
-  elseif direction == "left" then
-    self.physics.body:setLinearVelocity(dy, dx)
-
-
-  elseif direction == "right" then
-    self.physics.body:setLinearVelocity(dy, -dx)
-
-else
-  print "in run if not on ground"
-    self:startAnimation('idle')
+    else
+      print "in run if not on ground"
+      self:startAnimation('idle')
+    end
   end
 end
 
@@ -341,17 +350,18 @@ function Character:jump ( keyDown )
   if keyDown and self.onGround then
     local direction = PhysicsManager:getGravityDirection()
     print("direction: " .. direction)
+    local x,y = self.physics.body:getLinearVelocity()
     if direction == "down" then 
-      self.physics.body:setLinearVelocity(self.physics.body:getLinearVelocity(), 0)
+      self.physics.body:setLinearVelocity(x, 0)
       self.physics.body:applyLinearImpulse(0,-jumpforce)
     elseif direction == "up" then
-      self.physics.body:setLinearVelocity(self.physics.body:getLinearVelocity(), 0)
+      self.physics.body:setLinearVelocity(x, 0)
       self.physics.body:applyLinearImpulse(0, jumpforce)
     elseif direction == "left" then
-      self.physics.body:setLinearVelocity(0, self.physics.body:getLinearVelocity())
+      self.physics.body:setLinearVelocity(0, y)
       self.physics.body:applyLinearImpulse(jumpforce,0)
     elseif direction == "right" then
-      self.physics.body:setLinearVelocity(0, self.physics.body:getLinearVelocity())
+      self.physics.body:setLinearVelocity(0, y)
       self.physics.body:applyLinearImpulse(-jumpforce,0)
     end
     self:startAnimation ( 'jump' )
@@ -374,7 +384,7 @@ function Character:changeGrav ( key, keyDown )
   elseif key == 's' then
     PhysicsManager:changeGravity("down")
     self.physics.body:setTransform (x, y, 0 )
-    
+
   end
   self.prop:setScl(self.movingdirection,-1)
   if self.onGround == false then
@@ -396,7 +406,7 @@ function Character:damage()
   end
   if lives == 0 then
     Character:die()
-    end
+  end
 end
 
 function Character:startDamageTimer()
@@ -457,11 +467,11 @@ function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
     Character:damage()
   end
 
-if Character.currentContactCount == 0 then
-  Character.onGround = false
-else
-  Character.onGround = true
-  Character:run()
-end
+  if Character.currentContactCount == 0 then
+    Character.onGround = false
+  else
+    Character.onGround = true
+    Character:run()
+  end
 
 end

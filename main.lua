@@ -50,7 +50,7 @@ end
 
 -------------------------------------
 -- switchScene(sceneType, sceneData)
--- sceneType can have values MAIN_MENU, MENU_LEVEL, GAME_LEVEL5
+-- sceneType can have values MAIN_MENU, MENU_LEVEL, GAME_LEVEL
 -- sceneData can hold a level file, or specific menu
 ------------------------------------
 
