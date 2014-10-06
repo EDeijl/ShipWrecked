@@ -22,21 +22,16 @@ function InputManager:initialize ()
   end
 
   function onLevelEvent(x,y,z)
-    print ("Motion: x=".. x .. ", y=".. y .. ", z=".. z)
     if round(x) == 0 and round(y) == 1 then
-      print "right"
       Game:keyPressed('d', true)
       Game:keyPressed('d', false)
     elseif round(x) == 1 and round(y) == 0 then
-      print "down"
       Game:keyPressed('s', true) 
       Game:keyPressed('s', false) 
     elseif round(x) == -1 and round(y) == 0 then
-      print "up"
       Game:keyPressed('w', true)
       Game:keyPressed('w', false)
     elseif round(x) == 0 and round(y) == -1 then
-      print "left"
       Game:keyPressed('a', true)
       Game:keyPressed('a', false)
     end
@@ -44,8 +39,6 @@ function InputManager:initialize ()
   end
   function onClick(isMouseDown)
     local x, y = MOAIInputMgr.device.pointer:getLoc()
-    print("x: " .. x .. ", y: " .. y)
-    print(currentScene._NAME)
     if currentScene._NAME == 'Game' then
 
       if isMouseDown then
@@ -56,10 +49,8 @@ function InputManager:initialize ()
 
     elseif currentScene._NAME == 'MainMenu' then
       if isMouseDown then
-        print 'here'
         MainMenu:handleClickOrTouch(x,y, true)
       else
-        print 'there'
         MainMenu:handleClickOrTouch(x,y,false)
       end
     end
@@ -70,8 +61,10 @@ function InputManager:initialize ()
     if currentScene._NAME == 'Game' then
 
       if eventType == MOAITouchSensor.TOUCH_DOWN then
+        print "touch down"
         HUD:handleClickOrTouch(x,y, true)
-      else
+      elseif eventType == MOAITouchSensor.TOUCH_UP then
+        print "touch up"
         HUD:handleClickOrTouch(x,y, false)
       end
 
@@ -79,7 +72,7 @@ function InputManager:initialize ()
       if eventType == MOAITouchSensor.TOUCH_DOWN then
 
         MainMenu:handleClickOrTouch(x,y, true)
-      else
+      elseif eventType == MOAITouchSensor.TOUCH_UP then
         MainMenu:handleClickOrTouch(x,y,false)
       end
     end

@@ -66,7 +66,7 @@ function Character:initialize ( layer, position )
   self.platform = nil
   
   --Fix the problem with wanting to touch the first object twice
-  self.currentContactCount = -1
+  self.currentContactCount = 0
   -- We create a remapper to use
   -- for indexing the deck on our
   -- animations
@@ -95,6 +95,7 @@ function Character:initialize ( layer, position )
 
   -- To see if it's working, let's start the idle
   -- animation.
+  print "in initialize"
   self:startAnimation ( 'idle' )
 
   -- Initialize physics
@@ -203,6 +204,7 @@ end
 -- animation called 'name'.
 ------------------------------------------------
 function Character:startAnimation ( name )
+  print ("startanimation: " .. name)
   self:stopCurrentAnimation ()
 
   self.currentAnimation = self:getAnimation ( name )
@@ -264,15 +266,16 @@ function Character:run()
       self:startAnimation('run')
       dx = -200
     else 
+      print "in run function if on ground"
       self:startAnimation('idle')
       dx = 0
     end
-  else
-    if self.move.right and not self.move.left and dx <= 0 then
-      dx = 100
-    elseif self.move.left and not self.move.right and dx >= 0 then
-      dx = -100
-    end
+--  else
+--    if self.move.right and not self.move.left and dx <= 0 then
+--      dx = 100
+--    elseif self.move.left and not self.move.right and dx >= 0 then
+--      dx = -100
+--    end
   end
   if self.platform then
     dx = dx + self.platform:getLinearVelocity()
@@ -296,7 +299,8 @@ function Character:run()
   elseif direction == "right" then
     self.physics.body:setLinearVelocity(0, -dx)
 
-  else
+else
+  print "in run if not on ground"
     self:startAnimation('idle')
   end
 end
@@ -318,6 +322,7 @@ end
 function Character:stopMoving ()
   if not self.jumps then
     self.physics.body:setLinearVelocity ( 0, 0 )
+    print "in stop moving"
     self:startAnimation ( 'idle' )
   end
 end
@@ -351,19 +356,19 @@ function Character:changeGrav ( key, keyDown )
   if key == 'a' then 
     PhysicsManager:changeGravity("left")     
     self.physics.body:setTransform (x, y, 90 )
-    self:startAnimation ( 'idle' )
+    --self:startAnimation ( 'idle' )
   elseif key == 'w' then
     PhysicsManager:changeGravity("up")   
     self.physics.body:setTransform (x, y, 180 )
-    self:startAnimation ( 'idle' )
+    --self:startAnimation ( 'idle' )
   elseif key == 'd' then
     PhysicsManager:changeGravity("right")  
     self.physics.body:setTransform (x, y, 270 )
-    self:startAnimation ( 'idle' )
+    --self:startAnimation ( 'idle' )
   elseif key == 's' then
     PhysicsManager:changeGravity("down")
     self.physics.body:setTransform (x, y, 0 )
-    self:startAnimation ( 'idle' )
+    --self:startAnimation ( 'idle' )
   end
   self.prop:setScl(self.movingdirection,-1)
 
@@ -438,7 +443,7 @@ function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
     Character:damage()
   end
 
-if Character.currentContactCount == -1 then
+if Character.currentContactCount == 0 then
   Character.onGround = false
 else
   Character.onGround = true
