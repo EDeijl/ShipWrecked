@@ -31,7 +31,7 @@ local resource_definitions = {
   button_right = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/button_right.png',
-    width = 512, height = 512
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
   },
   collectibles = 
   {
@@ -43,37 +43,37 @@ local resource_definitions = {
   col1_active = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col1_active.png',
-    width = 512, height = 512
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE *SCREEN_RESOLUTION_X
   },
   col1_nonactive = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col1_nonactive.png',
-    width = 512, height = 512
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
     },col2_active = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col2_active.png',
-    width = 512, height = 512
-  },
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
+},
   col2_nonactive = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col2_nonactive.png',
-    width = 512, height = 512
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
   },
   col3_active = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col3_active.png',
-    width = 512, height = 512
-  },
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
+    },
   col3_nonactive = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col3_nonactive.png',
-    width = 512, height = 512
-  },
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
+    },
   life = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/life.png',
-    width = 512, height = 512
-  }
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
+    }
 }
 
 -- define some properties for
@@ -161,7 +161,7 @@ function Game:initialize ()
   -- it on the main layer.
   local position = scene_objects["startGame"].position
   local x, y = unpack(position)
-    self.hud = HUD:initialize()
+  self.hud = HUD:initialize()
   Character:initialize ( self.layers.main, position )
   self.camera:setLoc((x-WORLD_RESOLUTION_X/2),(y-WORLD_RESOLUTION_Y/2))
   print (self.camera:getLoc())

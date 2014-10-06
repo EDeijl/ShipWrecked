@@ -10,9 +10,9 @@ function HUD:initialize ()
   self.countdownTime = 300
   self.isOverlay = true
 
-  self.xMargin = SCREEN_RESOLUTION_X / 30
-  self.yMargin = SCREEN_RESOLUTION_Y / 17
-  self.xyScale = SCREEN_RESOLUTION_Y / SCREEN_RESOLUTION_X
+  self.xMargin = WORLD_RESOLUTION_X / 30
+  self.yMargin = WORLD_RESOLUTION_Y / 17
+  self.xyScale = WORLD_RESOLUTION_X / WORLD_RESOLUTION_Y
   -- Since we want the hud to be 
   -- independent of the world coordinates
   -- and be more window based, we create 
@@ -203,7 +203,7 @@ function HUD:rotateHud()
 
     self.leftButton:setLoc( 50  + self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin - 20)
     self.leftButton:setRot(0)
-    self.rightButton:setLoc( 155  + self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin - 20)
+    self.rightButton:setLoc( 170  + self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin - 20)
     self.rightButton:setRot(0)
 
     self.col1:setLoc(SCREEN_RESOLUTION_X - self.xMargin , self.yMargin + 20)
@@ -226,7 +226,7 @@ function HUD:rotateHud()
 
     self.leftButton:setLoc( 20 + self.yMargin, self.xMargin + 50)
     self.leftButton:setRot(90)
-    self.rightButton:setLoc( 20 + self.yMargin, 155 + self.xMargin)
+    self.rightButton:setLoc( 20 + self.yMargin, 170 + self.xMargin)
     self.rightButton:setRot(90)
 
     self.col1:setLoc(SCREEN_RESOLUTION_X - self.yMargin -20, SCREEN_RESOLUTION_Y - self.xMargin)
@@ -248,7 +248,7 @@ function HUD:rotateHud()
 
     self.leftButton:setLoc(SCREEN_RESOLUTION_X - 20 - self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 50)
     self.leftButton:setRot(270)
-    self.rightButton:setLoc(SCREEN_RESOLUTION_X - 20 - self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 155)
+    self.rightButton:setLoc(SCREEN_RESOLUTION_X - 20 - self.yMargin, SCREEN_RESOLUTION_Y - self.xMargin - 170)
     self.rightButton:setRot(270)
 
     self.col1:setLoc(20+self.yMargin, self.xMargin)
@@ -271,7 +271,7 @@ function HUD:rotateHud()
 
     self.leftButton:setLoc(SCREEN_RESOLUTION_X - 50 - self.xMargin, self.yMargin + 20)
     self.leftButton:setRot(180)
-    self.rightButton:setLoc(SCREEN_RESOLUTION_X - 155 - self.xMargin, self.yMargin + 20)
+    self.rightButton:setLoc(SCREEN_RESOLUTION_X - 170 - self.xMargin, self.yMargin + 20)
     self.rightButton:setRot(180)
 
     self.col1:setLoc(self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin -20)
@@ -299,7 +299,7 @@ function HUD:makeInterfaceElement(resource, name, xloc, yloc, scale)
   elementProp:setDeck(elementGFX)
   elementProp:setLoc(xloc, yloc)
   elementProp.name = name
-  elementProp:setScl(scale*0.2, 0.2)
+  elementProp:setScl(scale)
 
   return elementProp
 end
@@ -310,7 +310,7 @@ function HUD:makeButton (resource, name, xloc, yloc,scale, text)
   local  button = MOAIProp2D.new()
   button:setDeck (buttonGFX)
   button:setLoc (xloc,yloc)
-  button:setScl(scale*0.2, 0.2)
+  button:setScl(scale, 1)
   button.name = name
   layer:insertProp (button)
   partition:insertProp(button)
