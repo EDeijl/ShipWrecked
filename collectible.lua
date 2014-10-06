@@ -55,7 +55,7 @@ function Collectible:initializePhysics()
   
   self.frameCount = self.anim.stop - self.anim.start + 1
   print ("fcount: "..self.frameCount)
-  self:addAnimation ( self.name, self.anim.start, self.frameCount, 0.5, MOAITimer.LOOP )
+  self:addAnimation ( self.name, self.anim.start, self.frameCount, 0.05, MOAITimer.LOOP )
   
 end
 
