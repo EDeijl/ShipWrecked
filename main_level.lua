@@ -11,13 +11,18 @@ local resource_definitions = {
     fileName = 'gui/button_level_background.png',
     width = 163, height = 121
   },
+  button_level_background_back = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/button_level_background_back.png',
+    width = 163, height = 61
+  },
   font = {
     type = RESOURCE_TYPE_FONT,
     fileName = 'fonts/redfive.ttf',
     glyphs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.?!",
     fontSize = 26,
     dpi = 160
-  },
+  }
 }
 
 function MenuLevel:build()
@@ -68,6 +73,10 @@ end
 function MenuLevel:initializeButtons()
 
   self:createLevelLayout(2,1)
+  local resourceX  = resource_definitions.button_level_background.width 
+  local resourceY = resource_definitions.button_level_background.height
+  button = self:makeButton('back', WORLD_RESOLUTION_X / 10 , WORLD_RESOLUTION_Y / 10 , 'button_level_background_back')
+  textBox = self:makeText(25, 'back', {WORLD_RESOLUTION_X / 10 - resourceX/2, WORLD_RESOLUTION_Y / 10 - resourceY/2 ,WORLD_RESOLUTION_X / 10 + resourceX/2, WORLD_RESOLUTION_Y / 10 + resourceY/2})
 
 end
 
@@ -143,6 +152,11 @@ function MenuLevel:handleClickOrTouch(x, y, isDown)
     end
 
   end
+  if pickedProp and isDown == true then
+    if pickedProp.name == 'back' then
+      switchScene(MAIN_MENU)
+    end
+  end
 end
 
 function MenuLevel:cleanup()
@@ -150,6 +164,7 @@ function MenuLevel:cleanup()
   for k, v in pairs(resource_definitions) do
     print ("k:"..k)
     ResourceDefinitions:remove(k)
+    ResourceManager:unload(k)
   end
 end
 
