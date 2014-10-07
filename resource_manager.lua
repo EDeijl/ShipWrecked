@@ -60,6 +60,8 @@ function ResourceManager:load ( name )
       resource = self:loadFont ( resourceDefinition )
     elseif ( resourceDefinition.type == RESOURCE_TYPE_SOUND ) then
       resource = self:loadSound ( resourceDefinition )
+    end
+    
     -- store the resource under the name on cache
     cache[name] = resource
   end
