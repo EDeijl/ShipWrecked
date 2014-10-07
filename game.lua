@@ -73,7 +73,7 @@ local resource_definitions = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/life.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
-    }
+  }
 }
 
 -- define some properties for
