@@ -57,7 +57,7 @@ end
 
 
 function switchScene(sceneType, sceneData)
-  SceneManager.popScene(currentScene)
+  SceneManager.popScene()
 
   if sceneType == MAIN_MENU then
     currentScene = MainMenu:build()
