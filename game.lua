@@ -280,13 +280,31 @@ function Game:loadScene ()
 
     if string.find(attr.name, "collectible_") then
       --print "check"
-      fixture.name = attr.name
+      fixture.name = attr.nam
       local position = attr.position
       local animStart = tonumber(attr.properties.animStart)
       local animStop = tonumber(attr.properties.animStop)
       local collectible = Collectible:new(attr.name, animStart, animStop, self.layers.main, position)
       collectibleTable[attr.name] = collectible
+    elseif string.find(attr.name, "door_") then
+      fixture.name = attr.name
+      local position = attr.position
+      local resource = ResourceManager:get('box')
+      local x = tonumber(attr.properties.moveX)
+      local y = tonumber(attr.properties.moveY)
+
+      local direction = { x, y}
+      local rect = { -width/2, -height/2, width/2, height/2 }
+      local door = Door:new(attr.name,body, fixture,  resource, direction, rect, self.layers.main)
+      doorTable[attr.name] = door
+    elseif string.find(attr.name, "button_") then
+      fixture.name = attr.name 
+      local position = attr.position
+      local linkedObject = doorTable[attr.properties.control_link]
+      local button = Button:new(attr.name, linkedObject, self.layers.main, position)
+      buttonTable[attr.name] = button
     else
+
       fixture.name = attr.name
     end
     fixture:setFriction( 0 )
