@@ -1,5 +1,7 @@
 require 'character'
 require 'collectible'
+require 'door'
+require 'button'
 require 'physics_manager'
 require 'hud'
 require 'map_manager'
@@ -40,6 +42,11 @@ local resource_definitions = {
     tileMapSize = {24, 3},
     width = 32, height = 32,
   },
+  box = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/box.png',
+    width = 64, height = 64
+  },
   col1_active = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col1_active.png',
@@ -53,7 +60,7 @@ local resource_definitions = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col2_active.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
-},
+  },
   col2_nonactive = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col2_nonactive.png',
@@ -63,12 +70,12 @@ local resource_definitions = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col3_active.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
-    },
+  },
   col3_nonactive = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col3_nonactive.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
-    },
+  },
   life = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/life.png',
@@ -106,9 +113,17 @@ function Game:build(levelFilePath)
   return self
 end
 collectibleTable = {}
+doorTable = {}
+buttonTable = {}
+function Game:getTable(tableName)
+  if tableName == 'collectiblesTable' then
+    return collectibleTable
+  elseif tableName == 'buttonTable' then
+    return buttonTable
+  elseif tableName == 'doorTable' then
+    return doorTable
+  end
 
-function Game:getTable()
-  return collectibleTable
 end
 
 ------------------------------------------------
