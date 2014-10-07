@@ -69,7 +69,8 @@ function MainMenu:initializeButtons()
   self.font = MOAIFont.new ()
   self.font = ResourceManager:get ( "font" )
   button = self:makeButton('play', WORLD_RESOLUTION_X/2, WORLD_RESOLUTION_Y/2)
-  textBox = self:makeText(40, 'play', {WORLD_RESOLUTION_X/2 - resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 - resource_definitions.button_background.height/2, WORLD_RESOLUTION_X/2 + resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 + resource_definitions.button_background.height/2})
+  textBox = self:makeText(40, 'play', {WORLD_RESOLUTION_X/2 - resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 - resource_definitions.button_background.height/2, WORLD_RESOLUTION_X/2 + resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 + resource_definitions.button_background.height/2})textBox = self:makeText(40, 'play', {WORLD_RESOLUTION_X/2 - resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 - resource_definitions.button_background.height/2, WORLD_RESOLUTION_X/2 + resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 + resource_definitions.button_background.height/2})
+  textBox = self:makeText(40, 'SHIPWRECKED IN SPACE', {WORLD_RESOLUTION_X/2 - 200, WORLD_RESOLUTION_Y/8 - 50, WORLD_RESOLUTION_X/2 + 200, WORLD_RESOLUTION_Y/8 + 50})
   print("button: " .. button:getLoc())
 end
 

@@ -11,13 +11,18 @@ local resource_definitions = {
     fileName = 'gui/button_level_background.png',
     width = 163, height = 121
   },
+  button_level_background_back = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/button_level_background_back.png',
+    width = 163, height = 61
+  },
   font = {
     type = RESOURCE_TYPE_FONT,
     fileName = 'fonts/redfive.ttf',
     glyphs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.?!",
     fontSize = 26,
     dpi = 160
-  },
+  }
 }
 
 function MenuLevel:build()
@@ -68,7 +73,11 @@ end
 function MenuLevel:initializeButtons()
 
   self:createLevelLayout(2,1)
-
+  local resourceX  = resource_definitions.button_level_background.width 
+  local resourceY = resource_definitions.button_level_background.height
+  button = self:makeButton('back', WORLD_RESOLUTION_X / 10 , WORLD_RESOLUTION_Y / 10 , 'button_level_background_back')
+  textBox = self:makeText(25, 'back', {WORLD_RESOLUTION_X / 10 - resourceX/2, WORLD_RESOLUTION_Y / 10 - resourceY/2 ,WORLD_RESOLUTION_X / 10 + resourceX/2, WORLD_RESOLUTION_Y / 10 + resourceY/2},{0,0,0})
+  textBox = self:makeText(35, 'L E V E L S E L E C T', {WORLD_RESOLUTION_X/11 - 25, WORLD_RESOLUTION_Y/2 - 200, WORLD_RESOLUTION_X/11 + 25, WORLD_RESOLUTION_Y/2 + 200}, {1,1,1})
 end
 
 function MenuLevel:createLevelLayout(NoWidth, NoHeight)
@@ -87,7 +96,7 @@ function MenuLevel:createLevelLayout(NoWidth, NoHeight)
       local name = "level"..(j + NoWidth*i)
       --print (name)
       button = self:makeButton(name, (posX - xMargin) + (resourceX/2 * j) + (xMargin * j), (posY) + (resourceY/2 * i) + (yMargin * i), 'button_level_background')
-      textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * j) + (xMargin * j) - resourceX/2, (posY) + (resourceY/2 * i) + (yMargin * i) - resourceY/2, (posX - xMargin) + (resourceX/2 * j) + (xMargin * j) + resourceX/2, (posY) + (resourceY/2 * i) + (yMargin * i) + resourceY/2})
+      textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * j) + (xMargin * j) - resourceX/2, (posY) + (resourceY/2 * i) + (yMargin * i) - resourceY/2, (posX - xMargin) + (resourceX/2 * j) + (xMargin * j) + resourceX/2, (posY) + (resourceY/2 * i) + (yMargin * i) + resourceY/2}, {0,0,0})
     end
   end
 end
@@ -105,7 +114,7 @@ function MenuLevel:makeButton(name, xpos, ypos, resource)
   return button
 end
 
-function MenuLevel:makeText(size, text, rectangle)
+function MenuLevel:makeText(size, text, rectangle, color)
   local textBox = MOAITextBox.new()
   textBox:setFont(self.font)
   textBox:setTextSize(size)
@@ -113,7 +122,7 @@ function MenuLevel:makeText(size, text, rectangle)
   textBox.name = text
   textBox:setAlignment(1, 1)
   textBox:setRect(unpack(rectangle))
-  textBox:setColor(255,255,255)
+  textBox:setColor(unpack(color))
   self.layer:insertProp(textBox)
   self.partition:insertProp(textBox)
   return textBox
@@ -143,6 +152,11 @@ function MenuLevel:handleClickOrTouch(x, y, isDown)
     end
 
   end
+  if pickedProp and isDown == true then
+    if pickedProp.name == 'back' then
+      switchScene(MAIN_MENU)
+    end
+  end
 end
 
 function MenuLevel:cleanup()
@@ -150,6 +164,7 @@ function MenuLevel:cleanup()
   for k, v in pairs(resource_definitions) do
     print ("k:"..k)
     ResourceDefinitions:remove(k)
+    ResourceManager:unload(k)
   end
 end
 
