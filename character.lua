@@ -256,73 +256,87 @@ function Character:initializePhysics ()
   self.physics.footfixture:setCollisionHandler ( onFootCollide, MOAIBox2DArbiter.BEGIN + MOAIBox2DArbiter.END )
 end
 
+
+
 function Character:run()
   local dx, dy = self.physics.body:getLinearVelocity()
---  print ("left: ")
---  print(self.move.left)
---  print("right: ")
---  print(self.move.right)
---  print("onground: ")
---  print(self.onGround)
+
   print("currentContactCount: " .. self.currentContactCount)
   local direction = PhysicsManager:getGravityDirection()
+  -- HANDLE MOTION ON GROUND --
   if self.onGround then
     if self.move.right and not self.move.left then
-
       self:startAnimation('run')
-      if direction == 'up' or direction == 'down' then
+      if direction == 'up' then
+        dx = -200
+      elseif direction == 'down' then
         dx = 200
-      else
+      elseif direction == 'left' then
         dy = 200
+      elseif direction == 'right' then
+        dy = -200
       end
       self.movingdirection = 1
     elseif self.move.left and not self.move.right then
       self:startAnimation('run')
-      if direction == 'up' or direction == 'down' then
+      if direction == 'up' then
+        dx = 200
+      elseif direction == 'down' then
         dx = -200
-      else
+      elseif direction == 'left' then
         dy = -200
+      elseif direction == 'right' then
+        dy = 200
       end
       self.movingdirection = -1
     else 
-      --print "in run function if on ground"
       self:startAnimation('idle')
-      if direction == 'up' or direction == 'down' then
-        dx = 0
-      else
-        dy = 0
-      end
-
+      dx = 0
+      dy = 0
     end
   else
+    -- HANDLE MOTION IN AIR --
     self:startAnimation('hover')
-  end
-
-
-  if self.platform then
-    dx = dx + self.platform:getLinearVelocity()
-  end
-  if self.onGround then
-    print ("dx: " ..dx)
-    print ("dy: " ..dy)
-    self.prop:setScl(self.movingdirection, -1)
-    if direction == "down" then
-      self.physics.body:setLinearVelocity(dx, dy)
-
-    elseif direction == "up" then
-      self.physics.body:setLinearVelocity(-dx, dy)
-
-    elseif direction == "left" then
-      self.physics.body:setLinearVelocity(dx, dy)
-
-    elseif direction == "right" then
-      self.physics.body:setLinearVelocity(dx, -dy)
-
-    else
-      print "in run if not on ground"
-      self:startAnimation('idle')
+    if self.move.right and not self.move.left then
+      self:startAnimation('run')
+      if direction == 'up' then
+        dx = -100
+      elseif direction == 'down' then
+        dx = 100
+      elseif direction == 'left' then
+        dy = 100
+      elseif direction == 'right' then
+        dy = -100
+      end
+      self.movingdirection = 1
+    elseif self.move.left and not self.move.right then
+      self:startAnimation('run')
+      if direction == 'up' then
+        dx = 100
+      elseif direction == 'down' then
+        dx = -100
+      elseif direction == 'left' then
+        dy = -100
+      elseif direction == 'right' then
+        dy = 100
+      end
+      self.movingdirection = -1
+--print "in run function if on ground"
     end
+
   end
+
+  print ("dx: " ..dx)
+  print ("dy: " ..dy)
+  self.prop:setScl(self.movingdirection, -1)
+  if direction == "down" or direction == "up" or direction == "left" or direction == "right" then
+    self.physics.body:setLinearVelocity(dx, dy)
+
+  else
+    print "in run if not on ground"
+    self:startAnimation('idle')
+  end
+
 end
 
 
@@ -427,7 +441,7 @@ function Character:startDamageTimer()
       timer = timer - 1
       self.prop:setVisible(visible)
       visible = not visible
-      
+
       if (timer == 0) then
         damageTimer:stop()
 
