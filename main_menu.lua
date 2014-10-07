@@ -68,13 +68,13 @@ end
 function MainMenu:initializeButtons()
   self.font = MOAIFont.new ()
   self.font = ResourceManager:get ( "font" )
-  button = self:makeButton('play', WORLD_RESOLUTION_X/2, WORLD_RESOLUTION_Y/2, 'play')
+  button = self:makeButton('play', WORLD_RESOLUTION_X/2, WORLD_RESOLUTION_Y/2)
   textBox = self:makeText(40, 'play', {WORLD_RESOLUTION_X/2 - resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 - resource_definitions.button_background.height/2, WORLD_RESOLUTION_X/2 + resource_definitions.button_background.width/2, WORLD_RESOLUTION_Y/2 + resource_definitions.button_background.height/2})
   print("button: " .. button:getLoc())
 end
 
 
-function MainMenu:makeButton(name, xpos, ypos, text)
+function MainMenu:makeButton(name, xpos, ypos)
   local buttonGFX =ResourceManager:get('button_background')
   local  button = MOAIProp2D.new()
   button.name = name
@@ -108,12 +108,17 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
   print (pickedProp.name)
   if pickedProp then
     if pickedProp.name == 'play' then
-      switchScene(GAME_LEVEL, level_files.level1)
+      --switchScene(GAME_LEVEL, level_files.level1)
+      switchScene(MENU_LEVEL)
     end
   end
 end
 
 function MainMenu:cleanup()
   self.playing = false
+  for k, v in pairs(resource_definitions) do
+    ResourceDefinitions:remove(k)
+    ResourceManager:unload(k)
+  end
 end
 
