@@ -402,6 +402,7 @@ function Character:damage()
     print "life - 1"
     lives = lives - 1
     Game:updateHud(lives)
+    self:setKickBack()
     Character:startDamageTimer()
   end
   if lives == 0 then
@@ -409,16 +410,27 @@ function Character:damage()
   end
 end
 
+function Character:setKickBack()
+  local dx, dy = self.physics.body:getLinearVelocity()
+  self.physics.body:setLinearVelocity(.2*-dx, .2*-dy)
+end
+
+
 function Character:startDamageTimer()
   print "started timer"
-  timer = 5
+  timer = 50
   damageTimer = MOAITimer.new()
   damageTimer:setMode( MOAITimer.LOOP)
-  damageTimer:setSpan(1)
+  damageTimer:setSpan(0.1)
+  local visible = false
   damageTimer:setListener( MOAITimer.EVENT_TIMER_LOOP, function()
       timer = timer - 1
+      self.prop:setVisible(visible)
+      visible = not visible
+      
       if (timer == 0) then
         damageTimer:stop()
+
       end
     end
   )
