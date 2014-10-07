@@ -346,7 +346,7 @@ function Character:stopMoving ()
 end
 
 function Character:jump ( keyDown )
-  local jumpforce = 140
+  local jumpforce = 220
   if keyDown and self.onGround then
     local direction = PhysicsManager:getGravityDirection()
     print("direction: " .. direction)
