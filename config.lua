@@ -2,7 +2,7 @@
 -- In this way we avoid having a bigger main.lua
 WORLD_RESOLUTION_X = 1280
 WORLD_RESOLUTION_Y = 720
-GRAVITY = 100
+GRAVITY = 250
 HUD_WORLD_SCALE = 1/7
 CONTROL_WORLD_SCALE = 1/5
 SCREEN_RESOLUTION_X = MOAIEnvironment.horizontalResolution or 1280
