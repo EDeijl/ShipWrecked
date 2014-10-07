@@ -53,6 +53,12 @@ function InputManager:initialize ()
       else
         MainMenu:handleClickOrTouch(x,y,false)
       end
+    elseif currentScene._NAME == 'MenuLevel' then
+      if isMouseDown then
+        MenuLevel:handleClickOrTouch(x,y, true)
+      else
+        MenuLevel:handleClickOrTouch(x,y,false)
+      end
     end
 
   end
@@ -74,6 +80,13 @@ function InputManager:initialize ()
         MainMenu:handleClickOrTouch(x,y, true)
       elseif eventType == MOAITouchSensor.TOUCH_UP then
         MainMenu:handleClickOrTouch(x,y,false)
+      end
+    elseif currentScene._NAME == 'MenuLevel' then
+      if eventType == MOAITouchSensor.TOUCH_DOWN then
+
+        MenuLevel:handleClickOrTouch(x,y, true)
+      elseif eventType == MOAITouchSensor.TOUCH_UP then
+        MenuLevel:handleClickOrTouch(x,y,false)
       end
     end
   end

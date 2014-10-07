@@ -9,7 +9,7 @@ require 'utils'
 ------------------------------------------------
 RESOURCE_TYPE_IMAGE = 0
 RESOURCE_TYPE_TILED_IMAGE = 1
-RESOURCE_TYPE_FONT = 2
+RESOURCE_TYPE_FONT = 25
 RESOURCE_TYPE_SOUND = 3
 
 MAIN_MENU = 0
@@ -18,7 +18,8 @@ GAME_LEVEL = 2
 local gameOver = false
 -- level files
 level_files = {
-  level1 = 'assets/maps/demo_level.lua'
+  level1 = 'assets/maps/demo_level.lua',
+  --level2 = 'assets/maps/test.lua'
 }
 
 -- Open main screen
@@ -33,7 +34,7 @@ viewport:setOffset(-1,1)
 require 'audio_manager'
 require 'game'
 require 'main_menu'
-
+require 'main_level'
 
 currentScene = MainMenu:build()
 SceneManager.pushScene(currentScene)
@@ -61,7 +62,7 @@ function switchScene(sceneType, sceneData)
   if sceneType == MAIN_MENU then
     currentScene = MainMenu:build()
   elseif sceneType == MENU_LEVEL then
-    --- other menu thingies
+    currentScene = MenuLevel:build()
   elseif sceneType == GAME_LEVEL then
     currentScene = Game:build(sceneData)
   end
