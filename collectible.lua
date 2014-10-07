@@ -22,7 +22,7 @@ function Collectible:initializePhysics()
   self.prop = MOAIProp2D.new ()
   self.prop:setDeck ( self.deck )
   self.prop:setLoc (0,0 )
-  self.prop:setScl(1,-1)
+  self.prop:setScl(2,-2)
 
   self.layer:insertProp ( self.prop )
   
@@ -49,7 +49,7 @@ function Collectible:initializePhysics()
 
   self.physics.fixture = self.physics.body:addRect( -16,-16,16,16  )
   self.physics.fixture.name = self.name
-  self.physics.fixture:setCollisionHandler ( onCollide, MOAIBox2DArbiter.BEGIN )
+  self.physics.fixture:setCollisionHandler ( Collectible.onCollide, MOAIBox2DArbiter.BEGIN )
   
   self.prop:setParent ( self.physics.body )
   
@@ -116,11 +116,11 @@ function Collectible:addAnimation ( name, startFrame, frameCount, time, mode )
   
 end
 
-function onCollide (  phase, fixtureA, fixtureB, arbiter )
+function Collectible.onCollide (  phase, fixtureA, fixtureB, arbiter )
   --print(fixtureA.name)
   if fixtureB.name == "player" or fixtureB.name == "foot" then
     --print "collide"
-    local table = Game:getTable()
+    local table = Game:getTable('collectiblesTable')
     table[fixtureA.name]:collect()
   end
 end

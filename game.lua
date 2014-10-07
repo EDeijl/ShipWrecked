@@ -1,5 +1,7 @@
 require 'character'
 require 'collectible'
+require 'door'
+require 'button'
 require 'physics_manager'
 require 'hud'
 require 'map_manager'
@@ -40,6 +42,11 @@ local resource_definitions = {
     tileMapSize = {24, 3},
     width = 32, height = 32,
   },
+  box = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/box.png',
+    width = 64, height = 64
+  },
   col1_active = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col1_active.png',
@@ -53,7 +60,7 @@ local resource_definitions = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col2_active.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
-},
+  },
   col2_nonactive = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col2_nonactive.png',
@@ -63,12 +70,12 @@ local resource_definitions = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col3_active.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
-    },
+  },
   col3_nonactive = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col3_nonactive.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
-    },
+  },
   life = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/life.png',
@@ -106,9 +113,17 @@ function Game:build(levelFilePath)
   return self
 end
 collectibleTable = {}
+doorTable = {}
+buttonTable = {}
+function Game:getTable(tableName)
+  if tableName == 'collectiblesTable' then
+    return collectibleTable
+  elseif tableName == 'buttonTable' then
+    return buttonTable
+  elseif tableName == 'doorTable' then
+    return doorTable
+  end
 
-function Game:getTable()
-  return collectibleTable
 end
 
 ------------------------------------------------
@@ -265,13 +280,31 @@ function Game:loadScene ()
 
     if string.find(attr.name, "collectible_") then
       --print "check"
-      fixture.name = attr.name
+      fixture.name = attr.nam
       local position = attr.position
       local animStart = tonumber(attr.properties.animStart)
       local animStop = tonumber(attr.properties.animStop)
       local collectible = Collectible:new(attr.name, animStart, animStop, self.layers.main, position)
       collectibleTable[attr.name] = collectible
+    elseif string.find(attr.name, "door_") then
+      fixture.name = attr.name
+      local position = attr.position
+      local resource = ResourceManager:get('box')
+      local x = tonumber(attr.properties.moveX)
+      local y = tonumber(attr.properties.moveY)
+
+      local direction = { x, y}
+      local rect = { -width/2, -height/2, width/2, height/2 }
+      local door = Door:new(attr.name,body, fixture,  resource, direction, rect, self.layers.main)
+      doorTable[attr.name] = door
+    elseif string.find(attr.name, "button_") then
+      fixture.name = attr.name 
+      local position = attr.position
+      local linkedObject = doorTable[attr.properties.control_link]
+      local button = Button:new(attr.name, linkedObject, self.layers.main, position)
+      buttonTable[attr.name] = button
     else
+
       fixture.name = attr.name
     end
     fixture:setFriction( 0 )

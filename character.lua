@@ -101,7 +101,6 @@ function Character:initialize ( layer, position )
 
   -- To see if it's working, let's start the idle
   -- animation.
-  print "in initialize"
   self:startAnimation ( 'idle' )
 
   -- Initialize physics
@@ -211,7 +210,6 @@ end
 -- animation called 'name'.
 ------------------------------------------------
 function Character:startAnimation ( name )
-  print ("startanimation: " .. name)
   self:stopCurrentAnimation ()
 
   self.currentAnimation = self:getAnimation ( name )
@@ -261,7 +259,6 @@ end
 function Character:run()
   local dx, dy = self.physics.body:getLinearVelocity()
 
-  print("currentContactCount: " .. self.currentContactCount)
   local direction = PhysicsManager:getGravityDirection()
   -- HANDLE MOTION ON GROUND --
   if self.onGround then
@@ -326,14 +323,11 @@ function Character:run()
 
   end
 
-  print ("dx: " ..dx)
-  print ("dy: " ..dy)
   self.prop:setScl(self.movingdirection, -1)
   if direction == "down" or direction == "up" or direction == "left" or direction == "right" then
     self.physics.body:setLinearVelocity(dx, dy)
 
   else
-    print "in run if not on ground"
     self:startAnimation('idle')
   end
 
@@ -354,7 +348,6 @@ end
 function Character:stopMoving ()
   if not self.jumps then
     self.physics.body:setLinearVelocity ( 0, 0 )
-    print "in stop moving"
     self:startAnimation ( 'idle' )
   end
 end
@@ -363,7 +356,6 @@ function Character:jump ( keyDown )
   local jumpforce = 220
   if keyDown and self.onGround then
     local direction = PhysicsManager:getGravityDirection()
-    print("direction: " .. direction)
     local x,y = self.physics.body:getLinearVelocity()
     if direction == "down" then 
       self.physics.body:setLinearVelocity(x, 0)
@@ -411,9 +403,7 @@ end
 --end
 
 function Character:damage()
-  print "got damage"
   if timer == 0 then
-    print "life - 1"
     lives = lives - 1
     Game:updateHud(lives)
     self:setKickBack()
@@ -431,7 +421,6 @@ end
 
 
 function Character:startDamageTimer()
-  print "started timer"
   timer = 50
   damageTimer = MOAITimer.new()
   damageTimer:setMode( MOAITimer.LOOP)
@@ -454,7 +443,6 @@ end
 
 
 function Character:die()
-  print("player died")
   switchScene(MAIN_MENU)
 end
 
@@ -467,24 +455,20 @@ function onCollide (  phase, fixtureA, fixtureB, arbiter )
 end
 
 function Character:getLives()
-  print("lives: " .. lives)
   return lives
 end
 
 
 function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
   if phase == MOAIBox2DArbiter.BEGIN then
-    print ("fixB start: "..fixtureB.name)
+    print ("object: " .. fixtureB.name)
     Character.currentContactCount = Character.currentContactCount + 1
-    print("currentContactCount: " .. Character.currentContactCount)
     if fixtureB.name == 'platform' then
       Character.platform = fixtureB:getBody()
     end
   end
   if phase == MOAIBox2DArbiter.END then
-    print ("fixB end: "..fixtureB.name)
     Character.currentContactCount = Character.currentContactCount - 1
-    print("currentContactCount: " .. Character.currentContactCount)
     if fixtureB.name == 'platform' then
       Character.platform = nil
     end
