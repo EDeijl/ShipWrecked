@@ -93,8 +93,8 @@
   <object name="spikes_2" x="3424" y="3712" width="32" height="320"/>
   <object name="door_1" type="kinematic" x="3264" y="2688" width="192" height="64">
    <properties>
-    <property name="distance" value="19"/>
-    <property name="move_dir" value="right"/>
+    <property name="moveX" value="196"/>
+    <property name="moveY" value="0"/>
    </properties>
   </object>
   <object name="button_1" type="kinematic" x="3200" y="2678" width="64" height="10">

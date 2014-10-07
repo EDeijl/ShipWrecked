@@ -1119,8 +1119,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["distance"] = "19",
-            ["move_dir"] = "right"
+            ["moveX"] = "196",
+            ["moveY"] = "0"
           }
         },
         {

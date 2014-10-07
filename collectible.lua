@@ -47,7 +47,7 @@ function Collectible:initializePhysics()
   local x, y = unpack ( self.position )
   self.physics.body:setTransform ( x,y )
 
-  self.physics.fixture = self.physics.body:addRect( -16,-16,16,16  )
+  self.physics.fixture = self.physics.body:addRect( -32,-32,32,32  )
   self.physics.fixture.name = self.name
   self.physics.fixture:setCollisionHandler ( onCollide, MOAIBox2DArbiter.BEGIN )
   
