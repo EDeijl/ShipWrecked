@@ -69,7 +69,7 @@
   <object x="5952" y="2496"/>
  </objectgroup>
  <objectgroup name="extras">
-  <object name="startGame" type="kinematic" x="2176" y="2624" width="64" height="64"/>
+  <object name="startGame" type="kinematic" x="2240" y="2624"/>
   <object name="endGame" type="kinematic" x="5568" y="3264"/>
   <object name="collectible_1" type="kinematic" x="3008" y="3520">
    <properties>
@@ -91,5 +91,16 @@
   </object>
   <object name="spikes_1" x="3264" y="3712" width="32" height="320"/>
   <object name="spikes_2" x="3424" y="3712" width="32" height="320"/>
+  <object name="door_1" type="kinematic" x="3264" y="2688" width="192" height="64">
+   <properties>
+    <property name="distance" value="19"/>
+    <property name="move_dir" value="right"/>
+   </properties>
+  </object>
+  <object name="button_1" type="kinematic" x="3200" y="2678" width="64" height="10">
+   <properties>
+    <property name="control_link" value="door_1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

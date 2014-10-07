@@ -1019,10 +1019,10 @@ return {
           name = "startGame",
           type = "kinematic",
           shape = "rectangle",
-          x = 2176,
+          x = 2240,
           y = 2624,
-          width = 64,
-          height = 64,
+          width = 0,
+          height = 0,
           rotation = 0,
           visible = true,
           properties = {}
@@ -1051,7 +1051,7 @@ return {
           visible = true,
           properties = {
             ["animStart"] = "1",
-            ["animStop"] = "21"
+            ["animStop"] = "4"
           }
         },
         {
@@ -1065,8 +1065,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["animStart"] = "25",
-            ["animStop"] = "45"
+            ["animStart"] = "5",
+            ["animStop"] = "8"
           }
         },
         {
@@ -1080,13 +1080,13 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["animStart"] = "49",
-            ["animStop"] = "69"
+            ["animStart"] = "9",
+            ["animStop"] = "12"
           }
         },
         {
           name = "spikes_1",
-          type = "kinematic",
+          type = "",
           shape = "rectangle",
           x = 3264,
           y = 3712,
@@ -1098,7 +1098,7 @@ return {
         },
         {
           name = "spikes_2",
-          type = "kinematic",
+          type = "",
           shape = "rectangle",
           x = 3424,
           y = 3712,
@@ -1107,6 +1107,35 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          name = "door_1",
+          type = "kinematic",
+          shape = "rectangle",
+          x = 3264,
+          y = 2688,
+          width = 192,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["distance"] = "19",
+            ["move_dir"] = "right"
+          }
+        },
+        {
+          name = "button_1",
+          type = "kinematic",
+          shape = "rectangle",
+          x = 3200,
+          y = 2678,
+          width = 64,
+          height = 10,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["control_link"] = "door_1"
+          }
         }
       }
     }
