@@ -40,6 +40,11 @@ local resource_definitions = {
     fileName = 'gui/pause.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
   }, 
+    button_level_background_back = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/button_level_background_back.png',
+    width = 163, height = 61
+  },
   collectibles = 
   {
     type = RESOURCE_TYPE_TILED_IMAGE,
@@ -102,7 +107,18 @@ local resource_definitions = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/life.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
-  }
+  },
+ 
+  button_level_background = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/button_level_background.png',
+    width = 163, height = 121
+  },
+   menu_background = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/bluesquare.png',
+    width = .8* SCREEN_RESOLUTION_X, height = .8 *SCREEN_RESOLUTION_Y
+  },
 }
 
 -- define some properties for
@@ -126,7 +142,7 @@ local scene_objects = {}
 function Game:build(levelFilePath)
   MapManager:initialize(levelFilePath)
   background_objects = MapManager:getBackgroundObjects()
-
+  self.levelFilePath = levelFilePath
 
   scene_objects = MapManager.mapObjects
 
@@ -382,9 +398,12 @@ function Game:updateCamera ()
 end
 
 
+function Game:pause(paused)
+  PhysicsManager.world:pause(paused)
+end
 
 function Game:restart()
-  self:start()
+  switchScene(GAME_LEVEL, self.levelFilePath)
 end
 
 
