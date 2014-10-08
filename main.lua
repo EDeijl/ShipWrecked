@@ -38,6 +38,7 @@ require 'main_menu'
 require 'main_level'
 
 
+savefiles.get ( "save" )
 
 currentScene = MainMenu:build()
 SceneManager.pushScene(currentScene)

@@ -28,8 +28,8 @@ end
 function createNewData ()
   data = {
     id = "user",
-    clicks = 0,
-    timeToClick = 20
+    level = 0,
+    time = 0
   }
   
   return data
@@ -45,13 +45,11 @@ function makeSaveFile ( filename )
 	savefile.filename = filename
 	savefile.fileexist = false
 	savefile.data = nil
-	
 	----------------------------------------------------------------
 	savefile.loadGame = function ( self )
-
 		local fullFileName = self.filename .. ".lua"
 		local workingDir
-		
+    
 		if DEVICE then
 			workingDir = MOAIFileSystem.getWorkingDirectory ()
 			MOAIFileSystem.setWorkingDirectory ( MOAIEnvironment.documentDirectory )
@@ -74,14 +72,13 @@ function makeSaveFile ( filename )
 		
 		return self.fileexist
 	end
-	
+
 	----------------------------------------------------------------
 	savefile.saveGame = function ( self )
-
 		local fullFileName = self.filename .. ".lua"
 		local workingDir
 		local serializer = MOAISerializer.new ()
-
+    
 		self.fileexist = true
 		serializer:serialize ( self.data )
 		local gamestateStr = serializer:exportToString ()
