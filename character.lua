@@ -357,6 +357,7 @@ end
 function Character:jump ( keyDown )
   local jumpforce = 220
   if keyDown and self.onGround then
+    AudioManager:play('jump', false)
     local direction = PhysicsManager:getGravityDirection()
     local x,y = self.physics.body:getLinearVelocity()
     if direction == "down" then 
@@ -406,6 +407,7 @@ end
 
 function Character:damage()
   if timer == 0 then
+    AudioManager:play('pain', false)
     lives = lives - 1
     Game:updateHud(lives)
     self:setKickBack()

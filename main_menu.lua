@@ -32,9 +32,11 @@ function MainMenu:update()
 end
 
 function MainMenu:initialize()
-
+  AudioManager:initialize()
+  AudioManager:play('backgroundMusic', true)
   self.playing = true
   ResourceDefinitions:setDefinitions ( resource_definitions )
+  AudioManager:initialize()
   InputManager:initialize()
   self.renderTable = {}
   self.camera = MOAICamera2D.new()
@@ -110,6 +112,7 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
   if pickedProp then
     if pickedProp.name == 'play' then
       AudioManager:play('shoot', false)
+
 --      print ("save file:")
 --      print (savefiles.get ( "save" ).fileexist)
       if not savefiles.get ( "save" ).fileexist then
@@ -118,6 +121,7 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
         print ("Save file data: " .. tostring(saveFile.data))
         saveFile:saveGame()
       end
+
       switchScene(MENU_LEVEL)
     end
   end

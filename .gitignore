@@ -215,5 +215,11 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-#Save game - Custom
+
+###########
+## CUSTOM IGNORES
+###########
+
+run.bat
 save.lua
+
