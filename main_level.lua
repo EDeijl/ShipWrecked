@@ -1,28 +1,28 @@
 module ("MenuLevel", package.seeall)
 
 local resource_definitions = {
-  background = {
-    type = RESOURCE_TYPE_IMAGE,
-    fileName = 'gui/level_select_background.png',
-    width = WORLD_RESOLUTION_X, height = WORLD_RESOLUTION_Y
-  },
-  button_level_background = {
-    type = RESOURCE_TYPE_IMAGE,
-    fileName = 'gui/button_level_background.png',
-    width = 163, height = 121
-  },
-  button_level_background_back = {
-    type = RESOURCE_TYPE_IMAGE,
-    fileName = 'gui/button_level_background_back.png',
-    width = 163, height = 61
-  },
-  font = {
-    type = RESOURCE_TYPE_FONT,
-    fileName = 'fonts/redfive.ttf',
-    glyphs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.?!",
-    fontSize = 26,
-    dpi = 160
-  }
+background = {
+type = RESOURCE_TYPE_IMAGE,
+fileName = 'gui/level_select_background.png',
+width = WORLD_RESOLUTION_X, height = WORLD_RESOLUTION_Y
+},
+button_level_background = {
+type = RESOURCE_TYPE_IMAGE,
+fileName = 'gui/button_level_background.png',
+width = 163, height = 121
+},
+button_level_background_back = {
+type = RESOURCE_TYPE_IMAGE,
+fileName = 'gui/button_level_background_back.png',
+width = 163, height = 61
+},
+font = {
+type = RESOURCE_TYPE_FONT,
+fileName = 'fonts/redfive.ttf',
+glyphs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.?!",
+fontSize = 26,
+dpi = 160
+}
 }
 
 function MenuLevel:build()
@@ -54,9 +54,9 @@ function MenuLevel:initialize()
   self:initializeButtons()
 
   self.renderTable = {
-    self.layer
-  }
-  MOAIRenderMgr.setRenderTable(self.renderTable)
+  self.layer
+}
+MOAIRenderMgr.setRenderTable(self.renderTable)
 
 end
 
@@ -144,27 +144,29 @@ function MenuLevel:handleClickOrTouch(x, y, isDown)
       local levelNo = 'level'..i
 
       if pickedProp.name == levelNo and level_files[levelNo] ~= nil then
+        AudioManager:play('shoot', false)
+
         print "level wordt ingeladen"
         switchScene(GAME_LEVEL, level_files[levelNo])
-      elseif pickedProp.name == levelNo and level_files[levelNo] == nil then
-        print "level bestaat niet"
+        elseif pickedProp.name == levelNo and level_files[levelNo] == nil then
+          print "level bestaat niet"
+        end
+      end
+
+    end
+    if pickedProp and isDown == true then
+      if pickedProp.name == 'back' then
+        switchScene(MAIN_MENU)
       end
     end
-
   end
-  if pickedProp and isDown == true then
-    if pickedProp.name == 'back' then
-      switchScene(MAIN_MENU)
+
+  function MenuLevel:cleanup()
+    self.playing = false
+    for k, v in pairs(resource_definitions) do
+      print ("k:"..k)
+      ResourceDefinitions:remove(k)
+      ResourceManager:unload(k)
     end
   end
-end
-
-function MenuLevel:cleanup()
-  self.playing = false
-  for k, v in pairs(resource_definitions) do
-    print ("k:"..k)
-    ResourceDefinitions:remove(k)
-    ResourceManager:unload(k)
-  end
-end
 
