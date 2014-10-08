@@ -2,9 +2,9 @@ require 'character'
 require 'collectible'
 require 'door'
 require 'button'
-require 'physics_manager'
+require 'managers/physics_manager'
 require 'hud'
-require 'map_manager'
+require 'managers/map_manager'
 
 module ( "Game", package.seeall )
 

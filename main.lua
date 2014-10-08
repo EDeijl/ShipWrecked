@@ -1,9 +1,10 @@
 require 'config'
 require 'resource_definitions'
-require 'resource_manager'
-require 'input_manager'
-require 'scene_manager'
-require 'utils'
+require 'managers/resource_manager'
+require 'managers/input_manager'
+require 'managers/scene_manager'
+require 'managers/savefile-manager'
+require 'managers/utils'
 ------------------------------------------------
 -- Resource type constants
 ------------------------------------------------
@@ -31,10 +32,12 @@ viewport:setSize ( SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
 viewport:setScale ( WORLD_RESOLUTION_X, -WORLD_RESOLUTION_Y )
 viewport:setOffset(-1,1)
 
-require 'audio_manager'
+require 'managers/audio_manager'
 require 'game'
 require 'main_menu'
 require 'main_level'
+
+
 
 currentScene = MainMenu:build()
 SceneManager.pushScene(currentScene)
