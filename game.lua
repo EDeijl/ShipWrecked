@@ -25,7 +25,7 @@ local resource_definitions = {
 
   hudFont = {
     type = RESOURCE_TYPE_FONT,
-    fileName = 'fonts/tuffy.ttf',
+    fileName = 'fonts/redfive.ttf',
     glyphs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.?!",
     fontSize = 26,
     dpi = 160
