@@ -17,6 +17,9 @@ function HUD:initialize ()
   self.xyScale = WORLD_RESOLUTION_Y / WORLD_RESOLUTION_X
   self.controlSize = CONTROL_WORLD_SCALE * SCREEN_RESOLUTION_X
   self.hudIconSize = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
+
+    self.countdownTimer = MOAITimer.new()
+    self.paused = false
   -- Since we want the hud to be 
   -- independent of the world coordinates
   -- and be more window based, we create 
@@ -85,9 +88,9 @@ end
 function HUD:initializeControls()
 
   -- make clickable buttons
-  self.leftButton = self:makeButton('button_right', 'left',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, -1)
-  self.rightButton = self:makeButton('button_right', 'right',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, 1)
-  self.pauseButton = self:makeButton('pause', 'pause', SCREEN_RESOLUTION_X - self.xMargin, self.yMargin, 1)
+  self.leftButton = self:makeButton('button_right', 'left',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, -1, layer)
+  self.rightButton = self:makeButton('button_right', 'right',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, 1, layer)
+  self.pauseButton = self:makeButton('pause', 'pause', SCREEN_RESOLUTION_X - self.xMargin, self.yMargin, 1, layer)
 
   -- build other non clickable interface elements
   self.col1 = self:makeInterfaceElement('col1_nonactive', 'col1', SCREEN_RESOLUTION_X - self.xMargin - self.hudIconSize ,  self.yMargin, 1)
@@ -103,7 +106,7 @@ function HUD:initializeControls()
   self.life2 = self:makeInterfaceElement('life', 'life2', self.xMargin + self.hudIconSize,   self.yMargin, 1)
   self.life3 = self:makeInterfaceElement('life', 'life3', self.xMargin + 2*self.hudIconSize, self.yMargin, 1)
 
-  self.timerIndictator = self:newTextBox ( 30, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 } )
+  self.timerIndictator = self:newTextBox ( 30, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 }, layer )
 end
 
 ------------------------------------------------
@@ -142,7 +145,7 @@ function HUD:newDebugTextBox ( size, rectangle )
 
 end
 
-function HUD:newTextBox ( size, rectangle )
+function HUD:newTextBox ( size, rectangle, layer )
   -- We create the textbox
   local textBox = MOAITextBox.new ()
 
@@ -234,9 +237,6 @@ function HUD:rotateHud()
   if PhysicsManager:getGravityDirection() == "down" then
     self:rotateProp(self.leftButton,  {self.xMargin, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, -1, 1)
     self:rotateProp(self.rightButton, {self.xMargin + self.controlSize, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, 1,1)
-    print('xloc: ' .. SCREEN_RESOLUTION_X - self.xMargin)
-    print('yloc: ' .. self.yMargin)
-
     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMargin}, 0,1,1)
 
     self:rotateProp(self.col1, {SCREEN_RESOLUTION_X - self.xMargin - self.hudIconSize, self.yMargin}, 0,1,1)
@@ -302,8 +302,6 @@ function HUD:makeInterfaceElement(resource, name, xloc, yloc, scale)
 end
 
 function HUD:rotateProp(prop, location, rotation, inverted, scale)
-  print ('location: ')
-  print(location)
   local x, y = unpack(location)
   prop:setLoc(x,y)
   prop:setRot(rotation)
@@ -311,7 +309,7 @@ function HUD:rotateProp(prop, location, rotation, inverted, scale)
 end
 
 
-function HUD:makeButton (resource, name, xloc, yloc,scale)
+function HUD:makeButton (resource, name, xloc, yloc,scale, layer)
   local buttonGFX =ResourceManager:get(resource)
   local  button = MOAIProp2D.new()
   button:setDeck (buttonGFX)
@@ -325,6 +323,19 @@ function HUD:makeButton (resource, name, xloc, yloc,scale)
 
 end
 
+function HUD:pause()
+  print(self.paused)
+  self.paused = not self.paused
+  if self.paused == true then
+    self:showPauseMenu()
+    Game:pause(self.paused)
+    self.countdownTimer:pause()
+  else
+    Game:pause(self.paused)
+    self.countdownTimer:start()
+    self:hidePauseMenu()
+  end
+end
 
 function HUD:showEndScreen()
   self.restartButton = HUD:makeButton('restart', SCREEN_RESOLUTION_X / 2, SCREEN_RESOLUTION_Y / 2, 'restart')
@@ -346,27 +357,37 @@ function HUD:addTextbox ( top, height, alignment, yflip, textinput)
   textbox:setAlignment ( alignment )
   textbox:setYFlip ( true )
   layer:insertProp ( textbox )
+  partition:insertProp(textbox)
   return textbox
 end
 
 
 function HUD:handleClickOrTouch(x, y, down)
   local pickedProp = partition:propForPoint(layer:wndToWorld(x,y))
-  if pickedProp then
+  if pickedProp and down  then
     if pickedProp.name == 'left' then
       Game:keyPressed ( 'left', down )
     elseif pickedProp.name == 'right' then
       Game:keyPressed ('right', down)
     elseif pickedProp.name == 'restart' then
       Game:restart()
+    elseif pickedProp.name == 'pause' and down == true then
+      self:pause()
+    elseif pickedProp.name == 'continue' and down == true then
+      self:pause()
+    elseif pickedProp.name == 'restart' and down == true then
+      Game:restart()
+    elseif pickedProp.name == 'mainmenu' and down == true then
+      switchScene(MENU_LEVEL)
     end
+    
   else
     Game:keyPressed ('up', down)
   end
 end
 
 function HUD:startTimer()
-  countdownTimer = MOAITimer.new()
+
   countdownTimer:setMode( MOAITimer.LOOP)
   countdownTimer:setSpan(1)
   countdownTimer:setListener( MOAITimer.EVENT_TIMER_LOOP, function()
@@ -378,8 +399,53 @@ function HUD:startTimer()
       end
     end
   )
-  countdownTimer:start()
+  self.countdownTimer:start()
 end
 
 function HUD:cleanup()
+end
+
+function HUD:showPauseMenu()
+  self.pauseLayer = MOAILayer2D.new()
+  self.pauseLayer:setPartition(partition)
+  self.continueButton = self:makeButton('button_level_background', 'continue', SCREEN_RESOLUTION_X/2 - 2*163, SCREEN_RESOLUTION_Y/2, 1,self.pauseLayer)
+  self.restartButton  = self:makeButton('button_level_background', 'restart' , SCREEN_RESOLUTION_X/2, SCREEN_RESOLUTION_Y/2, 1, self.pauseLayer)
+  self.mainMenuButton = self:makeButton('button_level_background', 'mainmenu', SCREEN_RESOLUTION_X/2 + 2*163, SCREEN_RESOLUTION_Y/2, 1,self.pauseLayer)
+  self.continueButtonText = self:newTextBox ( 20, {SCREEN_RESOLUTION_X/2 - 2.5*163, SCREEN_RESOLUTION_Y/2-10, SCREEN_RESOLUTION_X/2 - 1.5*163, SCREEN_RESOLUTION_Y/2+10}, self.pauseLayer)
+  self.restartButtonText = self:newTextBox(20, {SCREEN_RESOLUTION_X/2 - 0.5*163, SCREEN_RESOLUTION_Y/2-10, SCREEN_RESOLUTION_X/2 + 0.5*163, SCREEN_RESOLUTION_Y/2+10}, self.pauseLayer)
+  self.mainMenuButtonText = self:newTextBox(20, {SCREEN_RESOLUTION_X/2 + 1.5*163, SCREEN_RESOLUTION_Y/2-10, SCREEN_RESOLUTION_X/2 + 2.5*163, SCREEN_RESOLUTION_Y/2+10}, self.pauseLayer)
+  self.continueButtonText:setString('continue')
+  self.restartButtonText:setString('restart')
+  self.mainMenuButtonText:setString('main menu')
+  self.continueButtonText:setColor(0,0,0,1)
+  self.restartButtonText:setColor(0,0,0,1)
+  self.mainMenuButtonText:setColor(0,0,0,1)
+    self.continueButtonText:setAlignment(1)
+  self.restartButtonText:setAlignment(1)
+  self.mainMenuButtonText:setAlignment(1)
+  -- self.pauseMenuBackgroundProp = MOAIProp2D.new()
+  -- self.pauseMenuBackgroundProp:setDeck(ResourceManager:get('menu_background'))
+  -- self.pauseMenuBackgroundProp:setLoc(SCREEN_RESOLUTION_X/2, SCREEN_RESOLUTION_Y/2)
+  self.pauseLayer:setViewport(viewport)
+  -- self.pauseLayer:insertProp(self.pauseMenuBackgroundProp)
+
+  -- self.pauseMenuBackgroundProp:setPriority(10)
+
+  local layers = MOAIRenderMgr.getRenderTable()
+  table.insert(layers,self.pauseLayer)
+  table.insert(layers, self.pauseButtonLayer)
+  MOAIRenderMgr.setRenderTable(layers)
+end
+
+function HUD:hidePauseMenu()
+  
+  self.pauseLayer:removeProp(self.continueButton)
+  self.pauseLayer:removeProp(self.continueButtonText)
+  self.pauseLayer:removeProp(self.restartButton)
+  self.pauseLayer:removeProp(self.restartButtonText)
+  self.pauseLayer:removeProp(self.mainMenuButton)
+  self.pauseLayer:removeProp(self.mainMenuButtonText)
+  local layers = MOAIRenderMgr.getRenderTable()
+  table.remove(layers)
+  MOAIRenderMgr.setRenderTable(layers)
 end
