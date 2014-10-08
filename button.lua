@@ -2,8 +2,11 @@ local class = require 'external/middleclass'
 
 Button = class('Button')
 
-function Button:initialize(name, linkedObject, layer, position)
+function Button:initialize(name,body, fixture, linkedObject, layer, position)
   self.name = name
+  self.physics = {}
+  self.physics.body = body
+  self.physics.fixture = fixture
   self.linkedObject = linkedObject
   self.layer = layer
   self.position = position
@@ -15,26 +18,21 @@ function Button:initializePhysics()
 
   self.prop = MOAIProp2D.new ()
   self.prop:setDeck ( self.deck )
-  self.prop:setLoc (0,0 )
   self.prop:setScl(1,-1)
 
+  self.prop:setDeck(ResourceManager:get('button'))
   self.layer:insertProp ( self.prop )
-
-  self.physics = {}
-  self.physics.body = PhysicsManager.world:addBody ( MOAIBox2DBody.KINEMATIC )
-  local x, y = unpack ( self.position )
-  self.physics.body:setTransform ( x,y )
-
-  self.physics.fixture = self.physics.body:addRect(-32,-5,32,5)
-  self.physics.fixture.name = self.name
+  self.physics.fixture:setSensor(true)
   self.physics.fixture:setCollisionHandler ( Button.onCollide, MOAIBox2DArbiter.BEGIN )
-
   self.prop:setParent ( self.physics.body )
+  self.prop:setLoc(0,-32)
 
 
 end
 
 function Button:act()
+  self.deck = ResourceManager:get('button_pressed')
+  self.prop:setDeck(self.deck)
   self.linkedObject:act()
 end
 
