@@ -60,6 +60,7 @@ function MapManager:buildObject(object, objectType)
       name = object.name,
       type = objectType,
       shape = object.shape,
+      rotation = object.rotation,
       position = {object.x  + object.width / 2, (object.y + object.height/2) - self.map.tileheight },
       size = { object.width, object.height },
       properties = object.properties 

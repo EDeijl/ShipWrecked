@@ -47,6 +47,22 @@ local resource_definitions = {
     fileName = 'collectibles/box.png',
     width = 64, height = 64
   },
+  door = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/door.png',
+    width = 64, height = 128
+  },
+  
+  button = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/button.png',
+    width = 64, height = 64
+  },
+  button_pressed = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/button_pressed.png',
+    width = 64, height = 64
+  },
   col1_active = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col1_active.png',
@@ -272,15 +288,19 @@ function Game:loadScene ()
   for key, attr in pairs ( scene_objects ) do
 
     local body = PhysicsManager.world:addBody( attr.type )
-    body:setTransform( unpack ( attr.position ) );
-    width, height = unpack ( attr.size );
+    body:setTransform( unpack ( attr.position ));
+    if attr.rotation ~=0 then
+      print("rotation: " .. attr.rotation)
+    end
+
+    local width, height = unpack ( attr.size );
 
     local fixture = body:addRect ( -width/2, -height/2, width/2, height/2 )
     --print (attr.name)
 
     if string.find(attr.name, "collectible_") then
       --print "check"
-      fixture.name = attr.nam
+      fixture.name = attr.name
       local position = attr.position
       local animStart = tonumber(attr.properties.animStart)
       local animStop = tonumber(attr.properties.animStop)
@@ -289,19 +309,23 @@ function Game:loadScene ()
     elseif string.find(attr.name, "door_") then
       fixture.name = attr.name
       local position = attr.position
-      local resource = ResourceManager:get('box')
+      local rotation = 0
+      if width > height then
+        rotation = 90
+      end
+      local size = {width, height}
       local x = tonumber(attr.properties.moveX)
       local y = tonumber(attr.properties.moveY)
 
       local direction = { x, y}
       local rect = { -width/2, -height/2, width/2, height/2 }
-      local door = Door:new(attr.name,body, fixture,  resource, direction, rect, self.layers.main)
+      local door = Door:new(attr.name,body, fixture, direction, rect, self.layers.main, rotation)
       doorTable[attr.name] = door
     elseif string.find(attr.name, "button_") then
       fixture.name = attr.name 
       local position = attr.position
       local linkedObject = doorTable[attr.properties.control_link]
-      local button = Button:new(attr.name, linkedObject, self.layers.main, position)
+      local button = Button:new(attr.name,body, fixture, linkedObject, self.layers.main, position)
       buttonTable[attr.name] = button
     else
 
