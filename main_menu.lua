@@ -32,9 +32,11 @@ function MainMenu:update()
 end
 
 function MainMenu:initialize()
-
+  AudioManager:initialize()
+  AudioManager:play('backgroundMusic', true)
   self.playing = true
   ResourceDefinitions:setDefinitions ( resource_definitions )
+  AudioManager:initialize()
   InputManager:initialize()
   self.renderTable = {}
   self.camera = MOAICamera2D.new()
@@ -109,6 +111,7 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
   print (pickedProp.name)
   if pickedProp then
     if pickedProp.name == 'play' then
+      AudioManager:play('shoot', false)
       --switchScene(GAME_LEVEL, level_files.level1)
       switchScene(MENU_LEVEL)
     end

@@ -1,16 +1,28 @@
 module ( "AudioManager", package.seeall )
 
 local audio_definitions = {
-  
+
   backgroundMusic = {
-    fileName = 'sounds/music.mp3', 
+    fileName = 'sounds/music.wav', 
     type = RESOURCE_TYPE_SOUND, 
     loop = true,
     volume = 1
   },
-  
+
   jump = {
-    fileName = 'sounds/jump.wav', 
+    fileName = 'sounds/jump_low_bitrate.wav', 
+    type = RESOURCE_TYPE_SOUND, 
+    loop = false,
+    volume = 1
+  },
+  pain = {
+    fileName = 'sounds/pain.wav',
+    type = RESOURCE_TYPE_SOUND, 
+    loop = false,
+    volume = 1
+  },
+  shoot = {
+    fileName = 'sounds/shoot_low_bitrate.wav',
     type = RESOURCE_TYPE_SOUND, 
     loop = false,
     volume = 1
@@ -28,13 +40,13 @@ function AudioManager:initialize ()
   -- all the audio definitions
   -- into ResourceDefinitions.
   ResourceDefinitions:setDefinitions ( audio_definitions )
-  
+
   -- Since we're using Untz, we need 
   -- to initialize it.
   MOAIUntzSystem.initialize ()
-  
+
 end
-  
+
 ------------------------------------------------
 -- play ( string: name, bool: loop )
 -- if it was previously defined, it starts
@@ -54,10 +66,10 @@ function AudioManager:play ( name, loop )
   if loop ~= nil then
     audio:setLooping ( loop )
   end
-  
+
   -- We play the sound
   audio:play ()
-  
+
 end
 
 ------------------------------------------------
@@ -71,12 +83,12 @@ function AudioManager:get ( name )
   -- was loaded, and if it wasn't
   -- we load it.
   local audio = self.sounds[name]
-  
+
   if not audio then 
     audio = ResourceManager:get ( name )
     self.sounds[name] = audio
   end
-  
+
   return audio
 end
 
@@ -86,13 +98,13 @@ end
 -- it stops the playback.
 ------------------------------------------------
 function AudioManager:stop ( name )
-  
+
   -- Load the sound if it was not 
   -- loaded previously.
   local audio = AudioManager:get ( name )
-  
+
   audio:stop ()
-  
+
 end
 
 ------------------------------------------------
@@ -106,7 +118,7 @@ end
 ------------------------------------------------
 function AudioManager:fadeIn ( name, time, maxVolume )
 end
-  
+
 ------------------------------------------------
 -- fadeOut ( string: name, number: time )
 -- it plays the audio referenced by 'name' if 

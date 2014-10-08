@@ -12,7 +12,7 @@ function HUD:initialize ()
   self.font = MOAIFont.new ()
   self.font = ResourceManager:get ( "hudFont" )
   self.xMargin = WORLD_RESOLUTION_X / 10
-  self.yMarginControls = WORLD_RESOLUTION_Y / 4
+  self.yMarginControls = WORLD_RESOLUTION_Y / 5
   self.yMargin = WORLD_RESOLUTION_Y / 7
   self.xyScale = WORLD_RESOLUTION_Y / WORLD_RESOLUTION_X
   self.controlSize = CONTROL_WORLD_SCALE * SCREEN_RESOLUTION_X
