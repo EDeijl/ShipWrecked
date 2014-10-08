@@ -103,7 +103,7 @@ function HUD:initializeControls()
   self.life1 = self:makeInterfaceElement('life', 'life1', self.xMargin,                      self.yMargin, 1)
   self.life2 = self:makeInterfaceElement('life', 'life2', self.xMargin + self.hudIconSize,   self.yMargin, 1)
   self.life3 = self:makeInterfaceElement('life', 'life3', self.xMargin + 2*self.hudIconSize, self.yMargin, 1)
-  self.timerIndictator = self:newTextBox ( 30, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin * 1.8, SCREEN_RESOLUTION_X/2 + 200, self.yMargin * 1.8 + 50 } )
+  self.timerIndictator = self:newTextBox ( 30, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 } )
 end
 
 ------------------------------------------------
