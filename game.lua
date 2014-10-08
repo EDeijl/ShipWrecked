@@ -40,7 +40,7 @@ local resource_definitions = {
     fileName = 'gui/pause.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
   }, 
-    button_level_background_back = {
+  button_level_background_back = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/button_level_background_back.png',
     width = 163, height = 61
@@ -62,13 +62,13 @@ local resource_definitions = {
     fileName = 'collectibles/door.png',
     width = 64, height = 128
   },
-    
+
   button = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'collectibles/button.png',
     width = 64, height = 64
   },
-    button_pressed = {
+  button_pressed = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'collectibles/button_pressed.png',
     width = 64, height = 64
@@ -103,18 +103,18 @@ local resource_definitions = {
     fileName = 'gui/col3_nonactive.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
   },
-    life = {
+  life = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/life.png',
     width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
   },
- 
+
   button_level_background = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/button_level_background.png',
     width = 163, height = 121
   },
-   menu_background = {
+  menu_background = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/bluesquare.png',
     width = .8* SCREEN_RESOLUTION_X, height = .8 *SCREEN_RESOLUTION_Y
@@ -156,13 +156,13 @@ buttonTable = {}
 function Game:getTable(tableName)
   if tableName == 'collectiblesTable' then
     return collectibleTable
-    elseif tableName == 'buttonTable' then
-      return buttonTable
-      elseif tableName == 'doorTable' then
-        return doorTable
-      end
+  elseif tableName == 'buttonTable' then
+    return buttonTable
+  elseif tableName == 'doorTable' then
+    return doorTable
+  end
 
-    end
+end
 
 ------------------------------------------------
 -- start ( )
@@ -256,11 +256,11 @@ function Game:setupLayers ()
   -- We create a render table that
   -- has all the layers in order.
   self.renderTable = {
-  self.layers.background,
-  self.layers.farAway,
-  self.layers.main,
-  self.layers.walkBehind
-}
+    self.layers.background,
+    self.layers.farAway,
+    self.layers.main,
+    self.layers.walkBehind
+  }
 
   -- Make that render table active
   MOAIRenderMgr.setRenderTable( renderTable )
@@ -326,60 +326,62 @@ function Game:loadScene ()
       local position = attr.position
       local collectible = Collectible:new(attr.name, self.layers.main, position)
       collectibleTable[attr.name] = collectible
-      elseif string.find(attr.name, "door_") then
-        fixture.name = attr.name
-        local position = attr.position
-        local rotation = 0
-        if width > height then
-          rotation = 90
-        end
-        local size = {width, height}
-        local x = tonumber(attr.properties.moveX)
-        local y = tonumber(attr.properties.moveY)
-
-        local direction = { x, y}
-        local rect = { -width/2, -height/2, width/2, height/2 }
-        local door = Door:new(attr.name,body, fixture, direction, rect, self.layers.main, rotation)
-        doorTable[attr.name] = door
-        elseif string.find(attr.name, "button_") then
-          fixture.name = attr.name 
-          local position = attr.position
-          local linkedObject = doorTable[attr.properties.control_link]
-          local button = Button:new(attr.name,body, fixture, linkedObject, self.layers.main, position)
-          buttonTable[attr.name] = button
-        else
-
-          fixture.name = attr.name
-        end
-        fixture:setFriction( 0 )
-
-        self.objects[key] = { body = body, fixture = fixture }
+    elseif string.find(attr.name, "door_") then
+      fixture.name = attr.name
+      local position = attr.position
+      local rotation = 0
+      if width > height then
+        rotation = 90
       end
+      local size = {width, height}
+      local x = tonumber(attr.properties.moveX)
+      local y = tonumber(attr.properties.moveY)
+
+      local direction = { x, y}
+      local rect = { -width/2, -height/2, width/2, height/2 }
+      local door = Door:new(attr.name,body, fixture, direction, rect, self.layers.main, rotation)
+      doorTable[attr.name] = door
+    elseif string.find(attr.name, "button_") then
+      fixture.name = attr.name 
+      local position = attr.position
+      local linkedObject = doorTable[attr.properties.control_link]
+      local button = Button:new(attr.name,body, fixture, linkedObject, self.layers.main, position)
+      buttonTable[attr.name] = button
+    else
+
+      fixture.name = attr.name
     end
+    fixture:setFriction( 0 )
+
+    self.objects[key] = { body = body, fixture = fixture }
+  end
+end
 
 
-    function Game:belongsToScene ( fixture )
-      for key, object in pairs ( self.objects ) do
-        if object.fixture == fixture then
-          return true
-        end
-      end
-      return false
+
+
+function Game:belongsToScene ( fixture )
+  for key, object in pairs ( self.objects ) do
+    if object.fixture == fixture then
+      return true
     end
+  end
+  return false
+end
 
 
-    function Game:keyPressed ( key, down )
+function Game:keyPressed ( key, down )
 
-      if key == 'right' then Character:moveRight ( down ) end
-      if key == 'left' then Character:moveLeft ( down ) end
-      if key == 'up' then Character:jump ( down ) end
+  if key == 'right' then Character:moveRight ( down ) end
+  if key == 'left' then Character:moveLeft ( down ) end
+  if key == 'up' then Character:jump ( down ) end
 
-      if key == 'w' then Character:changeGrav ( key, down ) end
-      if key == 'a' then Character:changeGrav ( key, down ) end
-      if key == 's' then Character:changeGrav ( key, down ) end
-      if key == 'd' then Character:changeGrav ( key, down ) end
+  if key == 'w' then Character:changeGrav ( key, down ) end
+  if key == 'a' then Character:changeGrav ( key, down ) end
+  if key == 's' then Character:changeGrav ( key, down ) end
+  if key == 'd' then Character:changeGrav ( key, down ) end
 
-      if key == 'm' then switchScene(key, down) end
+  if key == 'm' then switchScene(key, down) end
 
 
   --if key == 'space' then Character:shoot() end
@@ -397,6 +399,18 @@ function Game:updateCamera ()
 
 end
 
+function Game:checkAllCollected()
+  local allCollected = false
+  for k, v in pairs(collectibleTable) do
+    if collectibleTable[k].collected == true then
+      allcollected = true
+    else
+      allcollected = false
+    end
+  end
+  return allcollected
+end
+
 
 function Game:pause(paused)
   PhysicsManager.world:pause(paused)
@@ -408,7 +422,7 @@ end
 
 
 function Game:endGame()
-HUD:showEndScreen()
+  HUD:showEndScreen()
 end
 
 

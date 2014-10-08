@@ -19,7 +19,7 @@ GAME_LEVEL = 2
 local gameOver = false
 -- level files
 level_files = {
-  level1 = 'assets/maps/demo_level.lua',
+  level1 = 'assets/maps/demo_level.lua'
   --level2 = 'assets/maps/test.lua'
 }
 

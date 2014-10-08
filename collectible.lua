@@ -53,6 +53,8 @@ function Collectible:initialize(name, layer, position)
   self.position = position
   self.animations = {}
   self:initializePhysics ()
+  
+  self.collected = false
 end
 
 function Collectible:initializePhysics()
@@ -167,5 +169,6 @@ function Collectible:collect()
   --print (self.name.." collected")
   self.physics.body:destroy()
   self.layer:removeProp(self.prop)
+  self.collected = true
   Game:updateCollectibleHud(self)
 end

@@ -17,21 +17,25 @@ local saveFiles = {}
 ----------------------------------------------------------------
 function get ( filename )
 
-	if not saveFiles [ filename ] then
-		saveFiles [ filename ] = makeSaveFile ( filename ) 
-		saveFiles [ filename ]:loadGame ()
-	end	
-	
-	return saveFiles [ filename ]
+  if not saveFiles [ filename ] then
+    saveFiles [ filename ] = makeSaveFile ( filename ) 
+    saveFiles [ filename ]:loadGame ()
+  end	
+
+  return saveFiles [ filename ]
 end
 
 function createNewData ()
   data = {
     id = "user",
-    level = 0,
-    time = 0
+    levels = {
+      level1 = {
+        time = 0,
+        unlocked = true
+      }
+    }
   }
-  
+
   return data
 end
 
@@ -40,65 +44,65 @@ end
 ----------------------------------------------------------------
 function makeSaveFile ( filename )
 
-	local savefile = {}
-	
-	savefile.filename = filename
-	savefile.fileexist = false
-	savefile.data = nil
-	----------------------------------------------------------------
-	savefile.loadGame = function ( self )
-		local fullFileName = self.filename .. ".lua"
-		local workingDir
-    
-		if DEVICE then
-			workingDir = MOAIFileSystem.getWorkingDirectory ()
-			MOAIFileSystem.setWorkingDirectory ( MOAIEnvironment.documentDirectory )
-		end
-		
-		if MOAIFileSystem.checkFileExists ( fullFileName ) then
+  local savefile = {}
+
+  savefile.filename = filename
+  savefile.fileexist = false
+  savefile.data = nil
+  ----------------------------------------------------------------
+  savefile.loadGame = function ( self )
+    local fullFileName = self.filename .. ".lua"
+    local workingDir
+
+    if DEVICE then
+      workingDir = MOAIFileSystem.getWorkingDirectory ()
+      MOAIFileSystem.setWorkingDirectory ( MOAIEnvironment.documentDirectory )
+    end
+
+    if MOAIFileSystem.checkFileExists ( fullFileName ) then
       print ("Loading file: " .. fullFileName)
-			local file = io.open ( fullFileName, 'rb' )
-			savefile.data = dofile ( fullFileName )
-			self.fileexist = true
-		else
+      local file = io.open ( fullFileName, 'rb' )
+      savefile.data = dofile ( fullFileName )
+      self.fileexist = true
+    else
       print ("Creating new save file")
-			savefile.data = {}
-			self.fileexist = false
-		end
+      savefile.data = {}
+      self.fileexist = false
+    end
 
-		if DEVICE then
-			MOAIFileSystem.setWorkingDirectory ( workingDir )
-		end
-		
-		return self.fileexist
-	end
+    if DEVICE then
+      MOAIFileSystem.setWorkingDirectory ( workingDir )
+    end
 
-	----------------------------------------------------------------
-	savefile.saveGame = function ( self )
-		local fullFileName = self.filename .. ".lua"
-		local workingDir
-		local serializer = MOAISerializer.new ()
-    
-		self.fileexist = true
-		serializer:serialize ( self.data )
-		local gamestateStr = serializer:exportToString ()
-		
-		if not DEVICE then
+    return self.fileexist
+  end
+
+  ----------------------------------------------------------------
+  savefile.saveGame = function ( self )
+    local fullFileName = self.filename .. ".lua"
+    local workingDir
+    local serializer = MOAISerializer.new ()
+
+    self.fileexist = true
+    serializer:serialize ( self.data )
+    local gamestateStr = serializer:exportToString ()
+
+    if not DEVICE then
       print ("Saving file: " .. fullFileName)
-			local file = io.open ( fullFileName, 'wb' )
-			file:write ( gamestateStr )
-			file:close ()
-			
-		else
-			workingDir = MOAIFileSystem.getWorkingDirectory () 
-			MOAIFileSystem.setWorkingDirectory ( MOAIEnvironment.documentDirectory )
+      local file = io.open ( fullFileName, 'wb' )
+      file:write ( gamestateStr )
+      file:close ()
 
-			local file = io.open ( fullFileName, 'wb' )
-			file:write ( gamestateStr )
-			file:close ()
-			MOAIFileSystem.setWorkingDirectory ( workingDir )
-		end
-	end
+    else
+      workingDir = MOAIFileSystem.getWorkingDirectory () 
+      MOAIFileSystem.setWorkingDirectory ( MOAIEnvironment.documentDirectory )
 
-	return savefile
+      local file = io.open ( fullFileName, 'wb' )
+      file:write ( gamestateStr )
+      file:close ()
+      MOAIFileSystem.setWorkingDirectory ( workingDir )
+    end
+  end
+
+  return savefile
 end
