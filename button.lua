@@ -17,7 +17,6 @@ end
 function Button:initializePhysics()
 
   self.prop = MOAIProp2D.new ()
-  self.prop:setDeck ( self.deck )
   self.prop:setScl(1,-1)
 
   self.prop:setDeck(ResourceManager:get('button'))
@@ -31,9 +30,14 @@ function Button:initializePhysics()
 end
 
 function Button:act()
-  self.deck = ResourceManager:get('button_pressed')
-  self.prop:setDeck(self.deck)
-  self.linkedObject:act()
+  if self.activated == false then
+    self.deck = ResourceManager:get('button_pressed')
+    self.prop:setDeck(self.deck)
+    self.linkedObject:act()
+    self.activated = true
+  else
+  end
+
 end
 
 
