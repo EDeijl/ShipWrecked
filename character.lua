@@ -247,11 +247,13 @@ function Character:initializePhysics ()
   --Used to check if the player is on the ground
   self.physics.footfixture = self.physics.body:addRect( -29.8, 65, 29.8, 63  )
   self.physics.footfixture.name = "foot"
+    self.physics.footfixture:setSensor(true)
+
   -- Now we need to bind our prop with the physics object.
   self.prop:setParent ( self.physics.body )
   -- Lastly we set a method that will handle collisions
-  self.physics.fixture:setCollisionHandler ( onCollide, MOAIBox2DArbiter.BEGIN )
-  self.physics.footfixture:setCollisionHandler ( onFootCollide, MOAIBox2DArbiter.BEGIN + MOAIBox2DArbiter.END )
+  self.physics.fixture:setCollisionHandler ( Character.onCollide, MOAIBox2DArbiter.BEGIN )
+  self.physics.footfixture:setCollisionHandler ( Character.onFootCollide, MOAIBox2DArbiter.BEGIN + MOAIBox2DArbiter.END )
 end
 
 
@@ -447,7 +449,7 @@ function Character:die()
 end
 
 
-function onCollide (  phase, fixtureA, fixtureB, arbiter )
+function Character.onCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "player" and string.find(fixtureB.name, "spikes_") and phase == MOAIBox2DArbiter.BEGIN then
     Character:damage()
   end
@@ -459,9 +461,8 @@ function Character:getLives()
 end
 
 
-function onFootCollide (  phase, fixtureA, fixtureB, arbiter )
+function Character.onFootCollide (  phase, fixtureA, fixtureB, arbiter )
   if phase == MOAIBox2DArbiter.BEGIN then
-    print ("object: " .. fixtureB.name)
     Character.currentContactCount = Character.currentContactCount + 1
     if fixtureB.name == 'platform' then
       Character.platform = fixtureB:getBody()
