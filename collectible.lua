@@ -2,14 +2,52 @@ local class = require 'external/middleclass'
 
 Collectible = class('Collectible')
 
-function Collectible:initialize(name, animStart, animStop, layer, position)
+local collectibles = {
+  animations = {
+    col_1 = {
+      startFrame = 1,
+      endFrame = 21,
+      time = 0.05,
+      mode = MOAITimer.LOOP
+    },
+    col_2 = {
+      startFrame = 25,
+      endFrame = 46,
+      time = 0.05,
+      mode = MOAITimer.LOOP
+    },
+    col_3 = {
+      startFrame = 49,
+      endFrame = 70,
+      time = 0.05,
+      mode = MOAITimer.LOOP
+    }
+  }
+}
+
+
+
+
+function Collectible:initialize(name, layer, position)
 
   self.name = name
   self.start = animStart
-  self.anim = {
-  start = animStart,
-  stop = animStop
-  }
+  if(name == "collectible_1") then
+    self.anim = {
+      start = collectibles.animations.col_1.startFrame,
+      stop = collectibles.animations.col_1.endFrame
+    }
+  elseif(name == "collectible_2") then
+    self.anim = {
+      start = collectibles.animations.col_2.startFrame,
+      stop = collectibles.animations.col_2.endFrame
+    }
+  elseif(name == "collectible_3") then
+    self.anim = {
+      start = collectibles.animations.col_3.startFrame,
+      stop = collectibles.animations.col_3.endFrame
+    }
+  end
   self.deck = ResourceManager:get ( 'collectibles' )
   self.layer = layer
   self.position = position
@@ -18,14 +56,14 @@ function Collectible:initialize(name, animStart, animStop, layer, position)
 end
 
 function Collectible:initializePhysics()
-  
+
   self.prop = MOAIProp2D.new ()
   self.prop:setDeck ( self.deck )
   self.prop:setLoc (0,0 )
   self.prop:setScl(2,-2)
 
   self.layer:insertProp ( self.prop )
-  
+
   -- We create a remapper to use
   -- for indexing the deck on our
   -- animations
@@ -40,8 +78,8 @@ function Collectible:initializePhysics()
   -- with the character's prop
   self.prop:setRemapper ( self.remapper )
 
-  
-  
+
+
   self.physics = {}
   self.physics.body = PhysicsManager.world:addBody ( MOAIBox2DBody.KINEMATIC )
   local x, y = unpack ( self.position )
@@ -50,13 +88,13 @@ function Collectible:initializePhysics()
   self.physics.fixture = self.physics.body:addRect( -16,-16,16,16  )
   self.physics.fixture.name = self.name
   self.physics.fixture:setCollisionHandler ( Collectible.onCollide, MOAIBox2DArbiter.BEGIN )
-  
+
   self.prop:setParent ( self.physics.body )
-  
+
   self.frameCount = self.anim.stop - self.anim.start + 1
   print ("fcount: "..self.frameCount)
   self:addAnimation ( self.name, self.anim.start, self.frameCount, 0.05, MOAITimer.LOOP )
-  
+
 end
 
 function Collectible:addAnimation ( name, startFrame, frameCount, time, mode )
@@ -113,7 +151,7 @@ function Collectible:addAnimation ( name, startFrame, frameCount, time, mode )
   -- on the animations table indexed by 'name'.
   self.animations[name] = anim
   self.animations[name]:start()
-  
+
 end
 
 function Collectible.onCollide (  phase, fixtureA, fixtureB, arbiter )

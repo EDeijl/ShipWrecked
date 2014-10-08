@@ -302,9 +302,7 @@ function Game:loadScene ()
       --print "check"
       fixture.name = attr.name
       local position = attr.position
-      local animStart = tonumber(attr.properties.animStart)
-      local animStop = tonumber(attr.properties.animStop)
-      local collectible = Collectible:new(attr.name, animStart, animStop, self.layers.main, position)
+      local collectible = Collectible:new(attr.name, self.layers.main, position)
       collectibleTable[attr.name] = collectible
     elseif string.find(attr.name, "door_") then
       fixture.name = attr.name

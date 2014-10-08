@@ -1051,7 +1051,7 @@ return {
           visible = true,
           properties = {
             ["animStart"] = "1",
-            ["animStop"] = "4"
+            ["animStop"] = "21"
           }
         },
         {
@@ -1065,8 +1065,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["animStart"] = "5",
-            ["animStop"] = "8"
+            ["animStart"] = "25",
+            ["animStop"] = "46"
           }
         },
         {
@@ -1080,8 +1080,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["animStart"] = "9",
-            ["animStop"] = "12"
+            ["animStart"] = "49",
+            ["animStop"] = "70"
           }
         },
         {
