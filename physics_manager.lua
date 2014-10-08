@@ -21,6 +21,7 @@ function PhysicsManager:initialize ( layer )
   -- that is not realistic but is useful
   -- for our game
   self.world:setGravity ( 0, GRAVITY )
+  self.world:setDebugDrawEnabled(false)
   self.GRAVITY_DIRECTION = "down"
   -- We start the simulation so objects
   -- begin to interact.
