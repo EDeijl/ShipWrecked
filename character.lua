@@ -1,6 +1,6 @@
 module ( "Character", package.seeall )
 
-require "physics_manager"
+require "managers/physics_manager"
 require "hud"
 -- This will define all the initialization
 -- parameters for the character, including its

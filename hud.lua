@@ -9,7 +9,8 @@ function HUD:initialize ()
   -- Set the countdowntimer in seconds
   self.countdownTime = 300
   self.isOverlay = true
-
+  self.font = MOAIFont.new ()
+  self.font = ResourceManager:get ( "hudFont" )
   self.xMargin = WORLD_RESOLUTION_X / 10
   self.yMarginControls = WORLD_RESOLUTION_Y / 4
   self.yMargin = WORLD_RESOLUTION_Y / 7
@@ -46,7 +47,7 @@ function HUD:initialize ()
 
 
   -- Add left and right indicator
-  self:initializeDebugHud ()
+  --self:initializeDebugHud ()
   self:startTimer()
   -- Add controls
   self.root = MOAITransform.new()
@@ -79,7 +80,7 @@ function HUD:initializeDebugHud ()
   -- in world coordinates.
   self.positionIndicator = self:newDebugTextBox ( 30, {10, 50, 200, 100} )
 
-  self.timerIndictator = self:newDebugTextBox ( 30, {10, 90, 300, 150 } )
+  
 
 
 end
@@ -102,7 +103,7 @@ function HUD:initializeControls()
   self.life1 = self:makeInterfaceElement('life', 'life1', self.xMargin,                      self.yMargin, 1)
   self.life2 = self:makeInterfaceElement('life', 'life2', self.xMargin + self.hudIconSize,   self.yMargin, 1)
   self.life3 = self:makeInterfaceElement('life', 'life3', self.xMargin + 2*self.hudIconSize, self.yMargin, 1)
-
+  self.timerIndictator = self:newTextBox ( 30, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin * 1.8, SCREEN_RESOLUTION_X/2 + 200, self.yMargin * 1.8 + 50 } )
 end
 
 ------------------------------------------------
@@ -114,6 +115,34 @@ end
 -- of the textbox.
 ------------------------------------------------
 function HUD:newDebugTextBox ( size, rectangle )
+  -- We create the textbox
+  local textBox = MOAITextBox.new ()
+
+  -- we preloaded the font 
+  -- in initializeDebugHud
+  -- but we could have a parameter
+  -- if needed
+  textBox:setFont ( self.font )
+
+  -- we set the size of the font
+  -- using the 'size' parameter
+  textBox:setTextSize ( size )
+
+  -- we transform the rectangle
+  -- table in the necessary
+  -- parameters to setRect
+  textBox:setRect ( unpack ( rectangle ) )
+
+  -- We add the textbox to
+  -- the HUD's layer
+  layer:insertProp ( textBox )
+  partition:insertProp(textBox)
+  -- And finally return it
+  return textBox
+
+end
+
+function HUD:newTextBox ( size, rectangle )
   -- We create the textbox
   local textBox = MOAITextBox.new ()
 
@@ -158,20 +187,20 @@ function HUD:update ()
   -- facing left, and if it's < 0, it's 
   -- inverted, so it has to be facing
   -- right.
-  if x > 0 then
-    self.leftRightIndicator:setString ( "Right" )
-  else
-    self.leftRightIndicator:setString ( "Left" )
-  end
+--  if x > 0 then
+--    self.leftRightIndicator:setString ( "Right" )
+--  else
+--    self.leftRightIndicator:setString ( "Left" )
+--  end
 
   -- To update the character position
   -- we need to query its Box2D body.
   -- We get its position and create
   -- a string in the format of (x,y).
-  x, y = Character.physics.body:getPosition ()
-  self.positionIndicator:setString ( "( " .. 
-    math.floor ( x ) .. " , " .. 
-    math.floor ( y ) .. " )" )
+--  x, y = Character.physics.body:getPosition ()
+--  self.positionIndicator:setString ( "( " .. 
+--    math.floor ( x ) .. " , " .. 
+--    math.floor ( y ) .. " )" )
   self:rotateHud()
 end
 
