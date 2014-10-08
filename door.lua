@@ -45,7 +45,6 @@ function Door:initializePhysics()
   self.prop:setScl(1,-1)
 
   self.layer:insertProp ( self.prop )
-  self.physics.fixture:setCollisionHandler ( onCollide, MOAIBox2DArbiter.BEGIN )
---  self.prop:setParent ( self.physics.body )
+  self.prop:setParent ( self.physics.body )
 end
 

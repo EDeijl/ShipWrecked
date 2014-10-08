@@ -102,5 +102,10 @@
     <property name="control_link" value="door_1"/>
    </properties>
   </object>
+  <object name="button_2" type="kinematic" x="3264" y="2506" width="64" height="10" rotation="-180">
+   <properties>
+    <property name="control_link" value="door_1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

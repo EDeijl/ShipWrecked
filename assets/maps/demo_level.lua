@@ -1136,6 +1136,20 @@ return {
           properties = {
             ["control_link"] = "door_1"
           }
+        },
+        {
+          name = "button_2",
+          type = "kinematic",
+          shape = "rectangle",
+          x = 3264,
+          y = 2506,
+          width = 64,
+          height = 10,
+          rotation = -180,
+          visible = true,
+          properties = {
+            ["control_link"] = "door_1"
+          }
         }
       }
     }
