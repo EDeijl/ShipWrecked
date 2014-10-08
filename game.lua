@@ -282,7 +282,14 @@ function Game:loadScene ()
   for key, attr in pairs ( scene_objects ) do
 
     local body = PhysicsManager.world:addBody( attr.type )
-    body:setTransform( unpack ( attr.position ) );
+    body:setTransform( unpack ( attr.position ));
+    if attr.rotation ~=0 then
+      print("rotation: " .. attr.rotation)
+      body:setTransform(unpack(attr.position), attr.rotation)
+    else
+      body:setTransform( unpack ( attr.position ));
+    end
+
     width, height = unpack ( attr.size );
 
     local fixture = body:addRect ( -width/2, -height/2, width/2, height/2 )
@@ -290,7 +297,7 @@ function Game:loadScene ()
 
     if string.find(attr.name, "collectible_") then
       --print "check"
-      fixture.name = attr.nam
+      fixture.name = attr.name
       local position = attr.position
       local animStart = tonumber(attr.properties.animStart)
       local animStop = tonumber(attr.properties.animStop)
@@ -311,7 +318,7 @@ function Game:loadScene ()
       fixture.name = attr.name 
       local position = attr.position
       local linkedObject = doorTable[attr.properties.control_link]
-      local button = Button:new(attr.name, linkedObject, self.layers.main, position)
+      local button = Button:new(attr.name,body, fixture, linkedObject, self.layers.main, position)
       buttonTable[attr.name] = button
     else
 
