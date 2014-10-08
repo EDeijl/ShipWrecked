@@ -47,6 +47,16 @@ local resource_definitions = {
     fileName = 'collectibles/box.png',
     width = 64, height = 64
   },
+  button = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/button.png',
+    width = 64, height = 64
+  },
+  button_pressed = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/button_pressed.png',
+    width = 64, height = 64
+  },
   col1_active = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col1_active.png',
