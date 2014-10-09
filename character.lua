@@ -459,7 +459,7 @@ function Character.onCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "player" and string.find(fixtureB.name, "spikes_") and phase == MOAIBox2DArbiter.BEGIN then
     Character:damage()
   end
-  if fixtureB.name == "endGame" and allCollected then
+  if fixtureB.name == "endGame" and Game:checkAllCollected() then
     Game:endGame()
   end
   

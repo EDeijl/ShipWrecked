@@ -17,6 +17,7 @@ function InputManager:initialize ()
     if key == 107 then key = 's' end
     if key == 108 then key = 'd' end
     if key == 109 then key = 'm' end
+    if key == 9 then key = 'tab' end 
     --if key == 32 then key = 'space' end
     Game:keyPressed ( key, down )
   end

@@ -186,7 +186,7 @@ end
 function Game:initialize ()  
   -- Initialize camera
 
-
+  self.savedLives = 10
   self.camera = MOAICamera2D.new ()
 
   -- We need multiple layers
@@ -382,8 +382,8 @@ function Game:keyPressed ( key, down )
   if key == 'd' then Character:changeGrav ( key, down ) end
 
   if key == 'm' then switchScene(key, down) end
-
-
+  
+  if key == 'tab' and down == true then self:endGame() end
   --if key == 'space' then Character:shoot() end
 end
 
@@ -422,7 +422,15 @@ end
 
 
 function Game:endGame()
-  HUD:showEndScreen()
+  
+  local minTime = 200
+  local division = minTime/ self.savedLives
+  local timeLeft = self.hud.countdownTime
+  if timeLeft < 200 then
+    self.livesLeft = math.floor(timeLeft/division)
+  end
+  
+  HUD:showEndScreen(self.liveLeft, timeLeft)
 end
 
 
