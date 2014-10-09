@@ -15,7 +15,7 @@ function PhysicsManager:initialize ( layer )
   -- We calculated this value using
   -- a proportion from the main
   -- character asset.
-  self.world:setUnitsToMeters ( 1/32 )
+  self.world:setUnitsToMeters (PPM )
 
   -- We set the gravity to something
   -- that is not realistic but is useful

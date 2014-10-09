@@ -23,10 +23,15 @@ end
 
 function Door:moveDoor()
   local timer = MOAITimer.new()
-  timer:setSpan(2)
+  local timeSpan = 2
+  timer:setSpan(timeSpan)
   timer:setMode(MOAITimer.NORMAL)
   timer:setListener(MOAITimer.EVENT_TIMER_BEGIN_SPAN, function()
-      self.physics.body:setLinearVelocity(100,0)
+      local xPixelDistance, yPixelDistance = unpack(self.direction)
+      local vX  =  xPixelDistance / timeSpan
+      local vY = yPixelDistance / timeSpan
+      print("vX: " .. vX .. ", vY: " .. vY)
+      self.physics.body:setLinearVelocity(vX, vY)
     end
   )
   timer:setListener(MOAITimer.EVENT_TIMER_END_SPAN, function()
