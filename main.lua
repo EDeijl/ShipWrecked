@@ -19,9 +19,17 @@ GAME_LEVEL = 2
 local gameOver = false
 -- level files
 level_files = {
-  level1 = 'assets/maps/demo_level.lua'
-  --level2 = 'assets/maps/test.lua'
+  level1 = 'assets/maps/demo_level.lua',
+  level2 = 'assets/maps/test.lua'
 }
+function numberOfLevels()
+  local nLevels = 0
+  for k, v in pairs(level_files) do
+    print(v)
+    nLevels = nLevels + 1
+  end
+  return nLevels
+end
 
 -- Open main screen
 MOAISim.openWindow ( "Shipwrecked in spesh", SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )

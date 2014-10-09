@@ -72,10 +72,10 @@ end
 
 function MenuLevel:initializeButtons()
   
-  local amountOfLevels = #level_files
+  local amountOfLevels = numberOfLevels()
   print ("amountOfLevels: "..amountOfLevels)
   
-  self:createLevelLayout(4,1)
+  self:createLevelLayout(amountOfLevels)
   local resourceX  = resource_definitions.button_level_background.width 
   local resourceY = resource_definitions.button_level_background.height
   button = self:makeButton('back', WORLD_RESOLUTION_X / 10 , WORLD_RESOLUTION_Y / 10 , 'button_level_background_back')
@@ -83,8 +83,7 @@ function MenuLevel:initializeButtons()
   textBox = self:makeText(35, 'L E V E L S E L E C T', {WORLD_RESOLUTION_X/11 - 25, WORLD_RESOLUTION_Y/2 - 200, WORLD_RESOLUTION_X/11 + 25, WORLD_RESOLUTION_Y/2 + 200}, {1,1,1})
 end
 
-function MenuLevel:createLevelLayout(NoWidth, NoHeight)
-  self.noLevels = NoWidth * NoHeight
+function MenuLevel:createLevelLayout(amountOfLevels)
   self.font = MOAIFont.new ()
   self.font = ResourceManager:get ( "font" )
   local resourceX  = resource_definitions.button_level_background.width 
@@ -94,12 +93,20 @@ function MenuLevel:createLevelLayout(NoWidth, NoHeight)
   local xMargin = 100
   local yMargin = 75
   local position = 50
-  for i = 0, NoHeight-1 do
-    for j = 1, NoWidth do
-      local name = "level"..(j + NoWidth*i)
-      --print (name)
-      button = self:makeButton(name, (posX - xMargin) + (resourceX/2 * j) + (xMargin * j), (posY) + (resourceY/2 * i) + (yMargin * i), 'button_level_background')
-      textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * j) + (xMargin * j) - resourceX/2, (posY) + (resourceY/2 * i) + (yMargin * i) - resourceY/2, (posX - xMargin) + (resourceX/2 * j) + (xMargin * j) + resourceX/2, (posY) + (resourceY/2 * i) + (yMargin * i) + resourceY/2}, {0,0,0})
+  local j = 0
+  local k = 0
+  print(amountOfLevels)
+  for i = 1, amountOfLevels do
+    local name = "level"..i
+    k = k + 1
+    if k == 5 then k = 1 end
+    if i % 4 == 1 and i ~= 1 then
+      j = j+1
+      button = self:makeButton(name, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k), (posY) + (resourceY/2 * j) + (yMargin * j), 'button_level_background')
+      textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * k) + (xMargin * k) - resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) - resourceY/2, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k) + resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) + resourceY/2}, {0,0,0})
+    else
+      button = self:makeButton(name, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k), (posY) + (resourceY/2 * j) + (yMargin * j), 'button_level_background')
+      textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * k) + (xMargin * k) - resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) - resourceY/2, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k) + resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) + resourceY/2}, {0,0,0})
     end
   end
 end
