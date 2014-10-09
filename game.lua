@@ -119,6 +119,11 @@ local resource_definitions = {
     fileName = 'gui/bluesquare.png',
     width = .8* SCREEN_RESOLUTION_X, height = .8 *SCREEN_RESOLUTION_Y
   },
+  human = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/human.png',
+    width = 29, height = 85
+  }
 }
 
 -- define some properties for
@@ -426,11 +431,12 @@ function Game:endGame()
   local minTime = 200
   local division = minTime/ self.savedLives
   local timeLeft = self.hud.countdownTime
+  local livesLeft =10
   if timeLeft < 200 then
-    self.livesLeft = math.floor(timeLeft/division)
+    livesLeft = math.floor(timeLeft/division)
   end
-  
-  HUD:showEndScreen(self.liveLeft, timeLeft)
+  print(livesLeft)
+  self.hud:showEndScreen(livesLeft, timeLeft)
 end
 
 
