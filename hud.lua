@@ -364,7 +364,15 @@ function HUD:showEndScreen(liveLeft, timeLeft)
 
   self.menuButton = self:makeButton('button_level_background', 'menuButton', SCREEN_RESOLUTION_X/6 * 4 , SCREEN_RESOLUTION_Y/6 * 4 , 1 ,self.endLayer )
   self.menuText = self:makeText(25, 'MAIN MENU', {SCREEN_RESOLUTION_X/6 * 4 - resourceX/2 ,SCREEN_RESOLUTION_Y/6 * 4 - resourceY/2, SCREEN_RESOLUTION_X/6 * 4 + resourceX/2, SCREEN_RESOLUTION_Y/6 * 4+resourceY/2}, {0,0,0}, self.endLayer)
-
+  local humanWidth = ResourceDefinitions:get('human').width
+  print(liveLeft)
+  for i = 1, liveLeft do
+    local humanProp = MOAIProp2D.new()
+    humanProp:setDeck(ResourceManager:get('human'))
+    humanProp:setLoc(SCREEN_RESOLUTION_X/4 +100 + i * humanWidth+5*i,SCREEN_RESOLUTION_Y/12 * 5.5 )
+    humanProp:setScl(1,-1)
+    self.endLayer:insertProp(humanProp)
+  end
   --self.endProp:setDeck(self.deck)
   --self.endLayer:insertProp(self.endProp)
   local layers = MOAIRenderMgr.getRenderTable()
