@@ -395,11 +395,14 @@ end
 
 function HUD:handleClickOrTouch(x, y, down)
   local pickedProp = partition:propForPoint(layer:wndToWorld(x,y))
-  print (down)
   if pickedProp and down  then
+    if pickedProp.name ~= nil then 
+      print(pickedProp.name)
+    end
     if pickedProp.name == 'left' then
       Game:keyPressed ( 'left', down )
     elseif pickedProp.name == 'right' then
+
       Game:keyPressed ('right', down)
     elseif pickedProp.name == 'restart' then
       Game:restart()
@@ -411,9 +414,9 @@ function HUD:handleClickOrTouch(x, y, down)
       Game:restart()
     elseif pickedProp.name == 'mainmenu' and down == true then
       switchScene(MENU_LEVEL)
-    elseif pickedProp.name == 'retryButton' and down == true then
+    elseif pickedProp.name == 'RETRY' and down == true then
       Game:restart()
-    elseif pickedProp.name == 'menuButton' and down == true then
+    elseif pickedProp.name == 'MAIN MENU' and down == true then
       switchScene(MENU_LEVEL)
     end
 
