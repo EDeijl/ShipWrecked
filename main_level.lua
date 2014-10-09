@@ -72,10 +72,10 @@ end
 
 function MenuLevel:initializeButtons()
   
-  local amountOfLevels = numberOfLevels()
-  print ("amountOfLevels: "..amountOfLevels)
+  self.amountOfLevels = numberOfLevels()
+  print ("self.amountOfLevels: ".. self.amountOfLevels)
   
-  self:createLevelLayout(amountOfLevels)
+  self:createLevelLayout(self.amountOfLevels)
   local resourceX  = resource_definitions.button_level_background.width 
   local resourceY = resource_definitions.button_level_background.height
   button = self:makeButton('back', WORLD_RESOLUTION_X / 10 , WORLD_RESOLUTION_Y / 10 , 'button_level_background_back')
@@ -98,17 +98,31 @@ function MenuLevel:createLevelLayout(amountOfLevels)
   print(amountOfLevels)
   for i = 1, amountOfLevels do
     local name = "level"..i
+    local unlocked = self:checkIfLocked(name)
     k = k + 1
     if k == 5 then k = 1 end
     if i % 4 == 1 and i ~= 1 then
       j = j+1
       button = self:makeButton(name, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k), (posY) + (resourceY/2 * j) + (yMargin * j), 'button_level_background')
-      textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * k) + (xMargin * k) - resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) - resourceY/2, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k) + resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) + resourceY/2}, {0,0,0})
+      if unlocked == false then
+        textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * k) + (xMargin * k) - resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) - resourceY/2, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k) + resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) + resourceY/2}, {.5,.5,.5})
+      else 
+        textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * k) + (xMargin * k) - resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) - resourceY/2, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k) + resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) + resourceY/2}, {0,0,0})
+      end
     else
       button = self:makeButton(name, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k), (posY) + (resourceY/2 * j) + (yMargin * j), 'button_level_background')
-      textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * k) + (xMargin * k) - resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) - resourceY/2, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k) + resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) + resourceY/2}, {0,0,0})
+      if unlocked == false then
+        textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * k) + (xMargin * k) - resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) - resourceY/2, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k) + resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) + resourceY/2}, {.5,.5,.5})
+      else
+        textBox = self:makeText(25, name, {(posX - xMargin) + (resourceX/2 * k) + (xMargin * k) - resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) - resourceY/2, (posX - xMargin) + (resourceX/2 * k) + (xMargin * k) + resourceX/2, (posY) + (resourceY/2 * j) + (yMargin * j) + resourceY/2}, {0,0,0})
+      end
     end
   end
+end
+
+function MenuLevel:checkIfLocked(name)
+  local saveFile = savefiles.get("save")
+  return saveFile.data.levels[name].unlocked
 end
 
 
@@ -148,12 +162,12 @@ function MenuLevel:handleClickOrTouch(x, y, isDown)
 
   if pickedProp and isDown == true then
     print (pickedProp.name)
-    print (self.noLevels)
-    for i=1, self.noLevels do
+    print (self.amountOfLevels)
+    for i=1, self.amountOfLevels do
       print ("i: "..i)
       local levelNo = 'level'..i
 
-      if pickedProp.name == levelNo and level_files[levelNo] ~= nil then
+      if pickedProp.name == levelNo and level_files[levelNo] ~= nil and self:checkIfLocked(levelNo) then
         AudioManager:play('shoot', false)
 
         print "level wordt ingeladen"
