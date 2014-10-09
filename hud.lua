@@ -403,7 +403,7 @@ end
 
 function HUD:handleClickOrTouch(x, y, down)
   local pickedProp = partition:propForPoint(layer:wndToWorld(x,y))
-  if pickedProp and down  then
+  if pickedProp  then
     if pickedProp.name ~= nil then 
       print(pickedProp.name)
     end
