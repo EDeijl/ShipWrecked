@@ -447,7 +447,8 @@ end
 
 
 function Character:die()
-  switchScene(MAIN_MENU)
+  HUD:showGameOverScreen()
+  
 end
 
 function Character:getLives()

@@ -239,6 +239,8 @@ function HUD:rotateHud()
     self:rotateProp(self.rightButton, {self.xMargin + self.controlSize, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, 1,1)
     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMargin}, 0,1,1)
 
+    self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 }, 0, 1,1)
+
     self:rotateProp(self.col1, {SCREEN_RESOLUTION_X - self.xMargin - self.hudIconSize, self.yMargin}, 0,1,1)
     self:rotateProp(self.col2, {SCREEN_RESOLUTION_X - self.xMargin - 2*self.hudIconSize, self.yMargin}, 0,1,1)
     self:rotateProp(self.col3, {SCREEN_RESOLUTION_X - self.xMargin - 3*self.hudIconSize, self.yMargin}, 0,1,1)
@@ -251,7 +253,9 @@ function HUD:rotateHud()
     self:rotateProp(self.leftButton,  {self.yMarginControls, self.xMargin}, 90, -1, self.xyScale)
     self:rotateProp(self.rightButton, {self.yMarginControls, self.controlSize*self.xyScale + self.xMargin}, 90, 1,self.xyScale)
     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 90,1,self.xyScale)
-
+    
+    self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 }, 90, 1,self.xyScale )
+    
     self:rotateProp(self.col1, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
     self:rotateProp(self.col2, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - 2*self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
     self:rotateProp(self.col3, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - 3*self.hudIconSize*self.xyScale -self.yMargin}, 90,1,self.xyScale)
@@ -265,6 +269,8 @@ function HUD:rotateHud()
     self:rotateProp(self.rightButton, {SCREEN_RESOLUTION_X -self.yMarginControls, SCREEN_RESOLUTION_Y - self.xMargin - self.controlSize*self.xyScale}, 270, 1,self.xyScale)
     self:rotateProp(self.pauseButton, {self.yMargin, self.yMargin}, 270, 1, self.xyScale)
 
+    self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2, self.yMargin + 25}, 270, 1,self.xyScale )
+
     self:rotateProp(self.col1, {self.yMargin, self.yMargin +self.hudIconSize*self.xyScale}, 270,1,self.xyScale)
     self:rotateProp(self.col2, {self.yMargin, self.yMargin +2* self.hudIconSize*self.xyScale}, 270,1,self.xyScale)
     self:rotateProp(self.col3, {self.yMargin, self.yMargin +3* self.hudIconSize*self.xyScale}, 270,1,self.xyScale)
@@ -277,7 +283,9 @@ function HUD:rotateHud()
     self:rotateProp(self.leftButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMarginControls}, 180, -1, 1)
     self:rotateProp(self.rightButton, {SCREEN_RESOLUTION_X - self.controlSize - self.xMargin, self.yMarginControls}, 180, 1,1)
     self:rotateProp(self.pauseButton, {self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 180, 1, 1)
-
+    
+    self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2, self.yMargin + 25}, 180, 1,1)
+    
     self:rotateProp(self.col1, {self.xMargin +self.hudIconSize, SCREEN_RESOLUTION_Y - self.yMargin}, 180,1,1)
     self:rotateProp(self.col2, {self.xMargin +2*self.hudIconSize, SCREEN_RESOLUTION_Y - self.yMargin}, 180,1,1)
     self:rotateProp(self.col3, {self.xMargin+3* self.hudIconSize, SCREEN_RESOLUTION_Y - self.yMargin}, 180,1,1)
@@ -306,6 +314,13 @@ function HUD:rotateProp(prop, location, rotation, inverted, scale)
   prop:setLoc(x,y)
   prop:setRot(rotation)
   prop:setScl(inverted*scale, scale)
+end
+
+function HUD:rotateTimer(timer, rect, rotation, inverted, scale)
+  local xMin, yMin, xMan, yMax = unpack(rect)
+  timer:setRect(xMin, yMin, xMan, yMax)
+  timer:setRot(rotation)
+  timer:setScl(inverted*scale, scale)
 end
 
 
@@ -343,21 +358,28 @@ end
 
 function HUD:showEndScreen(liveLeft, timeLeft)
   self:pause('end')
-
+  
+  self.endLayerBackground = MOAILayer2D.new()
+  self.endLayerBackground:setViewport(viewport)
+  
   self.endLayer = MOAILayer2D.new()
   self.endLayer:setPartition(partition)
-  self.endLayer:setClearColor(0.5,0.5,0.5,0.1)
+  self.endLayer:setViewport(viewport)
+  --self.endLayer:setClearColor(0.5,0.5,0.5,0.1)
+  
   local resourceX  = ResourceDefinitions:get('button_level_background').width 
   local resourceY =  ResourceDefinitions:get('button_level_background').height 
---  self.endProp = MOAIProp2D.new()
---  self.deck = ResourceManager:get('menu_background')
+  
+  self.endProp = MOAIProp2D.new()
+  local deck = ResourceManager:get('menu_background')
 
---  self.endProp:setLoc(SCREEN_RESOLUTION_X/2,SCREEN_RESOLUTION_Y/2)
+  self.endProp:setLoc(SCREEN_RESOLUTION_X/2,SCREEN_RESOLUTION_Y/2)
+  self.endProp:setDeck(deck)
+  self.endLayer:insertProp(self.endProp)
   
   self.complete = self:makeText(25, 'LEVEL COMPLETE', {SCREEN_RESOLUTION_X/2 - 200, SCREEN_RESOLUTION_Y/5, SCREEN_RESOLUTION_X/2 + 200, SCREEN_RESOLUTION_Y/5+30},{1,1,1}, self.endLayer)
   self.timeLeft = self:makeText(25, 'TIME LEFT: '..timeLeft, {SCREEN_RESOLUTION_X/5 - 150 ,SCREEN_RESOLUTION_Y/12 * 4, SCREEN_RESOLUTION_X/5 + 200, SCREEN_RESOLUTION_Y/12* 4 +50}, {1,1,1}, self.endLayer)
   self.livesLeftText = self:makeText(25, 'HUMANS SAVED: ', {SCREEN_RESOLUTION_X/4 - 200 ,SCREEN_RESOLUTION_Y/12 * 5, SCREEN_RESOLUTION_X/5 + 200, SCREEN_RESOLUTION_Y/12* 5+50}, {1,1,1}, self.endLayer)
-  --self.showLives =
 
   self.retryButton = self:makeButton('button_level_background', 'retryButton', SCREEN_RESOLUTION_X/6 * 2 , SCREEN_RESOLUTION_Y/6 * 4 , 1 ,self.endLayer )
   self.retryText = self:makeText(25, 'RETRY', {SCREEN_RESOLUTION_X/6 * 2 - resourceX/2 ,SCREEN_RESOLUTION_Y/6 * 4 - resourceY/2, SCREEN_RESOLUTION_X/6 * 2 + resourceX/2, SCREEN_RESOLUTION_Y/6 * 4 + resourceY/2}, {0,0,0}, self.endLayer)
@@ -373,18 +395,56 @@ function HUD:showEndScreen(liveLeft, timeLeft)
     humanProp:setScl(1,-1)
     self.endLayer:insertProp(humanProp)
   end
-  --self.endProp:setDeck(self.deck)
-  --self.endLayer:insertProp(self.endProp)
+  
+  
   local layers = MOAIRenderMgr.getRenderTable()
   table.insert(layers, self.endLayer)
-
+  
   MOAIRenderMgr.setRenderTable(layers)
+  
 
 end
 
-function HUD:removeEndScreen()
+function HUD:showGameOverScreen()
   layer:removeProp(self.restartButton)
   partition:removeProp(self.restartButton)
+end
+
+function HUD:showGameOverScreen()
+  self:pause('end')
+  
+  self.endLayerBackground = MOAILayer2D.new()
+  self.endLayerBackground:setViewport(viewport)
+  
+  self.endLayer = MOAILayer2D.new()
+  self.endLayer:setPartition(partition)
+  self.endLayer:setViewport(viewport)
+  
+  local resourceX  = ResourceDefinitions:get('button_level_background').width 
+  local resourceY =  ResourceDefinitions:get('button_level_background').height 
+  
+  self.endProp = MOAIProp2D.new()
+  local deck = ResourceManager:get('menu_background')
+
+  self.endProp:setLoc(SCREEN_RESOLUTION_X/2,SCREEN_RESOLUTION_Y/2)
+  self.endProp:setDeck(deck)
+  self.endLayer:insertProp(self.endProp)
+  
+  self.complete = self:makeText(25, 'GAME OVER', {SCREEN_RESOLUTION_X/2 - 200, SCREEN_RESOLUTION_Y/5, SCREEN_RESOLUTION_X/2 + 200, SCREEN_RESOLUTION_Y/5+30},{1,1,1}, self.endLayer)
+ 
+  self.retryButton = self:makeButton('button_level_background', 'retryButton', SCREEN_RESOLUTION_X/6 * 2 , SCREEN_RESOLUTION_Y/6 * 4 , 1 ,self.endLayer )
+  self.retryText = self:makeText(25, 'RETRY', {SCREEN_RESOLUTION_X/6 * 2 - resourceX/2 ,SCREEN_RESOLUTION_Y/6 * 4 - resourceY/2, SCREEN_RESOLUTION_X/6 * 2 + resourceX/2, SCREEN_RESOLUTION_Y/6 * 4 + resourceY/2}, {0,0,0}, self.endLayer)
+
+  self.menuButton = self:makeButton('button_level_background', 'menuButton', SCREEN_RESOLUTION_X/6 * 4 , SCREEN_RESOLUTION_Y/6 * 4 , 1 ,self.endLayer )
+  self.menuText = self:makeText(25, 'MAIN MENU', {SCREEN_RESOLUTION_X/6 * 4 - resourceX/2 ,SCREEN_RESOLUTION_Y/6 * 4 - resourceY/2, SCREEN_RESOLUTION_X/6 * 4 + resourceX/2, SCREEN_RESOLUTION_Y/6 * 4+resourceY/2}, {0,0,0}, self.endLayer)
+  
+  
+  local layers = MOAIRenderMgr.getRenderTable()
+  table.insert(layers, self.endLayer)
+  
+  MOAIRenderMgr.setRenderTable(layers)
+  
+
 end
 
 function HUD:makeText(size, text, rectangle, color, layer)
@@ -454,8 +514,17 @@ end
 
 function HUD:showPauseMenu()
   self.pauseLayer = MOAILayer2D.new()
+  self.blueback = MOAIProp2D.new()
+  self.pauseLayer:setViewport(viewport)
   self.pauseLayer:setPartition(partition)
 
+
+  self.blueback = MOAIProp2D.new()
+  local deck = ResourceManager:get('menu_background')
+
+  self.blueback:setLoc(SCREEN_RESOLUTION_X/2,SCREEN_RESOLUTION_Y/2)
+  self.blueback:setDeck(deck)
+  self.pauseLayer:insertProp(self.blueback)
 
   self.continueButton = self:makeButton('button_level_background', 'continue', SCREEN_RESOLUTION_X/2 - 2*163, SCREEN_RESOLUTION_Y/2, 1,self.pauseLayer)
   self.continueButtonText = self:makeText(20, 'continue', {SCREEN_RESOLUTION_X/2 - 2.5*163, SCREEN_RESOLUTION_Y/2-10, SCREEN_RESOLUTION_X/2 - 1.5*163, SCREEN_RESOLUTION_Y/2+10},{0,0,0}, self.pauseLayer)
@@ -466,7 +535,7 @@ function HUD:showPauseMenu()
   self.mainMenuButton = self:makeButton('button_level_background', 'mainmenu', SCREEN_RESOLUTION_X/2 + 2*163, SCREEN_RESOLUTION_Y/2, 1,self.pauseLayer)
   self.mainMenuButtonText = self:makeText(20, 'main menu', {SCREEN_RESOLUTION_X/2 + 1.5*163, SCREEN_RESOLUTION_Y/2-10, SCREEN_RESOLUTION_X/2 + 2.5*163, SCREEN_RESOLUTION_Y/2+10},{0,0,0}, self.pauseLayer)
 
-  self.pauseLayer:setViewport(viewport)
+ 
 
 
   local layers = MOAIRenderMgr.getRenderTable()
@@ -484,6 +553,7 @@ function HUD:hidePauseMenu()
   self.pauseLayer:removeProp(self.restartButtonText)
   self.pauseLayer:removeProp(self.mainMenuButton)
   self.pauseLayer:removeProp(self.mainMenuButtonText)
+  self.pauseLayer:removeProp(self.blueback)
   local layers = MOAIRenderMgr.getRenderTable()
   table.remove(layers)
   MOAIRenderMgr.setRenderTable(layers)
