@@ -144,7 +144,8 @@ local scene_objects = {}
 -- builds the scene from a tiled map lua file
 --------------------------------
 
-function Game:build(levelFilePath)
+function Game:build(levelFilePath, name)
+  self.name = name
   MapManager:initialize(levelFilePath)
   background_objects = MapManager:getBackgroundObjects()
   self.levelFilePath = levelFilePath
@@ -422,12 +423,11 @@ function Game:pause(paused)
 end
 
 function Game:restart()
-  switchScene(GAME_LEVEL, self.levelFilePath)
+  switchScene(GAME_LEVEL, self.levelFilePath, self.name)
 end
 
 
 function Game:endGame()
-  
   local minTime = 200
   local division = minTime/ self.savedLives
   local timeLeft = self.hud.countdownTime
@@ -435,10 +435,24 @@ function Game:endGame()
   if timeLeft < 200 then
     livesLeft = math.floor(timeLeft/division)
   end
-  print(livesLeft)
+  self:saveData(livesLeft, timeLeft)
   self.hud:showEndScreen(livesLeft, timeLeft)
 end
 
+function Game:saveData( livesLeft, timeLeft )
+    local saveFile = savefiles.get("save")
+    print(self.name)
+    print(saveFile.data)
+    saveFile.data.levels[self.name].livesLeft = livesLeft
+    saveFile.data.levels[self.name].time = timeLeft
+    local levelnr = tonumber(string.match(self.name, "%d+"))
+    levelnr = levelnr +1
+    local levelname = 'level'..levelnr
+    if level_files[levelname] ~= nil then
+      saveFile.data.levels[levelname].unlocked = true
+    end
+    saveFile:saveGame()
+end
 
 function Game:getLayers()
   return self.renderTable

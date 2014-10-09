@@ -30,12 +30,24 @@ function createNewData ()
     id = "user",
     levels = {
       level1 = {
+        livesLeft = 0,
         time = 0,
         unlocked = true
       }
     }
   }
-
+  for k, v in pairs(level_files) do
+    print("savekey: " ..k)
+    if k == 'level1' then
+    else
+      data.levels[k] ={
+        livesLeft = 0,
+        time = 0,
+        unlocked = false
+      }
+    end
+  end
+    
   return data
 end
 
