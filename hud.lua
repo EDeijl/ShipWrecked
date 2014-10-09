@@ -346,14 +346,14 @@ function HUD:showEndScreen(liveLeft, timeLeft)
 
   self.endLayer = MOAILayer2D.new()
   self.endLayer:setPartition(partition)
-
+  self.endLayer:setClearColor(0.5,0.5,0.5,0.1)
   local resourceX  = ResourceDefinitions:get('button_level_background').width 
   local resourceY =  ResourceDefinitions:get('button_level_background').height 
 --  self.endProp = MOAIProp2D.new()
 --  self.deck = ResourceManager:get('menu_background')
 
 --  self.endProp:setLoc(SCREEN_RESOLUTION_X/2,SCREEN_RESOLUTION_Y/2)
-
+  
   self.complete = self:makeText(25, 'LEVEL COMPLETE', {SCREEN_RESOLUTION_X/2 - 200, SCREEN_RESOLUTION_Y/5, SCREEN_RESOLUTION_X/2 + 200, SCREEN_RESOLUTION_Y/5+30},{1,1,1}, self.endLayer)
   self.timeLeft = self:makeText(25, 'TIME LEFT: '..timeLeft, {SCREEN_RESOLUTION_X/5 - 150 ,SCREEN_RESOLUTION_Y/12 * 4, SCREEN_RESOLUTION_X/5 + 200, SCREEN_RESOLUTION_Y/12* 4 +50}, {1,1,1}, self.endLayer)
   self.livesLeftText = self:makeText(25, 'HUMANS SAVED: ', {SCREEN_RESOLUTION_X/4 - 200 ,SCREEN_RESOLUTION_Y/12 * 5, SCREEN_RESOLUTION_X/5 + 200, SCREEN_RESOLUTION_Y/12* 5+50}, {1,1,1}, self.endLayer)

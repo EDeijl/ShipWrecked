@@ -73,6 +73,11 @@ local resource_definitions = {
     fileName = 'collectibles/button_pressed.png',
     width = 64, height = 64
   },
+  endgame = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/endpoint.png',
+    width = 63, height = 103
+  },
   col1_active = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'gui/col1_active.png',
@@ -317,7 +322,7 @@ function Game:loadScene ()
 
     local body = PhysicsManager.world:addBody( attr.type )
     body:setTransform( unpack ( attr.position ));
-    if attr.rotation ~=0 then
+    if attr.rotation ~= nil then
       print("rotation: " .. attr.rotation)
     end
 
@@ -353,7 +358,15 @@ function Game:loadScene ()
       local linkedObject = doorTable[attr.properties.control_link]
       local button = Button:new(attr.name,body, fixture, linkedObject, self.layers.main, position)
       buttonTable[attr.name] = button
+    elseif attr.name == "endGame" then
+      fixture.name = attr.name 
+      local prop = MOAIProp2D.new()
+      prop:setDeck(ResourceManager:get('endgame'))
+      prop:setScl(1,-1)
+      prop:setParent(body)
+      self.layers.main:insertProp(prop)
     else
+      
 
       fixture.name = attr.name
     end
