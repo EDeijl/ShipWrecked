@@ -60,7 +60,7 @@ end
 ------------------------------------
 
 
-function switchScene(sceneType, sceneData)
+function switchScene(sceneType, ...)
   SceneManager.popScene()
 
   if sceneType == MAIN_MENU then
@@ -68,7 +68,7 @@ function switchScene(sceneType, sceneData)
   elseif sceneType == MENU_LEVEL then
     currentScene = MenuLevel:build()
   elseif sceneType == GAME_LEVEL then
-    currentScene = Game:build(sceneData)
+    currentScene = Game:build(...)
   end
   SceneManager.pushScene(currentScene)
 end
