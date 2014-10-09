@@ -19,7 +19,7 @@ GAME_LEVEL = 2
 local gameOver = false
 -- level files
 level_files = {
-  level1 = 'assets/maps/demo_level.lua',
+  level1 = 'assets/maps/demo_level.lua'
   --level2 = 'assets/maps/test.lua'
 }
 
@@ -38,6 +38,7 @@ require 'main_menu'
 require 'main_level'
 
 
+savefiles.get ( "save" )
 
 currentScene = MainMenu:build()
 SceneManager.pushScene(currentScene)
@@ -59,7 +60,7 @@ end
 ------------------------------------
 
 
-function switchScene(sceneType, sceneData)
+function switchScene(sceneType, ...)
   SceneManager.popScene()
 
   if sceneType == MAIN_MENU then
@@ -67,7 +68,7 @@ function switchScene(sceneType, sceneData)
   elseif sceneType == MENU_LEVEL then
     currentScene = MenuLevel:build()
   elseif sceneType == GAME_LEVEL then
-    currentScene = Game:build(sceneData)
+    currentScene = Game:build(...)
   end
   SceneManager.pushScene(currentScene)
 end

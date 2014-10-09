@@ -450,16 +450,19 @@ function Character:die()
   switchScene(MAIN_MENU)
 end
 
+function Character:getLives()
+  return lives
+end
+
 
 function Character.onCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureA.name == "player" and string.find(fixtureB.name, "spikes_") and phase == MOAIBox2DArbiter.BEGIN then
     Character:damage()
   end
-
-end
-
-function Character:getLives()
-  return lives
+  if fixtureB.name == "endGame" and Game:checkAllCollected() then
+    Game:endGame()
+  end
+  
 end
 
 
@@ -485,6 +488,10 @@ function Character.onFootCollide (  phase, fixtureA, fixtureB, arbiter )
   else
     Character.onGround = true
     Character:run()
+  end
+   
+  if fixtureB.name == "endGame" and Game:checkAllCollected() then
+    Game:endGame()
   end
 
 end

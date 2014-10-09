@@ -19,7 +19,7 @@ local resource_definitions = {
     dpi = 160
   },
 }
-
+local saveFile = savefiles.get ( "save" )
 function MainMenu:build()
   self:initialize()
   return self
@@ -112,7 +112,16 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
   if pickedProp then
     if pickedProp.name == 'play' then
       AudioManager:play('shoot', false)
-      --switchScene(GAME_LEVEL, level_files.level1)
+
+--      print ("save file:")
+--      print (savefiles.get ( "save" ).fileexist)
+      if not savefiles.get ( "save" ).fileexist then
+--        print "check"
+        saveFile.data = savefiles.createNewData()
+        print ("Save file data: " .. tostring(saveFile.data))
+        saveFile:saveGame()
+      end
+
       switchScene(MENU_LEVEL)
     end
   end
