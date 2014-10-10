@@ -425,6 +425,7 @@ function Game:checkAllCollected()
       allcollected = true
     else
       allcollected = false
+      break
     end
   end
   return allcollected
