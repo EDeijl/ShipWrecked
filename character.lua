@@ -48,6 +48,8 @@ local timer = 0
 ------------------------------------------------
 function Character:initialize ( layer, position )
 
+  lives = 3
+  timer = 0
   -- We load the character resource
   character_object.position = position
   self.deck = ResourceManager:get ( 'character' )
