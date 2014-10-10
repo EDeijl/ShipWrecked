@@ -171,7 +171,11 @@ function MenuLevel:handleClickOrTouch(x, y, isDown)
         AudioManager:play('shoot', false)
 
         print "level wordt ingeladen"
-        switchScene(GAME_LEVEL, level_files[levelNo], levelNo)
+        if levelNo == 'level1' then
+          switchScene(TUTORIAL_LEVEL)
+        else
+          switchScene(GAME_LEVEL, level_files[levelNo], levelNo)
+        end
       elseif pickedProp.name == levelNo and level_files[levelNo] == nil then
         print "level bestaat niet"
       end

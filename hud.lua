@@ -86,11 +86,8 @@ function HUD:initializeDebugHud ()
 end
 
 function HUD:initializeControls()
-
   -- make clickable buttons
-  -- self.leftButton = self:makeButton('button_right', 'left',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, -1, layer)
-  -- self.rightButton = self:makeButton('button_right', 'right',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, 1, layer)
-  self.pauseButton = self:makeButton('pause', 'pause', SCREEN_RESOLUTION_X - self.xMargin, self.yMargin, 1, layer)
+ self.pauseButton = self:makeButton('pause', 'pause', SCREEN_RESOLUTION_X - self.xMargin, self.yMargin, 1, layer)
 
   -- build other non clickable interface elements
   self.col1 = self:makeInterfaceElement('col1_nonactive', 'col1', SCREEN_RESOLUTION_X - self.xMargin - self.hudIconSize ,  self.yMargin, 1)
@@ -106,8 +103,7 @@ function HUD:initializeControls()
   self.life2 = self:makeInterfaceElement('life', 'life2', self.xMargin + self.hudIconSize,   self.yMargin, 1)
   self.life3 = self:makeInterfaceElement('life', 'life3', self.xMargin + 2*self.hudIconSize, self.yMargin, 1)
 
-  self.timerIndictator = self:newTextBox ( 30, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 }, layer )
-end
+ end
 
 ------------------------------------------------
 -- newDebugTextBox ( )
@@ -235,12 +231,9 @@ end
 
 function HUD:rotateHud()
   if PhysicsManager:getGravityDirection() == "down" then
-    -- self:rotateProp(self.leftButton,  {self.xMargin, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, -1, 1)
-    -- self:rotateProp(self.rightButton, {self.xMargin + self.controlSize, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, 1,1)
-    self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMargin}, 0,1,1)
+     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMargin}, 0,1,1)
 
-    self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 }, 0, 1,1)
-
+   
     self:rotateProp(self.col1, {SCREEN_RESOLUTION_X - self.xMargin - self.hudIconSize, self.yMargin}, 0,1,1)
     self:rotateProp(self.col2, {SCREEN_RESOLUTION_X - self.xMargin - 2*self.hudIconSize, self.yMargin}, 0,1,1)
     self:rotateProp(self.col3, {SCREEN_RESOLUTION_X - self.xMargin - 3*self.hudIconSize, self.yMargin}, 0,1,1)
@@ -250,11 +243,8 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {self.xMargin + 2*self.hudIconSize, self.yMargin}, 180,1,1)
 
   elseif PhysicsManager:getGravityDirection() == "left" then
-    -- self:rotateProp(self.leftButton,  {self.yMarginControls, self.xMargin}, 90, -1, self.xyScale)
-    -- self:rotateProp(self.rightButton, {self.yMarginControls, self.controlSize*self.xyScale + self.xMargin}, 90, 1,self.xyScale)
     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 90,1,self.xyScale)
     
-    self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 }, 90, 1,self.xyScale )
     
     self:rotateProp(self.col1, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
     self:rotateProp(self.col2, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - 2*self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
@@ -265,11 +255,8 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {SCREEN_RESOLUTION_X - self.yMargin,  self.yMargin + 2*self.hudIconSize*self.xyScale}, 270,1,self.xyScale)
 
   elseif PhysicsManager:getGravityDirection() == "right" then
-    -- self:rotateProp(self.leftButton, {SCREEN_RESOLUTION_X - self.yMarginControls, SCREEN_RESOLUTION_Y - self.xMargin}, 270, -1, self.xyScale)
-    -- self:rotateProp(self.rightButton, {SCREEN_RESOLUTION_X -self.yMarginControls, SCREEN_RESOLUTION_Y - self.xMargin - self.controlSize*self.xyScale}, 270, 1,self.xyScale)
     self:rotateProp(self.pauseButton, {self.yMargin, self.yMargin}, 270, 1, self.xyScale)
 
-    self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2, self.yMargin + 25}, 270, 1,self.xyScale )
 
     self:rotateProp(self.col1, {self.yMargin, self.yMargin +self.hudIconSize*self.xyScale}, 270,1,self.xyScale)
     self:rotateProp(self.col2, {self.yMargin, self.yMargin +2* self.hudIconSize*self.xyScale}, 270,1,self.xyScale)
@@ -280,11 +267,8 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - 2* self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
 
   elseif PhysicsManager:getGravityDirection() == "up" then
-    -- self:rotateProp(self.leftButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMarginControls}, 180, -1, 1)
-    -- self:rotateProp(self.rightButton, {SCREEN_RESOLUTION_X - self.controlSize - self.xMargin, self.yMarginControls}, 180, 1,1)
     self:rotateProp(self.pauseButton, {self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 180, 1, 1)
     
-    self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2, self.yMargin + 25}, 180, 1,1)
     
     self:rotateProp(self.col1, {self.xMargin +self.hudIconSize, SCREEN_RESOLUTION_Y - self.yMargin}, 180,1,1)
     self:rotateProp(self.col2, {self.xMargin +2*self.hudIconSize, SCREEN_RESOLUTION_Y - self.yMargin}, 180,1,1)
@@ -377,9 +361,9 @@ function HUD:showEndScreen(liveLeft, timeLeft)
   self.endProp:setDeck(deck)
   self.endLayer:insertProp(self.endProp)
   
-  self.complete = self:makeText(25, 'LEVEL COMPLETE', {SCREEN_RESOLUTION_X/2 - 200, SCREEN_RESOLUTION_Y/5, SCREEN_RESOLUTION_X/2 + 200, SCREEN_RESOLUTION_Y/5+30},{1,1,1}, self.endLayer)
-  self.timeLeft = self:makeText(25, 'TIME LEFT: '..timeLeft, {SCREEN_RESOLUTION_X/5 - 150 ,SCREEN_RESOLUTION_Y/12 * 4, SCREEN_RESOLUTION_X/5 + 200, SCREEN_RESOLUTION_Y/12* 4 +50}, {1,1,1}, self.endLayer)
-  self.livesLeftText = self:makeText(25, 'HUMANS SAVED: ', {SCREEN_RESOLUTION_X/4 - 200 ,SCREEN_RESOLUTION_Y/12 * 5, SCREEN_RESOLUTION_X/5 + 200, SCREEN_RESOLUTION_Y/12* 5+50}, {1,1,1}, self.endLayer)
+  self.complete = self:makeText(25, 'LEVEL COMPLETE', {SCREEN_RESOLUTION_X/2 - 200, SCREEN_RESOLUTION_Y/5, SCREEN_RESOLUTION_X/2 + 200, SCREEN_RESOLUTION_Y/5+30},{0,0,0}, self.endLayer)
+  self.timeLeft = self:makeText(25, 'TIME LEFT: '..timeLeft, {SCREEN_RESOLUTION_X/5 - 150 ,SCREEN_RESOLUTION_Y/12 * 4, SCREEN_RESOLUTION_X/5 + 200, SCREEN_RESOLUTION_Y/12* 4 +50}, {0,0,0}, self.endLayer)
+  self.livesLeftText = self:makeText(25, 'HUMANS SAVED: ', {SCREEN_RESOLUTION_X/4 - 200 ,SCREEN_RESOLUTION_Y/12 * 5, SCREEN_RESOLUTION_X/5 + 200, SCREEN_RESOLUTION_Y/12* 5+50}, {0,0,0}, self.endLayer)
 
   self.retryButton = self:makeButton('button_level_background', 'retryButton', SCREEN_RESOLUTION_X/6 * 2 , SCREEN_RESOLUTION_Y/6 * 4 , 1 ,self.endLayer )
   self.retryText = self:makeText(25, 'RETRY', {SCREEN_RESOLUTION_X/6 * 2 - resourceX/2 ,SCREEN_RESOLUTION_Y/6 * 4 - resourceY/2, SCREEN_RESOLUTION_X/6 * 2 + resourceX/2, SCREEN_RESOLUTION_Y/6 * 4 + resourceY/2}, {0,0,0}, self.endLayer)
@@ -430,7 +414,7 @@ function HUD:showGameOverScreen()
   self.endProp:setDeck(deck)
   self.endLayer:insertProp(self.endProp)
   
-  self.complete = self:makeText(25, 'GAME OVER', {SCREEN_RESOLUTION_X/2 - 200, SCREEN_RESOLUTION_Y/5, SCREEN_RESOLUTION_X/2 + 200, SCREEN_RESOLUTION_Y/5+30},{1,1,1}, self.endLayer)
+  self.complete = self:makeText(25, 'GAME OVER', {SCREEN_RESOLUTION_X/2 - 200, SCREEN_RESOLUTION_Y/5, SCREEN_RESOLUTION_X/2 + 200, SCREEN_RESOLUTION_Y/5+30},{0,0,0}, self.endLayer)
  
   self.retryButton = self:makeButton('button_level_background', 'retryButton', SCREEN_RESOLUTION_X/6 * 2 , SCREEN_RESOLUTION_Y/6 * 4 , 1 ,self.endLayer )
   self.retryText = self:makeText(25, 'RETRY', {SCREEN_RESOLUTION_X/6 * 2 - resourceX/2 ,SCREEN_RESOLUTION_Y/6 * 4 - resourceY/2, SCREEN_RESOLUTION_X/6 * 2 + resourceX/2, SCREEN_RESOLUTION_Y/6 * 4 + resourceY/2}, {0,0,0}, self.endLayer)
