@@ -16,6 +16,9 @@ RESOURCE_TYPE_SOUND = 3
 MAIN_MENU = 0
 MENU_LEVEL = 1
 GAME_LEVEL = 2
+TUTORIAL_LEVEL = 3
+
+
 local gameOver = false
 -- level files
 level_files = {
@@ -44,7 +47,7 @@ require 'managers/audio_manager'
 require 'game'
 require 'main_menu'
 require 'main_level'
-
+require 'tutorial_screen'
 
 savefiles.get ( "save" )
 
@@ -77,6 +80,8 @@ function switchScene(sceneType, ...)
     currentScene = MenuLevel:build()
   elseif sceneType == GAME_LEVEL then
     currentScene = Game:build(...)
+    elseif sceneType == TUTORIAL_LEVEL then
+      currentScene = TutorialScreen:build()
   end
   SceneManager.pushScene(currentScene)
 end
