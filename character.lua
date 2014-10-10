@@ -241,11 +241,11 @@ function Character:initializePhysics ()
   self.physics.body:setAwake(true)
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
-  self.physics.fixture = self.physics.body:addRect( -30, -32, 30, 64  )
+  self.physics.fixture = self.physics.body:addRect( -10, -32, 20, 64  )
   self.physics.fixture.name = "player"
   --Create a foot fixture
   --Used to check if the player is on the ground
-  self.physics.footfixture = self.physics.body:addRect( -29.8, 65, 29.8, 63  )
+  self.physics.footfixture = self.physics.body:addRect( -9.8, 65, 19.8, 63  )
   self.physics.footfixture.name = "foot"
     self.physics.footfixture:setSensor(true)
 
