@@ -9,9 +9,9 @@ function InputManager:initialize ()
 
 
   function onKeyboardEvent ( key, down )
-    if key == 119 then key = 'up' end
-    if key == 97 then key = 'left' end
-    if key == 100 then key = 'right' end
+    -- if key == 119 then key = 'up' end
+    -- if key == 97 then key = 'left' end
+    -- if key == 100 then key = 'right' end
     if key == 105 then key = 'w' end
     if key == 106 then key = 'a' end
     if key == 107 then key = 's' end

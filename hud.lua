@@ -88,8 +88,8 @@ end
 function HUD:initializeControls()
 
   -- make clickable buttons
-  self.leftButton = self:makeButton('button_right', 'left',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, -1, layer)
-  self.rightButton = self:makeButton('button_right', 'right',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, 1, layer)
+  -- self.leftButton = self:makeButton('button_right', 'left',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, -1, layer)
+  -- self.rightButton = self:makeButton('button_right', 'right',self.xMargin , SCREEN_RESOLUTION_Y - self.yMarginControls, 1, layer)
   self.pauseButton = self:makeButton('pause', 'pause', SCREEN_RESOLUTION_X - self.xMargin, self.yMargin, 1, layer)
 
   -- build other non clickable interface elements
@@ -235,8 +235,8 @@ end
 
 function HUD:rotateHud()
   if PhysicsManager:getGravityDirection() == "down" then
-    self:rotateProp(self.leftButton,  {self.xMargin, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, -1, 1)
-    self:rotateProp(self.rightButton, {self.xMargin + self.controlSize, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, 1,1)
+    -- self:rotateProp(self.leftButton,  {self.xMargin, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, -1, 1)
+    -- self:rotateProp(self.rightButton, {self.xMargin + self.controlSize, SCREEN_RESOLUTION_Y - self.yMarginControls}, 0, 1,1)
     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMargin}, 0,1,1)
 
     self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 }, 0, 1,1)
@@ -250,8 +250,8 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {self.xMargin + 2*self.hudIconSize, self.yMargin}, 180,1,1)
 
   elseif PhysicsManager:getGravityDirection() == "left" then
-    self:rotateProp(self.leftButton,  {self.yMarginControls, self.xMargin}, 90, -1, self.xyScale)
-    self:rotateProp(self.rightButton, {self.yMarginControls, self.controlSize*self.xyScale + self.xMargin}, 90, 1,self.xyScale)
+    -- self:rotateProp(self.leftButton,  {self.yMarginControls, self.xMargin}, 90, -1, self.xyScale)
+    -- self:rotateProp(self.rightButton, {self.yMarginControls, self.controlSize*self.xyScale + self.xMargin}, 90, 1,self.xyScale)
     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 90,1,self.xyScale)
     
     self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2 - 200, self.yMargin , SCREEN_RESOLUTION_X/2 + 200, self.yMargin + 50 }, 90, 1,self.xyScale )
@@ -265,8 +265,8 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {SCREEN_RESOLUTION_X - self.yMargin,  self.yMargin + 2*self.hudIconSize*self.xyScale}, 270,1,self.xyScale)
 
   elseif PhysicsManager:getGravityDirection() == "right" then
-    self:rotateProp(self.leftButton, {SCREEN_RESOLUTION_X - self.yMarginControls, SCREEN_RESOLUTION_Y - self.xMargin}, 270, -1, self.xyScale)
-    self:rotateProp(self.rightButton, {SCREEN_RESOLUTION_X -self.yMarginControls, SCREEN_RESOLUTION_Y - self.xMargin - self.controlSize*self.xyScale}, 270, 1,self.xyScale)
+    -- self:rotateProp(self.leftButton, {SCREEN_RESOLUTION_X - self.yMarginControls, SCREEN_RESOLUTION_Y - self.xMargin}, 270, -1, self.xyScale)
+    -- self:rotateProp(self.rightButton, {SCREEN_RESOLUTION_X -self.yMarginControls, SCREEN_RESOLUTION_Y - self.xMargin - self.controlSize*self.xyScale}, 270, 1,self.xyScale)
     self:rotateProp(self.pauseButton, {self.yMargin, self.yMargin}, 270, 1, self.xyScale)
 
     self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2, self.yMargin + 25}, 270, 1,self.xyScale )
@@ -280,8 +280,8 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - 2* self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
 
   elseif PhysicsManager:getGravityDirection() == "up" then
-    self:rotateProp(self.leftButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMarginControls}, 180, -1, 1)
-    self:rotateProp(self.rightButton, {SCREEN_RESOLUTION_X - self.controlSize - self.xMargin, self.yMarginControls}, 180, 1,1)
+    -- self:rotateProp(self.leftButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMarginControls}, 180, -1, 1)
+    -- self:rotateProp(self.rightButton, {SCREEN_RESOLUTION_X - self.controlSize - self.xMargin, self.yMarginControls}, 180, 1,1)
     self:rotateProp(self.pauseButton, {self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 180, 1, 1)
     
     self:rotateTimer (self.timerIndictator, {SCREEN_RESOLUTION_X/2, self.yMargin + 25}, 180, 1,1)
@@ -467,12 +467,12 @@ function HUD:handleClickOrTouch(x, y, down)
     if pickedProp.name ~= nil then 
       print(pickedProp.name)
     end
-    if pickedProp.name == 'left' then
-      Game:keyPressed ( 'left', down )
-    elseif pickedProp.name == 'right' then
+    -- if pickedProp.name == 'left' then
+    --   Game:keyPressed ( 'left', down )
+    -- elseif pickedProp.name == 'right' then
 
-      Game:keyPressed ('right', down)
-    elseif pickedProp.name == 'restart' then
+    --   Game:keyPressed ('right', down)
+    if pickedProp.name == 'restart' then
       Game:restart()
     elseif pickedProp.name == 'pause' and down == true then
       self:pause('pause')
