@@ -9,8 +9,8 @@ local character_object = {
   position = { 0, 0 },
   animations = {
     idle = {
-      startFrame = 1,
-      frameCount = 1,
+      startFrame = 61,
+      frameCount = 7,
       time = 0.1,
       mode = MOAITimer.LOOP
     },
@@ -23,15 +23,15 @@ local character_object = {
     },
 
     jump = {
-      startFrame = 193,
+      startFrame = 97,
       frameCount = 8,
       time = 0.05,
       mode = MOAITimer.NORMAL
     },
 
     hover = {
-      startFrame = 200,
-      frameCount = 1,
+      startFrame = 177,
+      frameCount = 7,
       time = 0.1,
       mode = MOAITimer.LOOP
     }

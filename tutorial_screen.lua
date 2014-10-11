@@ -78,8 +78,8 @@ function TutorialScreen:createTextLayout()
     local rightMargin = self.gridMarginsX * 27
     local bottomMargin = self.gridMarginsY * 22
 
-    local tutorialText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ornare purus quis justo tincidunt hendrerit. Nullam viverra justo sed nunc maximus, et lacinia purus auctor. Nam rutrum eget diam a volutpat. Nulla libero lorem, ultrices id viverra in, posuere maximus eros. Vivamus non nulla sed sem blandit gravida. Aenean mattis accumsan augue, a pretium mi. Mauris porttitor, magna non pharetra tempus, sapien lorem molestie odio, et scelerisque quam lacus eget purus. Ut elementum eget risus non pellentesque. Vestibulum ac vehicula eros. Donec massa eros, tincidunt ut mi et, iaculis laoreet enim. Mauris laoreet hendrerit ultricies. Duis lectus nibh, venenatis nec nunc fringilla, porttitor cursus sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam blandit, nulla non egestas pretium, nisl magna tristique risus, id fringilla est dui sodales enim.\n\nInteger sit amet elit tellus. Maecenas libero velit, volutpat id auctor vel, vulputate vitae ex. In laoreet dui eu eleifend placerat. Nullam scelerisque urna nec metus accumsan eleifend nec maximus neque. Donec vel risus tincidunt, facilisis enim eget, aliquet risus. Aliquam nec est augue. In non dui eget mauris molestie iaculis. Ut eu odio eros. Fusce placerat cursus elementum."
-    self.textBox = self:makeText(15, tutorialText, {leftMargin, topMargin, rightMargin, bottomMargin}, {0,0,0})
+    local tutorialText = "3503 AD. A terrible spacewar has waged between the Human race and the Zalari. The last fallout almost obliterated the human forces. But some ships are not quite dead yet. The crew, clinging on their last breath depends on you. S.C.R.A.P. SpaceCraft Repair Android Personel.\n\n Your task is to repair these ships. Find the three items needed to repair them, and place them into the Machine.\n\n Hurry, they are depending on you!"
+    self.textBox = self:makeText(20, tutorialText, {leftMargin, topMargin, rightMargin, bottomMargin}, {0,0,0}, {1,0})
 end
 
 
@@ -121,13 +121,18 @@ function TutorialScreen:makeButton(name, xpos, ypos)
   return button
 end
 
-function TutorialScreen:makeText(size, text, rectangle, color)
+function TutorialScreen:makeText(size, text, rectangle, color, alignment)
   local textBox = MOAITextBox.new()
   textBox:setFont(self.font)
   textBox:setTextSize(size)
   textBox:setString(text)
   textBox.name = text
-  textBox:setAlignment(1, 1)
+  if alignment then
+    textBox:setAlignment(unpack(alignment))
+  else
+    textBox:setAlignment(1,1)
+  end
+
   textBox:setRect(unpack(rectangle))
   textBox:setColor(unpack(color))
   self.layer:insertProp(textBox)
@@ -141,7 +146,7 @@ function TutorialScreen:handleClickOrTouch( x, y, isDown )
     if pickedProp then
         if pickedProp.name == 'continue' then
             AudioManager:play('shoot', false)
-            switchScene(GAME_LEVEL, level_files['level1'], 1)
+            switchScene(GAME_LEVEL, level_files['level1'], 'level1')
         elseif pickedProp.name == 'back' then
             switchScene(MAIN_MENU)
         end
