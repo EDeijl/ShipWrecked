@@ -442,11 +442,11 @@ end
 
 
 function Game:endGame()
-  local minTime = 200
+  local minTime = 100
   local division = minTime/ self.savedLives
   local timeLeft = self.hud.countdownTime
   local livesLeft =10
-  if timeLeft < 200 then
+  if timeLeft < 100 then
     livesLeft = math.floor(timeLeft/division)
   end
   self:saveData(livesLeft, timeLeft)
@@ -476,8 +476,8 @@ function Game:cleanup()
   PhysicsManager.world:stop()
 end
 
-function Game:updateHud(lives)
-  self.hud:setLives(lives)
+function Game:updateHud(lives, people)
+  self.hud:setLives(lives, people)
 end
 function Game:updateCollectibleHud(collectible)
   self.hud:setCollected(collectible)
