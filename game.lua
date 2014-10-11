@@ -22,6 +22,12 @@ local resource_definitions = {
     tileMapSize = {24, 14},
     width = 128, height = 128,
   },
+  characterStartEnd = {
+    type = RESOURCE_TYPE_TILED_IMAGE,
+    fileName = 'character/beginandendanimation.png',
+    tileMapSize = {12, 2},
+    width = 128, height = 128,
+  },
 
   hudFont = {
     type = RESOURCE_TYPE_FONT,
@@ -408,8 +414,11 @@ end
 
 
 function Game:updateCamera ()
-  x, y = Character.physics.body:getPosition ()
-
+  if(Character.physics ~= nil) then
+    x, y = Character.physics.body:getPosition ()
+  else
+    x,y = unpack({0,0})
+  end
   --print("x: "..x.." y: "..y)
   self.camera:setLoc((x-WORLD_RESOLUTION_X/2),(y-WORLD_RESOLUTION_Y/2))
 

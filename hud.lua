@@ -483,7 +483,7 @@ function HUD:startTimer()
   countdownTimer:setSpan(1)
   countdownTimer:setListener( MOAITimer.EVENT_TIMER_LOOP, function()
       self.countdownTime = self.countdownTime - 1
-      self.timerIndictator:setString( "Time left: "..self.countdownTime )
+      --self.timerIndictator:setString( "Time left: "..self.countdownTime )
       if (countdownTime == 0) then
         countdownTimer:stop()
         switchScene(MAIN_MENU)

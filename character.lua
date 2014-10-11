@@ -34,7 +34,29 @@ local character_object = {
       frameCount = 1,
       time = 0.1,
       mode = MOAITimer.LOOP
+    },
+    startStartAnim = {
+      startFrame = 1,
+      frameCount = 8,
+      time = 0.25,
+      mode = MOAITimer.NORMAL
+    },
+
+    endStartAnim = {
+      startFrame = 10,
+      frameCount = 2,
+      time = 0.25,
+      mode = MOAITimer.NORMAL
+    },
+
+    EndAnim = {
+      startFrame = 1,
+      frameCount = 11,
+      time = 0.5,
+      mode = MOAITimer.NORMAL
     }
+
+
   }
 }
 local lives = 3
@@ -50,22 +72,33 @@ function Character:initialize ( layer, position )
 
   lives = 3
   timer = 0
+  
+  x,y = character_object.position
   -- We load the character resource
   character_object.position = position
   self.deck = ResourceManager:get ( 'character' )
-
+  self.deckExtra = ResourceManager:get ( 'characterStartEnd' )
   -- We now create a prop and assign the
   -- correct deck
   self.prop = MOAIProp2D.new ()
   self.prop:setDeck ( self.deck )
 
+  local x, y = unpack ( character_object.position )
+  self.propExtra = MOAIProp2D.new()
+  self.propExtra:setDeck( self.deckExtra )
   -- We set the location using the 'character_object'
   -- configuration table
+  
+  self.propExtra:setLoc(x,y)
+  self.propExtra:setScl(1,-1)
+  
   self.prop:setLoc (0,0 )
   self.prop:setScl(1,-1)
   -- We insert the prop into the layer
   -- that was passed as parameter
   layer:insertProp ( self.prop )
+  
+  layer:insertProp (self.propExtra)
   self.move = {
     left = false,
     right = false
@@ -79,16 +112,16 @@ function Character:initialize ( layer, position )
   -- for indexing the deck on our
   -- animations
   self.remapper = MOAIDeckRemapper.new ()
-
+  self.remapperExtra = MOAIDeckRemapper.new ()
   -- Since we'll only remap one value
   -- (the index of the deck) we reserve
   -- just one remapper
   self.remapper:reserve ( 1 )
-
+  self.remapperExtra:reserve ( 1 )
   -- And set the remapper to work
   -- with the character's prop
   self.prop:setRemapper ( self.remapper )
-
+  self.propExtra:setRemapper ( self.remapperExtra )
   -- We'll store all our animations
   -- in Character.animations
   self.animations = {}
@@ -98,15 +131,30 @@ function Character:initialize ( layer, position )
   for name, def in pairs ( character_object.animations ) do
 
     -- ... and add them to the character.
-    self:addAnimation ( name, def.startFrame, def.frameCount, def.time, def.mode )
+    self:addAnimation ( name, def.startFrame, def.frameCount, def.time, def.mode, self.remapper )
+    self:addAnimation ( name, def.startFrame, def.frameCount, def.time, def.mode, self.remapperExtra )
   end
 
   -- To see if it's working, let's start the idle
   -- animation.
-  self:startAnimation ( 'idle' )
-
+  --self:startAnimation ( 'idle' )
+  self:startAnimation ( 'startStartAnim')
+  self.countdownTime = 2
+  local countdownTimer = MOAITimer.new()
+  countdownTimer:setMode( MOAITimer.LOOP)
+  countdownTimer:setSpan(1)
+  countdownTimer:setListener( MOAITimer.EVENT_TIMER_LOOP, function()
+      self.countdownTime = self.countdownTime - 1
+      --self.timerIndictator:setString( "Time left: "..self.countdownTime )
+      if (countdownTime == 0) then
+        countdownTimer:stop()
+        self:initializePhysics ()
+        self:startAnimation ( 'endStartAnim')
+      end
+    end
+  )
+  countdownTimer:start()
   -- Initialize physics
-  self:initializePhysics ()
   Game:updateHud(lives)
   self.movingdirection = 1
   self.isIdle = true
@@ -128,7 +176,7 @@ end
 -- be a decimal number, for example 0.1) and
 -- 'mode' is one of MOAITimer constants.
 ------------------------------------------------
-function Character:addAnimation ( name, startFrame, frameCount, time, mode )
+function Character:addAnimation ( name, startFrame, frameCount, time, mode, remapper )
 
   -- We initialize an animation curve that
   -- we'll use to interpolate the values
@@ -171,7 +219,7 @@ function Character:addAnimation ( name, startFrame, frameCount, time, mode )
   -- The last parameter passed is the index of the
   -- remapper, and since we reserved just one slot
   -- on the remapper, we pass one.
-  anim:setLink ( 1, curve, self.remapper, 1 )
+  anim:setLink ( 1, curve, remapper, 1 )
 
   -- Now we set the mode for 
   -- the animation. This has to
@@ -217,7 +265,6 @@ function Character:startAnimation ( name )
   self.currentAnimation = self:getAnimation ( name )
 
   self.currentAnimation:start ()
-
   return self.currentAnimation
 
 end
@@ -239,7 +286,7 @@ function Character:initializePhysics ()
   -- In this way we know our physics object will start at
   -- the same position that our rendered object.
   local x, y = unpack ( character_object.position )
-  self.physics.body:setTransform ( x+150,y-100)
+  self.physics.body:setTransform ( x,y)
   self.physics.body:setAwake(true)
   -- Then we need to create the shape for it.
   -- We'll use a rectangle, since we're not being fancy here.
@@ -249,7 +296,7 @@ function Character:initializePhysics ()
   --Used to check if the player is on the ground
   self.physics.footfixture = self.physics.body:addRect( -9.8, 65, 19.8, 63  )
   self.physics.footfixture.name = "foot"
-    self.physics.footfixture:setSensor(true)
+  self.physics.footfixture:setSensor(true)
 
   -- Now we need to bind our prop with the physics object.
   self.prop:setParent ( self.physics.body )
@@ -450,7 +497,7 @@ end
 
 function Character:die()
   HUD:showGameOverScreen()
-  
+
 end
 
 function Character:getLives()
@@ -465,7 +512,7 @@ function Character.onCollide (  phase, fixtureA, fixtureB, arbiter )
   if fixtureB.name == "endGame" and Game:checkAllCollected() then
     Game:endGame()
   end
-  
+
 end
 
 
@@ -492,7 +539,7 @@ function Character.onFootCollide (  phase, fixtureA, fixtureB, arbiter )
     Character.onGround = true
     Character:run()
   end
-   
+
   if fixtureB.name == "endGame" and Game:checkAllCollected() then
     Game:endGame()
   end
