@@ -7,7 +7,7 @@ module ( "HUD", package.seeall )
 
 function HUD:initialize ()
   -- Set the countdowntimer in seconds
-  self.countdownTime = 300
+  self.countdownTime = 130
   self.isOverlay = true
   self.font = MOAIFont.new ()
   self.font = ResourceManager:get ( "hudFont" )
@@ -86,9 +86,18 @@ function HUD:initializeDebugHud ()
 end
 
 function HUD:initializeControls()
-  -- make clickable buttons
+  self.humanProps = {}
 
- self.pauseButton = self:makeButton('pause', 'pause', SCREEN_RESOLUTION_X - self.xMargin, self.yMargin, 1, layer)
+  -- make clickable buttons
+  for i = 1, 10 do
+    local name = 'human' .. i
+    local human = self:makeInterfaceElement('human', name, i*self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin, 1)
+    layer:insertProp(human)
+    partition:insertProp(human)
+    table.insert(self.humanProps, human)
+  end
+
+  self.pauseButton = self:makeButton('pause', 'pause', SCREEN_RESOLUTION_X - self.xMargin, self.yMargin, 1, layer)
 
 
 
@@ -198,6 +207,16 @@ function HUD:setCollected(collectible)
   end
 end
 
+function HUD:updateHumans(humans)
+   for k, v in pairs(self.humanProps) do
+    layer:removeProp(v)
+  end
+
+  for i = 1, humans do
+    layer:insertProp(self.humanProps[i])
+  end
+end
+
 function HUD:setLives(lives)
   lifePropList = { self.life1, self.life2, self.life3}
   for k, v in pairs(lifePropList) do
@@ -216,9 +235,13 @@ end
 
 function HUD:rotateHud()
   if PhysicsManager:getGravityDirection() == "down" then
-     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMargin}, 0,1,1)
+    for k, v in pairs(self.humanProps) do
+      k = k-1
+      self:rotateProp(v, {self.xMargin + k*ResourceDefinitions:get('human').width, SCREEN_RESOLUTION_Y - self.yMargin }, 0,-1,-1)
+    end
 
-   
+    self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.xMargin, self.yMargin}, 0,1,1)
+
     self:rotateProp(self.col1, {SCREEN_RESOLUTION_X - self.xMargin - self.hudIconSize, self.yMargin}, 0,1,1)
     self:rotateProp(self.col2, {SCREEN_RESOLUTION_X - self.xMargin - 2*self.hudIconSize, self.yMargin}, 0,1,1)
     self:rotateProp(self.col3, {SCREEN_RESOLUTION_X - self.xMargin - 3*self.hudIconSize, self.yMargin}, 0,1,1)
@@ -228,8 +251,11 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {self.xMargin + 2*self.hudIconSize, self.yMargin}, 180,1,1)
 
   elseif PhysicsManager:getGravityDirection() == "left" then
+    for k, v in pairs(self.humanProps) do
+      k = k -1
+      self:rotateProp(v, {self.yMargin, self.yMargin + k*ResourceDefinitions:get('human').width }, 90,-1,-self.xyScale)
+    end
     self:rotateProp(self.pauseButton, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 90,1,self.xyScale)
-    
     
     self:rotateProp(self.col1, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
     self:rotateProp(self.col2, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - 2*self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
@@ -240,6 +266,11 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {SCREEN_RESOLUTION_X - self.yMargin,  self.yMargin + 2*self.hudIconSize*self.xyScale}, 270,1,self.xyScale)
 
   elseif PhysicsManager:getGravityDirection() == "right" then
+    for k, v in pairs(self.humanProps) do
+      k = k -1
+      self:rotateProp(v, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - k*ResourceDefinitions:get('human').width }, 270,-1,-self.xyScale)
+    end
+
     self:rotateProp(self.pauseButton, {self.yMargin, self.yMargin}, 270, 1, self.xyScale)
 
 
@@ -252,6 +283,11 @@ function HUD:rotateHud()
     self:rotateProp(self.life3, {self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - 2* self.hudIconSize*self.xyScale}, 90,1,self.xyScale)
 
   elseif PhysicsManager:getGravityDirection() == "up" then
+    for k, v in pairs(self.humanProps) do
+            k = k -1
+
+      self:rotateProp(v, {SCREEN_RESOLUTION_X - self.xMargin - k*ResourceDefinitions:get('human').width, self.yMargin }, 180,-1,-1)
+    end
     self:rotateProp(self.pauseButton, {self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 180, 1, 1)
     
     
@@ -468,6 +504,12 @@ function HUD:startTimer()
   countdownTimer:setSpan(1)
   countdownTimer:setListener( MOAITimer.EVENT_TIMER_LOOP, function()
       self.countdownTime = self.countdownTime - 1
+      division = 10
+      if self.countdownTime < 100 then
+        self.humansLeft = math.floor(self.countdownTime/division)
+        print(self.humansLeft)
+        self:updateHumans(self.humansLeft)
+      end
       if (countdownTime == 0) then
         countdownTimer:stop()
         self:showGameOverScreen()
