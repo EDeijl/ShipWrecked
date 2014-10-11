@@ -87,7 +87,10 @@ end
 
 function HUD:initializeControls()
   -- make clickable buttons
+
  self.pauseButton = self:makeButton('pause', 'pause', SCREEN_RESOLUTION_X - self.xMargin, self.yMargin, 1, layer)
+
+
 
   -- build other non clickable interface elements
   self.col1 = self:makeInterfaceElement('col1_nonactive', 'col1', SCREEN_RESOLUTION_X - self.xMargin - self.hudIconSize ,  self.yMargin, 1)
@@ -182,24 +185,6 @@ function HUD:update ()
   -- of the character's prop.
   local x, y = Character.prop:getScl ()
 
-  -- If the x scale is > 0 we know it's
-  -- facing left, and if it's < 0, it's 
-  -- inverted, so it has to be facing
-  -- right.
---  if x > 0 then
---    self.leftRightIndicator:setString ( "Right" )
---  else
---    self.leftRightIndicator:setString ( "Left" )
---  end
-
-  -- To update the character position
-  -- we need to query its Box2D body.
-  -- We get its position and create
-  -- a string in the format of (x,y).
---  x, y = Character.physics.body:getPosition ()
---  self.positionIndicator:setString ( "( " .. 
---    math.floor ( x ) .. " , " .. 
---    math.floor ( y ) .. " )" )
   self:rotateHud()
 end
 
@@ -483,10 +468,9 @@ function HUD:startTimer()
   countdownTimer:setSpan(1)
   countdownTimer:setListener( MOAITimer.EVENT_TIMER_LOOP, function()
       self.countdownTime = self.countdownTime - 1
-      self.timerIndictator:setString( "Time left: "..self.countdownTime )
       if (countdownTime == 0) then
         countdownTimer:stop()
-        switchScene(MAIN_MENU)
+        self:showGameOverScreen()
       end
     end
   )
