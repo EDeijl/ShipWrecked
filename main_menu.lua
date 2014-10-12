@@ -19,7 +19,7 @@ local resource_definitions = {
     dpi = 160
   },
 }
-local saveFile = savefiles.get ( "save" )
+local saveFile = savefiles.get ( "saveFile" )
 function MainMenu:build()
   self:initialize()
   return self
@@ -115,7 +115,7 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
 
 --      print ("save file:")
 --      print (savefiles.get ( "save" ).fileexist)
-      if not savefiles.get ( "save" ).fileexist then
+      if not savefiles.get ( "saveFile" ).fileexist then
 --        print "check"
         saveFile.data = savefiles.createNewData()
         print ("Save file data: " .. tostring(saveFile.data))

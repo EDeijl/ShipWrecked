@@ -24,7 +24,9 @@ local gameOver = false
 level_files = {
 
   level1 = 'assets/maps/level1.lua',
-  level2 = 'assets/maps/level2.lua'
+  level2 = 'assets/maps/level2.lua',
+  level3 = 'assets/maps/level3.lua',
+  level4 = 'assets/maps/level4.lua'
 }
 function numberOfLevels()
   local nLevels = 0
@@ -50,7 +52,7 @@ require 'main_menu'
 require 'main_level'
 require 'tutorial_screen'
 
-savefiles.get ( "save" )
+savefiles.get ( "safeFile" )
 
 currentScene = MainMenu:build()
 SceneManager.pushScene(currentScene)

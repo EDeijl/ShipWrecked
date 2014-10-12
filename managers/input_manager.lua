@@ -9,16 +9,13 @@ function InputManager:initialize ()
 
 
   function onKeyboardEvent ( key, down )
-    -- if key == 119 then key = 'up' end
-    -- if key == 97 then key = 'left' end
-    -- if key == 100 then key = 'right' end
     if key == 105 then key = 'w' end
     if key == 106 then key = 'a' end
     if key == 107 then key = 's' end
     if key == 108 then key = 'd' end
     if key == 109 then key = 'm' end
     if key == 9 then key = 'tab' end 
-    --if key == 32 then key = 'space' end
+
     Game:keyPressed ( key, down )
   end
 

@@ -10,16 +10,10 @@ function PhysicsManager:initialize ( layer )
   -- Create the Box2D world
   self.world = MOAIBox2DWorld.new ()
 
-  -- We set the relationship between 
-  -- world units and meters.
-  -- We calculated this value using
-  -- a proportion from the main
-  -- character asset.
+
   self.world:setUnitsToMeters (PPM )
 
-  -- We set the gravity to something
-  -- that is not realistic but is useful
-  -- for our game
+
   self.world:setGravity ( 0, GRAVITY )
   self.world:setDebugDrawEnabled(false)
   self.GRAVITY_DIRECTION = "down"

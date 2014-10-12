@@ -454,7 +454,7 @@ function Game:endGame()
 end
 
 function Game:saveData( livesLeft, timeLeft )
-    local saveFile = savefiles.get("save")
+    local saveFile = savefiles.get("saveFile")
     print(self.name)
     print(saveFile.data)
     saveFile.data.levels[self.name].livesLeft = livesLeft
