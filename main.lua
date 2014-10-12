@@ -22,7 +22,9 @@ TUTORIAL_LEVEL = 3
 local gameOver = false
 -- level files
 level_files = {
-  level1 = 'assets/maps/demo_level.lua'
+
+  level1 = 'assets/maps/level1.lua',
+  level2 = 'assets/maps/level2.lua'
 }
 function numberOfLevels()
   local nLevels = 0

@@ -268,7 +268,7 @@ function HUD:rotateHud()
   elseif PhysicsManager:getGravityDirection() == "right" then
     for k, v in pairs(self.humanProps) do
       k = k -1
-      self:rotateProp(v, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - k*ResourceDefinitions:get('human').width }, 270,-1,-self.xyScale)
+      self:rotateProp(v, {SCREEN_RESOLUTION_X - self.yMargin, SCREEN_RESOLUTION_Y - self.yMargin - k*ResourceDefinitions:get('human').width }, 270,-1,-self.xyScale)
     end
 
     self:rotateProp(self.pauseButton, {self.yMargin, self.yMargin}, 270, 1, self.xyScale)
