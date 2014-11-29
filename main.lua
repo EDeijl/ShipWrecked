@@ -28,7 +28,8 @@ level_files = {
   level1 = 'assets/maps/level1.lua',
   level2 = 'assets/maps/level2.lua',
   level3 = 'assets/maps/level3.lua',
-  level4 = 'assets/maps/level4.lua'
+  level4 = 'assets/maps/level4.lua',
+  level5 = 'assets/maps/level5.lua'
 }
 function numberOfLevels()
   local nLevels = 0

@@ -609,9 +609,9 @@ return {
           type = "kinematic",
           shape = "rectangle",
           x = 5504,
-          y = 3232,
-          width = 64,
-          height = 96,
+          y = 3264,
+          width = 0,
+          height = 0,
           rotation = 0,
           visible = true,
           properties = {}
@@ -622,8 +622,8 @@ return {
           shape = "rectangle",
           x = 2240,
           y = 2560,
-          width = 128,
-          height = 128,
+          width = 0,
+          height = 0,
           rotation = 0,
           visible = true,
           properties = {}
