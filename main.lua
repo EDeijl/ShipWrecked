@@ -18,7 +18,9 @@ MENU_LEVEL = 1
 GAME_LEVEL = 2
 TUTORIAL_LEVEL = 3
 
-
+--------------------------------------------
+-- Setup for save files
+--------------------------------------------
 local gameOver = false
 -- level files
 level_files = {
@@ -36,6 +38,10 @@ function numberOfLevels()
   end
   return nLevels
 end
+
+-------------------------------------------
+-- main game logic
+-------------------------------------------
 
 -- Open main screen
 MOAISim.openWindow ( "Shipwrecked in spesh", SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )

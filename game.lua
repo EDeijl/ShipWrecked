@@ -11,8 +11,6 @@ module ( "Game", package.seeall )
 
 
 -- We'll define our resources here
--- Look at chapter 6 if you have
--- any doubt on these definitions.
 local resource_definitions = {
 
 
@@ -176,9 +174,8 @@ function Game:getTable(tableName)
 end
 
 ------------------------------------------------
--- start ( )
--- initializes the game. this should be
--- called from main.lua
+-- update loop
+-- this should be called from main
 ------------------------------------------------
 function Game:update ()
   while ( true ) do

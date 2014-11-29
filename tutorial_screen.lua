@@ -17,6 +17,28 @@ local resource_definitions = {
     glyphs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.?!",
     fontSize = 26,
     dpi = 160
+  },
+  col1_active = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col1_active.png',
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE *SCREEN_RESOLUTION_X
+  },
+ 
+  col2_active = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col2_active.png',
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
+  },
+  
+  col3_active = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'gui/col3_active.png',
+    width = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X, height = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
+  },
+  endgame = {
+    type = RESOURCE_TYPE_IMAGE,
+    fileName = 'collectibles/endpoint.png',
+    width = 63, height = 103
   }
 }
 
@@ -33,6 +55,7 @@ end
 
 function TutorialScreen:initialize()
    self.playing = true
+  self.hudIconSize = HUD_WORLD_SCALE * SCREEN_RESOLUTION_X
   ResourceDefinitions:setDefinitions ( resource_definitions )
   InputManager:initialize()
   self.renderTable = {}
@@ -47,7 +70,9 @@ function TutorialScreen:initialize()
 
   self:initializeBackground()
   self:createTextLayout()
-  self:initializeButtons()
+ self:initializeButtons()
+
+
   self.renderTable = {
     self.layer
   }
@@ -64,8 +89,8 @@ function TutorialScreen:initializeButtons()
         9*self.gridMarginsX + buttonDef.width/2, 
         25 *self.gridMarginsY + buttonDef.height/2}, {0,0,0})
 
-    local buttonContinue = self:makeButton('continue', 25*self.gridMarginsX, 25 * self.gridMarginsY)
-    local textBoxContinue = self:makeText(20, 'continue', {25*self.gridMarginsX - buttonDef.width/2, 25*gridMarginsY - buttonDef.height/2, 25*self.gridMarginsX + buttonDef.width/2, 25*self.gridMarginsY + buttonDef.height/2}, {0,0,0})
+    self.buttonContinue = self:makeButton('continue', 25*self.gridMarginsX, 25 * self.gridMarginsY)
+    self.textBoxContinue = self:makeText(20, 'continue', {25*self.gridMarginsX - buttonDef.width/2, 25*gridMarginsY - buttonDef.height/2, 25*self.gridMarginsX + buttonDef.width/2, 25*self.gridMarginsY + buttonDef.height/2}, {0,0,0})
 
 
 end
@@ -140,15 +165,57 @@ function TutorialScreen:makeText(size, text, rectangle, color, alignment)
   return textBox
 end
 
+function TutorialScreen:makeInterfaceElement(resource, name, xloc, yloc, scale)
+  local elementGFX = ResourceManager:get(resource)
+  local elementProp = MOAIProp2D.new()
+  elementProp:setDeck(elementGFX)
+  elementProp:setLoc(xloc, yloc)
+  elementProp.name = name
+  elementProp:setScl(scale)
+
+  return elementProp
+end
+
+function TutorialScreen:setMoreInfo()
+  text = "This game is played by tilting your phone \n\nYour task is to collect some items and bring them to the repair station to repair the ship. \n\n Each item is located in its own department, coded by color."
+  self.textBox:setString(text)
+  local buttonDef = ResourceDefinitions:get('button')
+  self.buttonContinue = self:makeButton('play', 25*self.gridMarginsX, 25 * self.gridMarginsY)
+  self.textBoxContinue = self:makeText(20, 'play', {25*self.gridMarginsX - buttonDef.width/2, 25*gridMarginsY - buttonDef.height/2, 25*self.gridMarginsX + buttonDef.width/2, 25*self.gridMarginsY + buttonDef.height/2}, {0,0,0})
+   
+  -- build other non clickable interface elements
+  local colDefinition = ResourceDefinitions:get('col1_active')
+  self.col1 = self:makeInterfaceElement('col1_active', 'col1', SCREEN_RESOLUTION_X *0.40 - self.hudIconSize , SCREEN_RESOLUTION_Y * 0.66, 1)
+  local textBoxCircuitboard = self:makeText(15, 'circuit board', {SCREEN_RESOLUTION_X *0.40- colDefinition.width/2 - self.hudIconSize, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 - 20,SCREEN_RESOLUTION_X *0.40+ colDefinition.width/2, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 }, {0,0,0}, {0,0})
+  self.col2 = self:makeInterfaceElement('col2_active', 'col2', SCREEN_RESOLUTION_X *0.60  - self.hudIconSize,  SCREEN_RESOLUTION_Y * 0.66, 1)
+  local textBoxPowerCell = self:makeText(15, 'power cell', {SCREEN_RESOLUTION_X *0.60- colDefinition.width/2 - self.hudIconSize, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 - 20,SCREEN_RESOLUTION_X *0.60+ colDefinition.width/2, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 }, {0,0,0}, {0,0})
+  self.col3 = self:makeInterfaceElement('col3_active', 'col3', SCREEN_RESOLUTION_X *0.80 - self.hudIconSize,  SCREEN_RESOLUTION_Y * 0.66, 1)
+  local textBoxWarpDrive = self:makeText(15, 'warp drive', {SCREEN_RESOLUTION_X *0.80- colDefinition.width/2 - self.hudIconSize, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 - 20,SCREEN_RESOLUTION_X *0.80+ colDefinition.width/2, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 }, {0,0,0}, {0,0})
+  self.endgame = self:makeInterfaceElement('endgame', 'endgame', SCREEN_RESOLUTION_X *0.95- self.hudIconSize,  SCREEN_RESOLUTION_Y * 0.66, 1)
+  local textBoxRepairStation = self:makeText(15, 'repair station', {SCREEN_RESOLUTION_X*0.95 - colDefinition.width/2 - self.hudIconSize, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 - 20,SCREEN_RESOLUTION_X*0.95+ colDefinition.width/2, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 }, {0,0,0}, {0,0})
+
+  layer:insertProp(self.col1)
+  partition:insertProp(self.col1)  
+  layer:insertProp(self.col2)
+  partition:insertProp(self.col2)  
+  layer:insertProp(self.col3)
+  partition:insertProp(self.col3)
+  layer:insertProp(self.endgame)
+  partition:insertProp(self.endgame)
+
+end
+
 function TutorialScreen:handleClickOrTouch( x, y, isDown )
     local pickedProp = self.partition:propForPoint(self.layer:wndToWorld(x, y))
 
-    if pickedProp then
-        if pickedProp.name == 'continue' then
-            AudioManager:play('shoot', false)
-            switchScene(GAME_LEVEL, level_files['level1'], 'level1')
+    if pickedProp  and isDown == true then
+        if pickedProp.name == 'play' then
+          AudioManager:play('shoot', false)
+          switchScene(GAME_LEVEL, level_files['level1'], 'level1')
+        elseif pickedProp.name == 'continue' then
+          self:setMoreInfo()
         elseif pickedProp.name == 'back' then
-            switchScene(MAIN_MENU)
+          switchScene(MAIN_MENU)
         end
     end
 end     

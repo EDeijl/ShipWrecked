@@ -232,7 +232,8 @@ function HUD:setLives(lives)
 
 end
 
-
+-- Rotates the hud based on the gravity direction.
+-- Maybe needs a little bit of cleanup?
 function HUD:rotateHud()
   if PhysicsManager:getGravityDirection() == "down" then
     for k, v in pairs(self.humanProps) do
@@ -284,8 +285,7 @@ function HUD:rotateHud()
 
   elseif PhysicsManager:getGravityDirection() == "up" then
     for k, v in pairs(self.humanProps) do
-            k = k -1
-
+      k = k -1
       self:rotateProp(v, {SCREEN_RESOLUTION_X - self.xMargin - k*ResourceDefinitions:get('human').width, self.yMargin }, 180,-1,-1)
     end
     self:rotateProp(self.pauseButton, {self.xMargin, SCREEN_RESOLUTION_Y - self.yMargin}, 180, 1, 1)
