@@ -391,7 +391,6 @@ function Game:keyPressed ( key, down )
 
   if key == 'right' then Character:moveRight ( down ) end
   if key == 'left' then Character:moveLeft ( down ) end
-  if key == 'up' then Character:jump ( down ) end
 
   if key == 'w' then Character:changeGrav ( key, down ) end
   if key == 'a' then Character:changeGrav ( key, down ) end
