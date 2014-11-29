@@ -184,18 +184,23 @@ function TutorialScreen:setMoreInfo()
   self.textBoxContinue = self:makeText(20, 'play', {25*self.gridMarginsX - buttonDef.width/2, 25*gridMarginsY - buttonDef.height/2, 25*self.gridMarginsX + buttonDef.width/2, 25*self.gridMarginsY + buttonDef.height/2}, {0,0,0})
    
   -- build other non clickable interface elements
-
+  local colDefinition = ResourceDefinitions:get('col1_active')
   self.col1 = self:makeInterfaceElement('col1_active', 'col1', SCREEN_RESOLUTION_X *0.40 - self.hudIconSize , SCREEN_RESOLUTION_Y * 0.66, 1)
+  local textBoxCircuitboard = self:makeText(15, 'circuit board', {SCREEN_RESOLUTION_X *0.40- colDefinition.width/2 - self.hudIconSize, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 - 20,SCREEN_RESOLUTION_X *0.40+ colDefinition.width/2, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 }, {0,0,0}, {0,0})
   self.col2 = self:makeInterfaceElement('col2_active', 'col2', SCREEN_RESOLUTION_X *0.60  - self.hudIconSize,  SCREEN_RESOLUTION_Y * 0.66, 1)
+  local textBoxPowerCell = self:makeText(15, 'power cell', {SCREEN_RESOLUTION_X *0.60- colDefinition.width/2 - self.hudIconSize, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 - 20,SCREEN_RESOLUTION_X *0.60+ colDefinition.width/2, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 }, {0,0,0}, {0,0})
   self.col3 = self:makeInterfaceElement('col3_active', 'col3', SCREEN_RESOLUTION_X *0.80 - self.hudIconSize,  SCREEN_RESOLUTION_Y * 0.66, 1)
-  self.endgame = self:makeInterfaceElement('endgame', 'endgame', SCREEN_RESOLUTION_X - self.hudIconSize,  SCREEN_RESOLUTION_Y * 0.66, 1)
+  local textBoxWarpDrive = self:makeText(15, 'warp drive', {SCREEN_RESOLUTION_X *0.80- colDefinition.width/2 - self.hudIconSize, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 - 20,SCREEN_RESOLUTION_X *0.80+ colDefinition.width/2, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 }, {0,0,0}, {0,0})
+  self.endgame = self:makeInterfaceElement('endgame', 'endgame', SCREEN_RESOLUTION_X *0.95- self.hudIconSize,  SCREEN_RESOLUTION_Y * 0.66, 1)
+  local textBoxRepairStation = self:makeText(15, 'repair station', {SCREEN_RESOLUTION_X*0.95 - colDefinition.width/2 - self.hudIconSize, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 - 20,SCREEN_RESOLUTION_X*0.95+ colDefinition.width/2, SCREEN_RESOLUTION_Y * 0.66 - colDefinition.height/2 }, {0,0,0}, {0,0})
+
   layer:insertProp(self.col1)
   partition:insertProp(self.col1)  
   layer:insertProp(self.col2)
   partition:insertProp(self.col2)  
   layer:insertProp(self.col3)
   partition:insertProp(self.col3)
-   layer:insertProp(self.endgame)
+  layer:insertProp(self.endgame)
   partition:insertProp(self.endgame)
 
 end
