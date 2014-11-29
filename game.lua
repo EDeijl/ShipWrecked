@@ -223,7 +223,7 @@ function Game:initialize ()
   local position = scene_objects["startGame"].position
   local x, y = unpack(position)
   self.hud = HUD:initialize()
-  Character:initialize ( self.layers.main, position )
+  Character:initialize ( self.layers.platform, position )
   self.camera:setLoc((x-WORLD_RESOLUTION_X/2),(y-WORLD_RESOLUTION_Y/2))
   print (self.camera:getLoc())
   print (self.camera:getWorldLoc())
@@ -249,11 +249,11 @@ function Game:setupLayers ()
   -- needed for the different
   -- depth planes.
   self.layers = {}
-  self.layers.background = MOAILayer2D.new ()
-  self.layers.farAway = MOAILayer2D.new ()
-  self.layers.main = MOAILayer2D.new ()
-  self.layers.walkBehind = MOAILayer2D.new ()
-
+  self.layers.space = MOAILayer2D.new ()
+  self.layers.shipBackground = MOAILayer2D.new ()
+  self.layers.shipObjects = MOAILayer2D.new ()
+  self.layers.platform = MOAILayer2D.new ()
+  self.layers.platformExtra = MOAILayer2D.new ()
   -- Now we assign the viewport and the camera
   -- to them
   for key, layer in pairs ( self.layers ) do
@@ -264,10 +264,11 @@ function Game:setupLayers ()
   -- We create a render table that
   -- has all the layers in order.
   self.renderTable = {
-    self.layers.background,
-    self.layers.farAway,
-    self.layers.main,
-    self.layers.walkBehind
+    self.layers.space,
+    self.layers.shipBackground,
+    self.layers.shipObjects,
+    self.layers.platform,
+    self.layers.platformExtra
   }
 
   -- Make that render table active
@@ -332,7 +333,7 @@ function Game:loadScene ()
       --print "check"
       fixture.name = attr.name
       local position = attr.position
-      local collectible = Collectible:new(attr.name, self.layers.main, position)
+      local collectible = Collectible:new(attr.name, self.layers.platform, position)
       collectibleTable[attr.name] = collectible
     elseif string.find(attr.name, "door_") then
       fixture.name = attr.name
@@ -347,13 +348,13 @@ function Game:loadScene ()
 
       local direction = { x, y}
       local rect = { -width/2, -height/2, width/2, height/2 }
-      local door = Door:new(attr.name,body, fixture, direction, rect, self.layers.main, rotation)
+      local door = Door:new(attr.name,body, fixture, direction, rect, self.layers.platform, rotation)
       doorTable[attr.name] = door
     elseif string.find(attr.name, "button_") then
       fixture.name = attr.name 
       local position = attr.position
       local linkedObject = doorTable[attr.properties.control_link]
-      local button = Button:new(attr.name,body, fixture, linkedObject, self.layers.main, position)
+      local button = Button:new(attr.name,body, fixture, linkedObject, self.layers.platform, position)
       buttonTable[attr.name] = button
     elseif attr.name == "endGame" then
       fixture.name = attr.name 
@@ -361,7 +362,7 @@ function Game:loadScene ()
       prop:setDeck(ResourceManager:get('endgame'))
       prop:setScl(1,-1)
       prop:setParent(body)
-      self.layers.main:insertProp(prop)
+      self.layers.platform:insertProp(prop)
     else
       
 
@@ -410,8 +411,8 @@ function Game:updateCamera ()
   --print("x: "..x.." y: "..y)
   self.camera:setLoc((x-WORLD_RESOLUTION_X/2),(y-WORLD_RESOLUTION_Y/2))
 
-  minBorderX, minBorderY = self.layers.background:wndToWorld ( 0, 0 )
-  maxBorderX, maxBorderY = self.layers.background:wndToWorld ( SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
+  minBorderX, minBorderY = self.layers.shipBackground:wndToWorld ( 0, 0 )
+  maxBorderX, maxBorderY = self.layers.shipBackground:wndToWorld ( SCREEN_RESOLUTION_X, SCREEN_RESOLUTION_Y )
 
 end
 
