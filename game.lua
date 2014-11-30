@@ -483,7 +483,7 @@ end
 -- saves data to disk
 ------------------------------------------------
 function Game:saveData( livesLeft, timeLeft )
-    local saveFile = savefiles.get("saveFile")
+    local saveFile = savefiles.get("saveGame")
     print(self.name)
     print(saveFile.data)
     saveFile.data.levels[self.name].livesLeft = livesLeft

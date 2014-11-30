@@ -121,7 +121,7 @@ function MenuLevel:createLevelLayout(amountOfLevels)
 end
 
 function MenuLevel:checkIfLocked(name)
-  local saveFile = savefiles.get("saveFile")
+  local saveFile = savefiles.get("saveGame")
   return saveFile.data.levels[name].unlocked
 end
 

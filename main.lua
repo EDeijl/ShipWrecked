@@ -59,7 +59,7 @@ require 'main_menu'
 require 'main_level'
 require 'tutorial_screen'
 
-savefiles.get ( "safeFile" )
+savefiles.get ( "saveGame" )
 
 currentScene = MainMenu:build()
 SceneManager.pushScene(currentScene)

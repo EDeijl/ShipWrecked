@@ -19,7 +19,7 @@ local resource_definitions = {
     dpi = 160
   },
 }
-local saveFile = savefiles.get ( "saveFile" )
+local saveFile = savefiles.get ( "saveGame" )
 function MainMenu:build()
   self:initialize()
   return self
