@@ -18,6 +18,11 @@ local resource_definitions = {
     fontSize = 26,
     dpi = 160
   },
+  ship = {
+  type = RESOURCE_TYPE_IMAGE,
+  fileName = 'gui/ship.png',
+  width =255, height = 190
+  }
 }
 local saveFile = savefiles.get ( "saveGame" )
 function MainMenu:build()
@@ -65,6 +70,13 @@ function MainMenu:initializeBackground()
   prop:setLoc(WORLD_RESOLUTION_X / 2, WORLD_RESOLUTION_Y/2)
   print("background: " .. prop:getLoc())
   self.layer:insertProp(prop)
+
+  local shipDeck = ResourceManager:get('ship')
+  local shipProp = MOAIProp2D.new()
+  shipProp:setDeck(shipDeck)
+  shipProp:setLoc(WORLD_RESOLUTION_X - ResourceDefinitions:get ('ship').width, ResourceDefinitions:get('ship').height)
+  shipProp:setScl(1,-1)
+  self.layer:insertProp(shipProp)
 end
 
 function MainMenu:initializeButtons()
@@ -115,7 +127,7 @@ function MainMenu:handleClickOrTouch(x, y, isDown)
 
 --      print ("save file:")
 --      print (savefiles.get ( "save" ).fileexist)
-      if not savefiles.get ( "saveFile" ).fileexist then
+      if not savefiles.get ( "saveGame" ).fileexist then
 --        print "check"
         saveFile.data = savefiles.createNewData()
         print ("Save file data: " .. tostring(saveFile.data))

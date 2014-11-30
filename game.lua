@@ -61,7 +61,7 @@ local resource_definitions = {
     width = 64, height = 128
   },
 
-  button = {
+  button_notpressed = {
     type = RESOURCE_TYPE_IMAGE,
     fileName = 'collectibles/button.png',
     width = 64, height = 64

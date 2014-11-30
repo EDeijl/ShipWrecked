@@ -64,6 +64,7 @@ function makeSaveFile ( filename )
   ----------------------------------------------------------------
   savefile.loadGame = function ( self )
     local fullFileName = self.filename .. ".lua"
+    print("Full file name: " ..fullFileName)
     local workingDir
 
     if DEVICE then

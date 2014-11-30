@@ -27,7 +27,7 @@ function Button:initializePhysics()
   self.prop = MOAIProp2D.new ()
   self.prop:setScl(1,-1)
 
-  self.prop:setDeck(ResourceManager:get('button'))
+  self.prop:setDeck(ResourceManager:get('button_notpressed'))
   self.layer:insertProp ( self.prop )
   self.physics.fixture:setSensor(true)
   self.physics.fixture:setCollisionHandler ( Button.onCollide, MOAIBox2DArbiter.BEGIN )
