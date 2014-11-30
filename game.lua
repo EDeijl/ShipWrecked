@@ -63,7 +63,7 @@ local resource_definitions = {
 
   button = {
     type = RESOURCE_TYPE_IMAGE,
-    fileName = 'collectibles/button_large.png',
+    fileName = 'collectibles/button.png',
     width = 64, height = 64
   },
   button_pressed = {
