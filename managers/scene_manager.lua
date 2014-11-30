@@ -2,6 +2,10 @@ module("SceneManager", package.seeall)
 
 local scenes = {}
 
+------------------------------------------------
+-- setScene(scene)
+-- set's the given scene to be the scene to render
+------------------------------------------------
 local function setScene(scene)
   local layers = {}
   if scene then
@@ -23,7 +27,10 @@ local function setScene(scene)
 
 end
 
-
+------------------------------------------------
+-- pushScene(scene)
+-- pushes the given scene on top of the scene stack
+------------------------------------------------
 function SceneManager.pushScene(scene)
   if not scene.isOverlay then
     table.insert(scenes, scene)
@@ -36,6 +43,10 @@ function SceneManager.pushScene(scene)
 
 end
 
+------------------------------------------------
+-- popScene()
+-- pops the top scene from the stack
+------------------------------------------------
 function SceneManager.popScene()
   scenes[#scenes]:cleanup()
   table.remove(scenes, #scenes)
@@ -46,6 +57,10 @@ function SceneManager.popScene()
   end
 end
 
+------------------------------------------------
+-- update()
+-- call the update function on the top scene
+------------------------------------------------
 function SceneManager.update()
   if #scenes > 0 then
     scenes[#scenes]:update()
