@@ -24,7 +24,7 @@ function Button:initializePhysics()
   self.physics.fixture:setSensor(true)
   self.physics.fixture:setCollisionHandler ( Button.onCollide, MOAIBox2DArbiter.BEGIN )
   self.prop:setParent ( self.physics.body )
-  self.prop:setLoc(0,-32)
+  self.prop:setLoc(0,-27)
 
 
 end

@@ -63,7 +63,7 @@ local resource_definitions = {
 
   button = {
     type = RESOURCE_TYPE_IMAGE,
-    fileName = 'collectibles/button.png',
+    fileName = 'collectibles/button_large.png',
     width = 64, height = 64
   },
   button_pressed = {
@@ -266,9 +266,10 @@ function Game:setupLayers ()
   self.renderTable = {
     self.layers.space,
     self.layers.shipBackground,
+    self.layers.platformExtra,
     self.layers.shipObjects,
-    self.layers.platform,
-    self.layers.platformExtra
+    self.layers.platform
+    
   }
 
   -- Make that render table active
