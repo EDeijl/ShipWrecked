@@ -1,7 +1,10 @@
 local class = require 'external/middleclass'
 
 Door = class('Door')
-
+------------------------------------------------
+-- initialize(name,body, fixture, direction,rect, layer, rotation)
+-- constructor of the door
+------------------------------------------------
 function Door:initialize(name,body, fixture, direction,rect, layer, rotation)
   self.name = name
   self.direction = direction

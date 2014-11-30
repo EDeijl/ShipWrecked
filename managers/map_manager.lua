@@ -1,7 +1,10 @@
 require 'config'
 
 module("MapManager", package.seeall)
-
+------------------------------------------------
+-- initialize(mapfile)
+-- sets up the needed objects for the given mapfile
+-----------------------------------------------
 function MapManager:initialize(mapFile)
   self.tileDeck = MOAITileDeck2D.new()
   self.mapGrids = {}
@@ -12,6 +15,11 @@ function MapManager:initialize(mapFile)
   self:setup()
 end
 
+---------------------------------------------
+--setup()
+-- continuation of the initialize function
+-- splits layers in tile layers and object groups
+--------------------------------------------
 function MapManager:setup()
   self.tileDeck:setTexture(self.map.tilesets[1].image)
   self.width = self.map.width* self.map.tilewidth
@@ -27,6 +35,11 @@ function MapManager:setup()
   end
 end
 
+------------------------------------------------
+-- addGrid(mapLayer)
+-- use the given mapLayer to fill a grid with
+-- the correct image data
+------------------------------------------------
 function MapManager:addGrid(mapLayer)
   mapGrid = MOAIGrid.new()
   mapGrid:setSize(self.map.width, self.map.height, self.map.tilewidth, self.map.tileheight)
@@ -39,6 +52,11 @@ function MapManager:addGrid(mapLayer)
   self.mapGrids[mapLayer.name] = mapGrid
 end
 
+------------------------------------------------
+-- addObject(mapLayer)
+-- build the correct physics objects using the
+-- given mapLayer
+------------------------------------------------
 function MapManager:addObject(mapLayer)
   for key, object in pairs(mapLayer.objects) do
     if object.type == "dynamic" then
@@ -51,6 +69,11 @@ function MapManager:addObject(mapLayer)
   end
 end
 
+------------------------------------------------
+-- buildObject(object, objectType)
+-- give the given object it's correct dimensions
+-- and shapes
+------------------------------------------------
 function MapManager:buildObject(object, objectType)
   local mapObject = {
     type = objectType,
@@ -84,6 +107,12 @@ function MapManager:buildObject(object, objectType)
   mapObjects[object.name] = mapObject
 end
 
+
+------------------------------------------------
+-- getBackgroudnObjects()
+-- public function to get mapdata that is ready
+-- to put in render layers
+------------------------------------------------
 function MapManager:getBackgroundObjects()
   local backgroundObjects = {}
   for name, mapGrid in pairs(self.mapGrids) do

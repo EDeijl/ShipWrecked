@@ -27,7 +27,10 @@ local collectibles = {
 
 
 
-
+------------------------------------------------
+-- initialize(name, layer, position)
+-- constructor function of Collectible
+------------------------------------------------
 function Collectible:initialize(name, layer, position)
 
   self.name = name
@@ -57,6 +60,10 @@ function Collectible:initialize(name, layer, position)
   self.collected = false
 end
 
+------------------------------------------------
+-- initializePhysics()
+-- start physics simulating the collectible
+------------------------------------------------
 function Collectible:initializePhysics()
 
   self.prop = MOAIProp2D.new ()
@@ -99,6 +106,11 @@ function Collectible:initializePhysics()
 
 end
 
+
+------------------------------------------------
+-- addAnimation(name, startFrame, frameCount, time, mode)
+-- start an animation on COllectible
+------------------------------------------------
 function Collectible:addAnimation ( name, startFrame, frameCount, time, mode )
 
   -- We initialize an animation curve that
@@ -156,6 +168,10 @@ function Collectible:addAnimation ( name, startFrame, frameCount, time, mode )
 
 end
 
+------------------------------------------------
+-- onCollide(phase, fixtureA, fixtureB, arbiter)
+-- check collision on the COllectible and act on it
+------------------------------------------------
 function Collectible.onCollide (  phase, fixtureA, fixtureB, arbiter )
   --print(fixtureA.name)
   if fixtureB.name == "player" or fixtureB.name == "foot" then
@@ -165,6 +181,9 @@ function Collectible.onCollide (  phase, fixtureA, fixtureB, arbiter )
   end
 end
 
+------------------------------------------------
+-- called when a Collectible is collected
+------------------------------------------------
 function Collectible:collect()
   --print (self.name.." collected")
   self.physics.body:destroy()

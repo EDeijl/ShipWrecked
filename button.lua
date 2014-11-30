@@ -2,6 +2,10 @@ local class = require 'external/middleclass'
 
 Button = class('Button')
 
+------------------------------------------------
+-- initialize(name, body, fixture, linkedObject, layer, position)
+-- constructor of the button
+------------------------------------------------
 function Button:initialize(name,body, fixture, linkedObject, layer, position)
   self.name = name
   self.physics = {}
@@ -14,6 +18,10 @@ function Button:initialize(name,body, fixture, linkedObject, layer, position)
   self:initializePhysics()
 end
 
+------------------------------------------------
+-- initializePhysics()
+-- start physics simulation on this object
+------------------------------------------------
 function Button:initializePhysics()
 
   self.prop = MOAIProp2D.new ()
@@ -29,6 +37,10 @@ function Button:initializePhysics()
 
 end
 
+------------------------------------------------
+-- act()
+-- called when a player is pushing the button
+------------------------------------------------
 function Button:act()
   if self.activated == false then
     self.deck = ResourceManager:get('button_pressed')
@@ -41,7 +53,11 @@ function Button:act()
 end
 
 
-
+------------------------------------------------
+-- onCollide(phase, fixtureA, fixtureB, arbiter)
+-- acts upon collision with the button and checks
+-- what objects collide with it
+------------------------------------------------
 function Button.onCollide (phase, fixtureA, fixtureB, arbiter)
   if fixtureB.name == "player" or fixtureB.name == "foot" or fixtureB.name == "box" then
     print "HIEROOOO"

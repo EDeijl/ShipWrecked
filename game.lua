@@ -313,7 +313,10 @@ function Game:loadBackground ()
 
 end
 
-
+------------------------------------------------
+-- loadScene ()
+-- place all objects in the scene
+------------------------------------------------
 function Game:loadScene ()
   self.objects = {}
   for key, attr in pairs ( scene_objects ) do
@@ -376,7 +379,10 @@ end
 
 
 
-
+------------------------------------------------
+-- belingsToScene (fixture)
+-- checks if a fixture belongs to the scene
+------------------------------------------------
 function Game:belongsToScene ( fixture )
   for key, object in pairs ( self.objects ) do
     if object.fixture == fixture then
@@ -386,7 +392,10 @@ function Game:belongsToScene ( fixture )
   return false
 end
 
-
+------------------------------------------------
+-- keyPressed(key, down)
+-- hands of keypresses to the correct module
+------------------------------------------------
 function Game:keyPressed ( key, down )
 
   if key == 'right' then Character:moveRight ( down ) end
@@ -403,7 +412,11 @@ function Game:keyPressed ( key, down )
   --if key == 'space' then Character:shoot() end
 end
 
-
+------------------------------------------------
+-- updateCamera()
+-- updates the camera if the character begins moving
+-- off screen
+------------------------------------------------
 function Game:updateCamera ()
   x, y = Character.physics.body:getPosition ()
 
@@ -415,6 +428,10 @@ function Game:updateCamera ()
 
 end
 
+-------------------------------------------------
+-- checkAllCollected()
+-- check if all collectibles are collected
+------------------------------------------------
 function Game:checkAllCollected()
   local allCollected = false
   for k, v in pairs(collectibleTable) do
@@ -428,16 +445,26 @@ function Game:checkAllCollected()
   return allcollected
 end
 
-
+------------------------------------------------
+-- pause(paused)
+-- pauses or unpauses the game
+------------------------------------------------
 function Game:pause(paused)
   PhysicsManager.world:pause(paused)
 end
-
+------------------------------------------------
+-- restart()
+-- restarts the game
+------------------------------------------------
 function Game:restart()
   switchScene(GAME_LEVEL, self.levelFilePath, self.name)
 end
 
-
+------------------------------------------------
+-- endGame()
+-- ends the game, saves data, and calls the hud to
+-- show the endscreen
+------------------------------------------------
 function Game:endGame()
   local minTime = 100
   local division = minTime/ self.savedLives
@@ -450,6 +477,10 @@ function Game:endGame()
   self.hud:showEndScreen(livesLeft, timeLeft)
 end
 
+------------------------------------------------
+-- saveData(livesLeft, timeLeft)
+-- saves data to disk
+------------------------------------------------
 function Game:saveData( livesLeft, timeLeft )
     local saveFile = savefiles.get("saveFile")
     print(self.name)
@@ -465,17 +496,33 @@ function Game:saveData( livesLeft, timeLeft )
     saveFile:saveGame()
 end
 
+------------------------------------------------
+-- getLayers()
+-- get all layers in rendertable
+------------------------------------------------
 function Game:getLayers()
   return self.renderTable
 end
 
+------------------------------------------------
+-- cleanup()
+-- stops the physics world
+------------------------------------------------
 function Game:cleanup()
   PhysicsManager.world:stop()
 end
-
+------------------------------------------------
+-- updateHud(lives, people)
+-- update the hud icons
+------------------------------------------------
 function Game:updateHud(lives, people)
   self.hud:setLives(lives, people)
 end
+
+------------------------------------------------
+-- updateCollectibleHud(collectible)
+-- updates the collectibles part of the hud
+------------------------------------------------
 function Game:updateCollectibleHud(collectible)
   self.hud:setCollected(collectible)
 end
